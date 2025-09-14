@@ -5,7 +5,6 @@ import { supabase } from '../../lib/supabase'
 import { formatDate } from '../../lib/utils'
 import { updateSEOTags, generateArticleStructuredData } from '../../lib/seo'
 import { RelatedContent } from '../ui/RelatedContent'
-import { TableOfContents } from '../ui/TableOfContents'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 
 interface Page {
@@ -270,7 +269,6 @@ export const DynamicPage: React.FC = () => {
   // Render different layouts based on content type
   if (contentType === 'blog') {
     return (
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
         <TableOfContents content={content.content} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
