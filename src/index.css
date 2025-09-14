@@ -166,6 +166,79 @@ html {
   animation-fill-mode: both;
 }
 
+/* Fix text visibility in dark mode */
+.dark .prose,
+.dark .prose *,
+.dark .chat-message,
+.dark .mat-card-content,
+.dark .message-content {
+  color: #f9fafb !important;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+.dark .prose p,
+.dark .prose span,
+.dark .prose div {
+  color: #e5e7eb !important;
+}
+
+/* Chat and message content styling */
+.chat-panel-content,
+.chat-message-pair,
+.individual-message,
+.to-user-container,
+.mat-card,
+.mat-mdc-card,
+.mdc-card,
+.to-user-message-card-content,
+.mat-mdc-card-content,
+.message-content,
+.to-user-message-inner-content {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+  padding: 1rem !important;
+  border-radius: 0.75rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Bold text styling */
+b, strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark b,
+.dark strong {
+  color: #60a5fa !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure all text is visible */
+* {
+  text-rendering: optimizeLegibility;
+}
+
+.dark * {
+  color: #e5e7eb;
+}
+
+/* Override any black text in dark mode */
+.dark [style*="color: black"],
+.dark [style*="color: #000"],
+.dark [style*="color: #000000"] {
+  color: #f9fafb !important;
+}
 .slide-in-from-top-5 {
   animation-name: slideInFromTop5;
 }
