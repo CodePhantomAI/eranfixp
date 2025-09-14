@@ -467,6 +467,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           color: #374151;
           line-height: 1.6;
         }
+        .dark .prose {
+          color: #e5e7eb !important;
+        }
         .prose h1 { 
           font-size: 2.25em; 
           font-weight: bold; 
@@ -475,11 +478,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           border-bottom: 2px solid #3b82f6;
           padding-bottom: 0.2em;
         }
+        .dark .prose h1 {
+          color: #ffffff !important;
+        }
         .prose h2 { 
           font-size: 1.875em; 
           font-weight: bold; 
           margin: 0.7em 0 0.3em; 
           color: #1f2937;
+        }
+        .dark .prose h2 {
+          color: #f3f4f6 !important;
         }
         .prose h3 { 
           font-size: 1.5em; 
@@ -487,25 +496,52 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           margin: 0.6em 0 0.3em; 
           color: #374151;
         }
+        .dark .prose h3 {
+          color: #e5e7eb !important;
+        }
         .prose h4 { 
           font-size: 1.25em; 
           font-weight: bold; 
           margin: 0.5em 0 0.25em; 
           color: #374151;
         }
+        .dark .prose h4 {
+          color: #e5e7eb !important;
+        }
         .prose p { 
           margin: 0.75em 0; 
           line-height: 1.7;
           color: #4b5563;
+        }
+        .dark .prose p {
+          color: #d1d5db !important;
+        }
+        .prose b,
+        .prose strong {
+          color: #1f2937 !important;
+          font-weight: 700 !important;
+        }
+        .dark .prose b,
+        .dark .prose strong {
+          color: #60a5fa !important;
+          font-weight: 700 !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         .prose ul, .prose ol { 
           margin: 0.75em 0; 
           padding-right: 1.5em;
           color: #4b5563;
         }
+        .dark .prose ul,
+        .dark .prose ol {
+          color: #d1d5db !important;
+        }
         .prose li { 
           margin: 0.25em 0; 
           line-height: 1.6;
+        }
+        .dark .prose li {
+          color: #d1d5db !important;
         }
         .prose blockquote { 
           border-right: 4px solid #3b82f6; 
@@ -516,6 +552,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           background: #f8fafc;
           border-radius: 0 8px 8px 0;
         }
+        .dark .prose blockquote {
+          color: #d1d5db !important;
+          background: #374151 !important;
+        }
         .prose pre { 
           background: #f3f4f6; 
           padding: 1em; 
@@ -525,6 +565,11 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           border: 1px solid #e5e7eb;
           margin: 1em 0;
         }
+        .dark .prose pre {
+          background: #1f2937 !important;
+          color: #e5e7eb !important;
+          border-color: #4b5563 !important;
+        }
         .prose code {
           background: #f3f4f6;
           padding: 0.2em 0.4em;
@@ -532,6 +577,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           font-family: 'Courier New', monospace;
           font-size: 0.9em;
           color: #dc2626;
+        }
+        .dark .prose code {
+          background: #374151 !important;
+          color: #fbbf24 !important;
         }
         .prose a { 
           color: #3b82f6; 
@@ -542,6 +591,12 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           color: #1d4ed8;
           text-decoration: none;
         }
+        .dark .prose a {
+          color: #60a5fa !important;
+        }
+        .dark .prose a:hover {
+          color: #93c5fd !important;
+        }
         .prose img {
           border-radius: 8px;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -551,6 +606,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           border: none;
           border-top: 2px solid #e5e7eb;
           margin: 2em 0;
+        }
+        .dark .prose hr {
+          border-top-color: #4b5563 !important;
         }
         
         /* Focus styles */

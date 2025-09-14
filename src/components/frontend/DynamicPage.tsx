@@ -316,6 +316,31 @@ export const DynamicPage: React.FC = () => {
               dangerouslySetInnerHTML={{ __html: content.content }}
             />
             
+            {/* Add custom styles for better text visibility */}
+            <style jsx>{`
+              .prose * {
+                color: inherit !important;
+              }
+              .dark .prose * {
+                color: #e5e7eb !important;
+              }
+              .dark .prose h1,
+              .dark .prose h2,
+              .dark .prose h3,
+              .dark .prose h4,
+              .dark .prose h5,
+              .dark .prose h6 {
+                color: #ffffff !important;
+                font-weight: bold !important;
+              }
+              .dark .prose b,
+              .dark .prose strong {
+                color: #60a5fa !important;
+                font-weight: 700 !important;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+              }
+            `}</style>
+            
             <RelatedContent 
               currentId={content.id}
               currentType="blog"
