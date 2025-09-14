@@ -229,7 +229,12 @@ export const PageEditor: React.FC<PageEditorProps> = ({
 
         {activeTab === 'seo' && (
           <div className="space-y-6">
-            <SEOTools content={formData} />
+            <SEOTools content={{
+              title: formData.title,
+              description: formData.meta_description || formData.content.replace(/<[^>]*>/g, '').substring(0, 160),
+              content: formData.content,
+              slug: formData.slug
+            }} />
             
             <div className="bg-blue-50 p-4 rounded-lg">
               <h3 className="font-medium text-blue-900 mb-2">אופטימיזציה למנועי חיפוש</h3>
@@ -249,6 +254,9 @@ export const PageEditor: React.FC<PageEditorProps> = ({
                 placeholder="כותרת לתצוגה במנועי חיפוש..."
                 className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                מומלץ: 50-60 תווים (כרגע: {formData.meta_title.length})
+              </p>
             </div>
 
             <div>
@@ -262,6 +270,9 @@ export const PageEditor: React.FC<PageEditorProps> = ({
                 className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="תיאור קצר של העמוד למנועי חיפוש..."
               />
+              <p className="text-xs text-gray-500 mt-1">
+                מומלץ: 150-160 תווים (כרגע: {formData.meta_description.length})
+              </p>
             </div>
 
             {/* SEO Preview */}
@@ -276,6 +287,67 @@ export const PageEditor: React.FC<PageEditorProps> = ({
                 </div>
                 <div className="text-gray-600 text-sm mt-1">
                   {formData.meta_description || 'תיאור העמוד יופיע כאן במנועי החיפוש...'}
+                </div>
+              </div>
+            </div>
+
+            {/* Advanced SEO Options */}
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h4 className="font-medium text-gray-900 mb-4">🎯 אופטימיזציה מתקדמת</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Keywords Suggestions */}
+                <div>
+                  <h5 className="text-sm font-medium text-gray-700 mb-2">מילות מפתח מומלצות</h5>
+                  <div className="bg-white p-3 rounded border text-sm">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span>אתרים בתל אביב</span>
+                        <span className="text-green-600 text-xs">גבוה</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>קידום אתרים</span>
+                        <span className="text-blue-600 text-xs">בינוני</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>פיתוח אתרים</span>
+                        <span className="text-yellow-600 text-xs">נמוך</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* SEO Score */}
+                <div>
+                  <h5 className="text-sm font-medium text-gray-700 mb-2">ציון SEO</h5>
+                  <div className="bg-white p-3 rounded border">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm">כותרת:</span>
+                      <span className={`text-sm font-medium ${
+                        formData.title.length >= 30 && formData.title.length <= 60 
+                          ? 'text-green-600' : 'text-yellow-600'
+                      }`}>
+                        {formData.title.length >= 30 && formData.title.length <= 60 ? '✅' : '⚠️'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm">תיאור:</span>
+                      <span className={`text-sm font-medium ${
+                        formData.meta_description.length >= 120 && formData.meta_description.length <= 160 
+                          ? 'text-green-600' : 'text-yellow-600'
+                      }`}>
+                        {formData.meta_description.length >= 120 && formData.meta_description.length <= 160 ? '✅' : '⚠️'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm">תוכן:</span>
+                      <span className={`text-sm font-medium ${
+                        formData.content.split(/\s+/).length >= 300 
+                          ? 'text-green-600' : 'text-yellow-600'
+                      }`}>
+                        {formData.content.split(/\s+/).length >= 300 ? '✅' : '⚠️'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

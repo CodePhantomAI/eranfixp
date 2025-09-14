@@ -106,14 +106,17 @@ export const SEOTools: React.FC<SEOToolsProps> = ({ content }) => {
       {/* SEO Tools */}
       <Card>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">כלי SEO</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
             onClick={() => setShowPreview(true)}
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-center group"
+            className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-center group"
           >
-            <Search className="w-6 h-6 text-gray-400 group-hover:text-blue-600 mx-auto mb-2" />
-            <div className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
+            <Search className="w-8 h-8 text-gray-400 group-hover:text-blue-600 mx-auto mb-3" />
+            <div className="text-sm font-medium text-gray-700 group-hover:text-blue-600 mb-1">
               תצוגה מקדימה בגוגל
+            </div>
+            <div className="text-xs text-gray-500">
+              ראה איך העמוד ייראה בחיפוש
             </div>
           </button>
 
@@ -121,11 +124,14 @@ export const SEOTools: React.FC<SEOToolsProps> = ({ content }) => {
             href="https://search.google.com/search-console"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-center group"
+            className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-center group"
           >
-            <Globe className="w-6 h-6 text-gray-400 group-hover:text-blue-600 mx-auto mb-2" />
-            <div className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
+            <Globe className="w-8 h-8 text-gray-400 group-hover:text-green-600 mx-auto mb-3" />
+            <div className="text-sm font-medium text-gray-700 group-hover:text-green-600 mb-1">
               Search Console
+            </div>
+            <div className="text-xs text-gray-500">
+              ניטור ביצועי החיפוש
             </div>
           </a>
 
@@ -133,11 +139,14 @@ export const SEOTools: React.FC<SEOToolsProps> = ({ content }) => {
             href="https://pagespeed.web.dev/"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-center group"
+            className="p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors text-center group"
           >
-            <FileText className="w-6 h-6 text-gray-400 group-hover:text-blue-600 mx-auto mb-2" />
-            <div className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
+            <FileText className="w-8 h-8 text-gray-400 group-hover:text-purple-600 mx-auto mb-3" />
+            <div className="text-sm font-medium text-gray-700 group-hover:text-purple-600 mb-1">
               PageSpeed Test
+            </div>
+            <div className="text-xs text-gray-500">
+              בדוק מהירות האתר
             </div>
           </a>
         </div>
