@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="he" dir="rtl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ערן פיקסר – מומחה קידום אתרים, פיתוח אתרים ופתרונות AI | EranFixer.com</title>
+    <meta name="description" content="ערן פיקסר - מומחה מוכח בקידום אתרים אורגני (SEO), בניית אתרים מקצועיים עם React ו-TypeScript, פתרונות בינה מלאכותית ואוטומציה עסקית. שירותים דיגיטליים מתקדמים לעסקים בישראל ובעולם. ☎️ 052-212-6366" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="keywords" content="ערן פיקסר, קידום אתרים, SEO ישראל, בניית אתרים, פיתוח אתרים, React, TypeScript, בינה מלאכותית, AI, אוטומציה עסקית, CRM, ניהול מוניטין דיגיטלי, ORM, שיווק דיגיטלי, יחסי ציבור, נתניה, תל אביב, ראשון לציון, רחובות" />
+    <meta name="author" content="Eran Fixer - ערן פיקסר" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://api.supabase.co">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+      /* Critical CSS for immediate rendering */
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #111827; color: #f9fafb; }
+      .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%); }
+      .loading-screen { 
+        position: fixed; 
+        inset: 0; 
+        background: #111827; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      .loading-screen.hidden { opacity: 0; pointer-events: none; }
+    </style>
+    
+    <link rel="canonical" href="https://eran-fixer.com/" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- Critical performance hints -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
+    
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ערן פיקסר – מומחה קידום אתרים ופתרונות AI דיגיטליים | EranFixer" />
+    <meta property="og:description" content="ערן פיקסר מעניק פתרונות דיגיטליים מתקדמים: קידום אתרים אורגני מוכח, בניית אתרים בReact וTypeScript, בינה מלאכותית לעסקים ואוטומציה חכמה. 7+ שנות ניסיון מוכח עם 250+ לקוחות מרוצים." />
+    <meta property="og:url" content="https://eran-fixer.com/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים" />
+    <meta property="og:site_name" content="Eran Fixer" />
+    <meta property="og:locale" content="he_IL" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ערן פיקסר – מומחה קידום אתרים ופתרונות AI דיגיטליים" />
+    <meta name="twitter:description" content="קידום אתרים אורגני מוכח, בניית אתרים מקצועיים, פתרונות AI ואוטומציה עסקית. 7+ שנות ניסיון עם 250+ לקוחות מרוצים ברחבי ישראל." />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80" />
+    <meta name="twitter:site" content="@eranfixer" />
+    <meta name="twitter:creator" content="@eranfixer" />
+    
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Eran Fixer",
+      "alternateName": "ערן פיקסר",
+      "url": "https://eran-fixer.com",
+      "logo": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80",
+      "description": "ערן פיקסר מספק פתרונות דיגיטליים מתקדמים: קידום אתרים אורגני (SEO), בניית אתרים מקצועיים, פתרונות בינה מלאכותית ואוטומציה עסקית חכמה לעסקים בישראל ובעולם.",
+      "founder": {
+        "@type": "Person",
+        "name": "ערן פיקסר",
+        "alternateName": "Eran Fixer"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IL",
+        "addressRegion": "תל אביב"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+972-52-212-6366",
+        "contactType": "customer service",
+        "areaServed": "IL",
+        "availableLanguage": ["Hebrew", "English"],
+        "hoursAvailable": "Mo-Th 09:00-18:00, Fr 09:00-14:00"
+      },
+      "sameAs": [
+        "https://netanya.eranfixer.co.il",
+        "https://telaviv.eranfixer.co.il", 
+        "https://rehovot.eranfixer.co.il",
+        "https://seo.eranfixer.co.il",
+        "https://ai.eranfixer.co.il",
+        "https://codephantomai.com"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "שירותים דיגיטליים",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "קידום אתרים אורגני (SEO)",
+              "description": "שירותי קידום אתרים מקצועיים בישראל"
+            }
+          },
+          {
+            "@type": "Offer", 
+            "itemOffered": {
+              "@type": "Service",
+              "name": "בניית אתרים מקצועיים",
+              "description": "פיתוח אתרים עם React, TypeScript ו-Supabase"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service", 
+              "name": "פתרונות בינה מלאכותית",
+              "description": "אוטומציה עסקית וצ'אטבוטים חכמים"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SRDJWHHYC0"></script>
+    <script>
+      // Initialize Google Analytics with consent defaults
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set default consent to denied
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied'
+      });
+
+      gtag('config', 'G-SRDJWHHYC0');
+      
+      // Performance monitoring
+      gtag('config', 'G-SRDJWHHYC0', {
+        custom_map: {'metric1': 'load_time'}
+      });
+    </script>
+    
+    <!-- Structured Data for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Eran Fixer",
+      "url": "https://eran-fixer.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://eran-fixer.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <!-- Loading screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="text-center">
+        <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-gray-600">טוען...</p>
+      </div>
+    </div>
+    
+    <!-- תוכן אינדקסבילי לגוגל -->
+    <h1 style="position: absolute; left: -9999px;">ערן פיקסר – פתרונות דיגיטליים חכמים</h1>
+    <p style="position: absolute; left: -9999px;">ערן פיקסר מומחה קידום אתרים אורגני, בניית אתרים מקצועיים, אוטומציה מבוססת בינה מלאכותית וניהול מוניטין דיגיטלי לעסקים בישראל ובעולם. צרו קשר: 052-212-6366</p>
+    
+    <noscript>
+      <h2>ערן פיקסר - Eran Fixer</h2>
+      <p>ערן פיקסר - מומחה בקידום אתרים, בניית אתרים ואוטומציה חכמה בישראל. SEO מקצועי ופתרונות דיגיטליים מתקדמים. טלפון: 052-212-6366</p>
+    </noscript>
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Remove loading screen after page load -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => loadingScreen.remove(), 500);
+          }
+        }, 500);
+      });
+    </script>
+    
+    <!-- כפתור נגישות -->
+    <script src="https://cdn.nagishli.co.il/nagishli.js"></script>
+  </body>
+</html>
