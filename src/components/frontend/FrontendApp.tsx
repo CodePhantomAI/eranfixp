@@ -26,22 +26,13 @@ import { ReadingProgress } from '../ui/ReadingProgress'
 import { CookieConsent } from '../ui/CookieConsent'
 
 export const FrontendApp: React.FC = () => {
-  // Ensure page is visible
-  React.useEffect(() => {
-    document.body.style.visibility = 'visible'
-    document.body.style.opacity = '1'
-  }, [])
-  
   return (
     <ThemeProvider>
       <SearchProvider>
         <FrontendLayout>
-          <ReadingProgress />
           <FloatingButtons />
           <BackToTop />
-          <PerformanceMonitor />
           <SearchModal />
-          <CookieConsent />
           
           <Routes>
             <Route path="/" element={<HomePage />} />
