@@ -16,16 +16,21 @@ export const useTheme = () => {
 }
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDark, setIsDark] = useState(true) // Always dark mode
+  const [isDark, setIsDark] = useState(false) // Light mode by default
 
   useEffect(() => {
-    // Always apply dark theme
-    document.documentElement.classList.add('dark')
-    localStorage.setItem('theme', 'dark')
+    // Apply theme based on state
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
   }, [isDark])
 
   const toggleTheme = () => {
-    // Dark mode only - no toggle
+    setIsDark(prev => !prev)
   }
 
   return (

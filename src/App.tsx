@@ -29,10 +29,10 @@ const AppContent: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">טוען מערכת...</p>
+          <p className="mt-4 text-gray-700 font-medium">טוען מערכת...</p>
         </div>
       </div>
     )

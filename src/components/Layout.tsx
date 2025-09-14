@@ -83,7 +83,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage }) => {
       </div>
 
       {/* Desktop sidebar */}
-      <nav className="hidden lg:fixed lg:inset-y-0 lg:right-0 lg:z-40 lg:w-72 lg:flex lg:flex-col">
+      <nav className="hidden lg:fixed lg:inset-y-0 lg:right-0 lg:z-40 lg:w-72 lg:flex lg:flex-col bg-white border-l border-gray-200">
         <div className="flex flex-col flex-grow bg-white shadow-xl overflow-y-auto">
           <div className="px-6 py-8 bg-gradient-to-r from-blue-600 to-blue-700">
             <h1 className="text-xl font-bold text-white">EranFixer CMS</h1>
