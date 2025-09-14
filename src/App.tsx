@@ -27,12 +27,23 @@ const AppContent: React.FC = () => {
   // Check if we're on an admin route
   const isAdminRoute = location.pathname.startsWith('/admin')
   
+  // Force loading to false after reasonable time
+  React.useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => {
+        console.warn('Force ending loading state after 3 seconds')
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [loading])
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-700 font-medium">טוען מערכת...</p>
+          <p className="mt-4 text-gray-700 font-medium">טוען...</p>
+          <p className="mt-2 text-sm text-gray-500">אם הטעינה נמשכת יותר מדי, רענן את הדף</p>
         </div>
       </div>
     )

@@ -4,11 +4,24 @@ import App from './App.tsx';
 import './index.css';
 import { preloadImages } from './lib/performance';
 
-// Ensure page is visible immediately
-if (document.body) {
-  document.body.style.visibility = 'visible'
-  document.body.style.opacity = '1'
+// Ensure page is visible immediately and stays visible
+const ensureVisibility = () => {
+  if (document.body) {
+    document.body.style.visibility = 'visible'
+    document.body.style.opacity = '1'
+    document.body.style.backgroundColor = '#ffffff'
+  }
+  
+  if (document.documentElement) {
+    document.documentElement.style.visibility = 'visible'
+    document.documentElement.style.opacity = '1'
+  }
 }
+
+// Call immediately and after DOM is ready
+ensureVisibility()
+document.addEventListener('DOMContentLoaded', ensureVisibility)
+window.addEventListener('load', ensureVisibility)
 
 // Preload critical images for performance
 const criticalImages = [
