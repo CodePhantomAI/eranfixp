@@ -485,28 +485,26 @@ export const DynamicPage: React.FC = () => {
     )
   }
   return (
-    <>
-      <TableOfContents content={content.content} />
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
-            <header className="mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                {content.title}
-              </h1>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                עודכן: {new Date(content.updated_at).toLocaleDateString('he-IL')}
-              </div>
-            </header>
-            
-            <div 
-              className="prose prose-lg max-w-none dark:prose-invert"
-              style={{ direction: 'rtl' }}
-              dangerouslySetInnerHTML={{ __html: content.content }}
-            />
-          </article>
-        </div>
+    <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+          <TableOfContents content={content.content} />
+          <header className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {content.title}
+            </h1>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              עודכן: {new Date(content.updated_at).toLocaleDateString('he-IL')}
+            </div>
+          </header>
+          
+          <div 
+            className="prose prose-lg max-w-none dark:prose-invert"
+            style={{ direction: 'rtl' }}
+            dangerouslySetInnerHTML={{ __html: content.content }}
+          />
+        </article>
       </div>
-    </>
+    </div>
   )
 }
