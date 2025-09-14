@@ -40,9 +40,7 @@ export const Header: React.FC = () => {
       <header className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         shouldHideHeader ? '-translate-y-full' : 'translate-y-0',
-        isScrolled 
-          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:border-gray-700/50' 
-          : 'bg-transparent'
+        'bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-700'
       )}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -55,13 +53,13 @@ export const Header: React.FC = () => {
                 <div>
                   <div className={cn(
                     'font-bold text-lg transition-colors',
-                    isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+                    'text-gray-900 dark:text-white'
                   )}>
                     ערן פיקסר
                   </div>
                   <div className={cn(
                     'text-xs transition-colors',
-                    isScrolled ? 'text-gray-600 dark:text-gray-300' : 'text-blue-200'
+                    'text-gray-600 dark:text-gray-300'
                   )}>
                     פתרונות דיגיטליים
                   </div>
@@ -77,9 +75,7 @@ export const Header: React.FC = () => {
                   href={item.href}
                   className={cn(
                     'font-medium transition-all duration-200 hover:scale-105 relative group',
-                    isScrolled 
-                    ? 'text-gray-900 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' 
-                    : 'text-white hover:text-blue-200'
+                    'text-gray-900 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400'
                   )}
                 >
                   {item.name}
@@ -96,9 +92,7 @@ export const Header: React.FC = () => {
                 href="tel:052-212-6366"
                 className={cn(
                   'flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105',
-                  isScrolled
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+                  'bg-blue-600 text-white hover:bg-blue-700'
                 )}
               >
                 <Phone className="w-4 h-4 ml-2" />
@@ -112,9 +106,7 @@ export const Header: React.FC = () => {
                 onClick={() => setIsSearchOpen(true)}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  isScrolled 
-                   ? 'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
-                    : 'text-white hover:bg-white/20'
+                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
               >
                 <SearchIcon className="w-5 h-5" />
@@ -124,9 +116,7 @@ export const Header: React.FC = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={cn(
                   'p-2 rounded-lg transition-colors',
-                  isScrolled 
-                   ? 'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
-                    : 'text-white hover:bg-white/20'
+                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
               >
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
