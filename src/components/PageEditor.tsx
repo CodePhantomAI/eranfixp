@@ -209,6 +209,9 @@ export const PageEditor: React.FC<PageEditorProps> = ({
                 <option value="published">פורסם</option>
                 <option value="archived">בארכיון</option>
               </select>
+              <p className="text-sm text-gray-500 mt-1">
+                <strong>חשוב:</strong> רק עמודים עם סטטוס "פורסם" יופיעו באתר הציבורי
+              </p>
             </div>
 
             {/* Content Editor */}

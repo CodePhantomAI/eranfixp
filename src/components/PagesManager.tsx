@@ -280,6 +280,16 @@ export const PagesManager: React.FC = () => {
                             {page.meta_description}
                           </p>
                         )}
+                        {page.status === 'published' && (
+                          <a 
+                            href={`/${page.slug}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:underline mt-1 block"
+                          >
+                            צפה באתר הציבורי ↗
+                          </a>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
