@@ -1,155 +1,473 @@
 import React, { useEffect } from 'react'
 import { updateSEOTags } from '../../lib/seo'
+import { Shield, Eye, Lock, Phone, Mail, CheckCircle } from 'lucide-react'
 
 export const PrivacyPolicyPage: React.FC = () => {
   useEffect(() => {
     updateSEOTags({
-      title: 'מדיניות פרטיות - EranFixer',
-      description: 'מדיניות הפרטיות של EranFixer - איך אנו מטפלים במידע האישי שלכם',
-      keywords: 'מדיניות פרטיות, הגנת פרטיות, מידע אישי, EranFixer',
-      url: '/privacy-policy'
+      title: 'מדיניות פרטיות - EranFixer | הגנה על פרטיות הלקוחות שלנו',
+      description: 'מדיניות הפרטיות של EranFixer - איך אנו מטפלים במידע האישי שלכם בהתאם לחוק הגנת הפרטיות הישראלי ותקנות GDPR',
+      keywords: ['מדיניות פרטיות', 'הגנת פרטיות', 'מידע אישי', 'EranFixer', 'GDPR', 'חוק הגנת הפרטיות'],
+      url: 'https://eran-fixer.com/privacy-policy',
+      type: 'article'
     })
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+    <div>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Shield className="w-16 h-16 text-blue-300" />
+          </div>
+          <h1 className="text-4xl lg:text-5xl font-bold mb-6">
             מדיניות פרטיות
           </h1>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            ב-EranFixer אנו מחויבים להגנה על הפרטיות שלכם ולטיפול אחראי במידע האישי
+          </p>
+        </div>
+      </section>
 
-          <div className="prose prose-lg max-w-none text-right">
-            <p className="text-gray-600 mb-6">
-              עודכן לאחרונה: {new Date().toLocaleDateString('he-IL')}
-            </p>
+      {/* Main Content */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-sm p-8 lg:p-12">
+            <div className="text-sm text-gray-500 mb-8 text-center">
+              עודכן לאחרונה: {new Date().toLocaleDateString('he-IL', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </div>
 
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                1. מידע שאנו אוספים
-              </h2>
-              <p className="text-gray-700 mb-4">
-                אנו אוספים מידע שאתם מספקים לנו באופן וולונטרי, כגון:
-              </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>שם מלא ופרטי יצירת קשר</li>
-                <li>כתובת דוא"ל ומספר טלפון</li>
-                <li>מידע על הפרויקט או השירות המבוקש</li>
-                <li>מידע טכני על השימוש באתר (cookies)</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                2. איך אנו משתמשים במידע
-              </h2>
-              <p className="text-gray-700 mb-4">
-                המידע שאנו אוספים משמש אותנו למטרות הבאות:
-              </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>מתן שירותים והצעות מחיר</li>
-                <li>תקשורת עם לקוחות ועדכונים על פרויקטים</li>
-                <li>שיפור השירות והאתר</li>
-                <li>ציות לחובות חוקיים</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                3. הגנה על המידע
-              </h2>
-              <p className="text-gray-700 mb-4">
-                אנו נוקטים באמצעי אבטחה מתקדמים להגנה על המידע האישי שלכם, כולל:
-              </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>הצפנת נתונים בזמן העברה ובמנוחה</li>
-                <li>הגבלת גישה למידע לעובדים מוסמכים בלבד</li>
-                <li>עדכונים שוטפים של מערכות האבטחה</li>
-                <li>גיבוי נתונים ותוכניות התאוששות</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                4. שיתוף מידע עם צדדים שלישיים
-              </h2>
-              <p className="text-gray-700 mb-4">
-                איננו מוכרים או משתפים את המידע האישי שלכם עם צדדים שלישיים, למעט:
-              </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>ספקי שירות טכניים (הוסטינג, אנליטיקה)</li>
-                <li>כאשר נדרש על פי חוק</li>
-                <li>עם הסכמתכם המפורשת</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                5. זכויותיכם
-              </h2>
-              <p className="text-gray-700 mb-4">
-                על פי חוק הגנת הפרטיות, יש לכם הזכות:
-              </p>
-              <ul className="list-disc list-inside text-gray-700 mb-4 space-y-2">
-                <li>לעיין במידע השמור עליכם</li>
-                <li>לתקן או לעדכן מידע לא מדויק</li>
-                <li>למחוק את המידע (במקרים מסויימים)</li>
-                <li>להגביל את העיבוד של המידע</li>
-                <li>לקבל העתק של המידע</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                6. Cookies
-              </h2>
-              <p className="text-gray-700 mb-4">
-                האתר שלנו משתמש ב-cookies לשיפור החוויה ולמטרות אנליטיות. 
-                אתם יכולים לחסום cookies בהגדרות הדפדפן, אך זה עשוי להשפיע על הפונקציונליות.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                7. עדכונים למדיניות
-              </h2>
-              <p className="text-gray-700 mb-4">
-                אנו עשויים לעדכן מדיניות זו מעת לעת. העדכונים יפורסמו באתר 
-                ויכנסו לתוקף מיד עם הפרסום.
-              </p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                8. יצירת קשר
-              </h2>
-              <p className="text-gray-700 mb-4">
-                לשאלות או בקשות בנוגע למדיניות הפרטיות, צרו קשר:
-              </p>
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-gray-700 mb-2">
-                  <strong>אימייל:</strong> privacy@eranfixer.com
+            <div className="space-y-12">
+              {/* Section 1 */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center ml-4">
+                    <Eye className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    1. מחויבות לפרטיות
+                  </h2>
+                </div>
+                <div className="bg-blue-50 p-6 rounded-lg mb-6">
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>EranFixer מחויבת להגנה על הפרטיות שלכם.</strong> אנו מבינים כמה חשוב המידע האישי שלכם 
+                    ופועלים על פי עקרונות שקיפות, אבטחה ואחריות בכל הקשור לטיפול בנתונים אישיים.
+                  </p>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  מדיניות פרטיות זו מסבירה איך אנו אוספים, משתמשים, מגנים ומשתפים את המידע האישי שלכם 
+                  כאשר אתם משתמשים באתר שלנו או בשירותים שלנו. המדיניות בנויה בהתאם לחוק הגנת הפרטיות 
+                  הישראלי, תקנות ה-GDPR האירופיות ולמיטב השיטות הבינלאומיות בתחום הגנת הפרטיות.
                 </p>
-                <p className="text-gray-700 mb-2">
-                  <strong>טלפון:</strong> 052-1234567
+              </section>
+
+              {/* Section 2 */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center ml-4">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    2. מידע שאנו אוספים
+                  </h2>
+                </div>
+                <p className="text-gray-700 mb-6">
+                  אנו אוספים מידע בדרכים הבאות:
                 </p>
-                <p className="text-gray-700">
-                  <strong>כתובת:</strong> רמת גן, ישראל
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="bg-white border rounded-lg p-6">
+                    <h3 className="font-bold text-gray-900 mb-4">מידע שאתם מספקים</h3>
+                    <ul className="space-y-2 text-gray-600">
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        שם מלא ופרטי יצירת קשר
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        כתובת דוא"ל ומספר טלפון
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        שם החברה ותחום פעילות
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        פרטי הפרויקט והשירות המבוקש
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-white border rounded-lg p-6">
+                    <h3 className="font-bold text-gray-900 mb-4">מידע טכני</h3>
+                    <ul className="space-y-2 text-gray-600">
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        כתובת IP ומיקום גיאוגרפי כללי
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        נתוני דפדפן ומערכת הפעלה
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        דפים שביקרתם וזמן השהייה
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="w-4 h-4 text-green-500 ml-2" />
+                        מקור ההגעה לאתר (referrer)
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 3 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  3. איך אנו משתמשים במידע
+                </h2>
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6">
+                  <h3 className="font-bold text-gray-900 mb-4">המטרות העיקריות:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-2">שירות לקוחות:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• מתן שירותים והצעות מחיר מותאמות</li>
+                        <li>• תקשורת שוטפת על פרויקטים</li>
+                        <li>• תמיכה טכנית ויעוץ מקצועי</li>
+                        <li>• עדכונים על שירותים חדשים</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-2">שיפור השירות:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• ניתוח ביצועי האתר ושיפור חוויית המשתמש</li>
+                        <li>• פיתוח שירותים וטכנולוגיות חדשות</li>
+                        <li>• התאמת התוכן לקהל היעד</li>
+                        <li>• מחקר שוק ומגמות בתחום</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 4 */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center ml-4">
+                    <Lock className="w-6 h-6 text-red-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    4. אבטחה והגנה על המידע
+                  </h2>
+                </div>
+                <div className="bg-red-50 border border-red-200 p-6 rounded-lg mb-6">
+                  <h3 className="font-bold text-red-900 mb-4">אמצעי אבטחה מתקדמים:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold text-red-800 mb-3">אבטחה טכנית:</h4>
+                      <ul className="space-y-2 text-red-700 text-sm">
+                        <li>• הצפנת SSL/TLS לכל התקשורת</li>
+                        <li>• הצפנת מסדי נתונים (encryption at rest)</li>
+                        <li>• אימות דו-שלבי לגישה למערכות</li>
+                        <li>• חומות אש ומערכות זיהוי חדירות</li>
+                        <li>• עדכוני אבטחה שוטפים</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-red-800 mb-3">אבטחה ארגונית:</h4>
+                      <ul className="space-y-2 text-red-700 text-sm">
+                        <li>• הגבלת גישה למידע לעובדים מוסמכים בלבד</li>
+                        <li>• הסכמי סודיות עם כל הגורמים המעורבים</li>
+                        <li>• הדרכות אבטחה תקופתיות לצוות</li>
+                        <li>• גיבוי נתונים בטוח ומוצפן</li>
+                        <li>• תוכניות התאוששות אחרי אסון</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 5 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  5. שיתוף מידע עם צדדים שלישיים
+                </h2>
+                <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg mb-6">
+                  <h3 className="font-bold text-yellow-900 mb-3">🚫 אנו לעולם לא:</h3>
+                  <ul className="space-y-2 text-yellow-800">
+                    <li>• מוכרים את המידע האישי שלכם</li>
+                    <li>• משתפים מידע למטרות שיווקיות ללא הסכמה</li>
+                    <li>• מעבירים נתונים לחברות פרסום</li>
+                    <li>• חושפים פרטים אישיים ברשתות חברתיות</li>
+                  </ul>
+                </div>
+                
+                <p className="text-gray-700 mb-4">
+                  <strong>אנו עשויים לשתף מידע רק במקרים הבאים:</strong>
                 </p>
+                <ul className="space-y-3 text-gray-600">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mt-1 ml-3" />
+                    <div>
+                      <strong>ספקי שירות טכניים:</strong> חברות הוסטינג, אנליטיקה ואבטחה שעובדות איתנו 
+                      ומחויבות לאותם סטנדרטים של הגנת פרטיות
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mt-1 ml-3" />
+                    <div>
+                      <strong>דרישות חוק:</strong> כאשר נדרש על פי חוק או צו בית משפט
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-blue-500 mt-1 ml-3" />
+                    <div>
+                      <strong>הסכמה מפורשת:</strong> רק עם הסכמתכם המפורשת והמודעת
+                    </div>
+                  </li>
+                </ul>
+              </section>
+
+              {/* Section 6 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  6. הזכויות שלכם
+                </h2>
+                <p className="text-gray-700 mb-6">
+                  על פי חוק הגנת הפרטיות הישראלי ותקנות GDPR, יש לכם הזכויות הבאות:
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-white border rounded-lg p-6">
+                    <h3 className="font-bold text-gray-900 mb-4">זכויות עיקריות:</h3>
+                    <ul className="space-y-2 text-gray-600">
+                      <li>✅ זכות עיון במידע השמור עליכם</li>
+                      <li>✅ זכות תיקון וערכון מידע לא מדויק</li>
+                      <li>✅ זכות מחיקת מידע ("זכות הנשייה")</li>
+                      <li>✅ זכות הגבלת עיבוד המידע</li>
+                      <li>✅ זכות ניידות נתונים (קבלת העתק)</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-white border rounded-lg p-6">
+                    <h3 className="font-bold text-gray-900 mb-4">איך להפעיל את הזכויות:</h3>
+                    <ul className="space-y-2 text-gray-600">
+                      <li>📧 שלחו מייל לכתובת: eranfixer@gmail.com</li>
+                      <li>📞 התקשרו: 052-212-6366</li>
+                      <li>💬 שלחו הודעה בוואטסאפ</li>
+                      <li>📝 מלאו טופס יצירת קשר באתר</li>
+                      <li>⏰ נענה תוך 30 יום כפי שנדרש בחוק</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 7 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  7. Cookies ומעקב
+                </h2>
+                <div className="bg-gray-50 p-6 rounded-lg mb-6">
+                  <h3 className="font-bold text-gray-900 mb-4">סוגי Cookies שאנו משתמשים:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-white p-4 rounded-lg border">
+                      <h4 className="font-semibold text-gray-800 mb-2">חיוניים</h4>
+                      <p className="text-sm text-gray-600">נדרשים לתפקוד בסיסי של האתר</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg border">
+                      <h4 className="font-semibold text-gray-800 mb-2">אנליטיים</h4>
+                      <p className="text-sm text-gray-600">עוזרים לנו להבין איך משתמשים באתר</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg border">
+                      <h4 className="font-semibold text-gray-800 mb-2">פונקציונליים</h4>
+                      <p className="text-sm text-gray-600">זוכרים העדפות והגדרות</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  אתם יכולים לנהל cookies בהגדרות הדפדפן שלכם. חסימת cookies עשויה להשפיע על הפונקציונליות של האתר.
+                </p>
+              </section>
+
+              {/* Section 8 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  8. אחסון ושמירת מידע
+                </h2>
+                <div className="bg-purple-50 p-6 rounded-lg mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-bold text-purple-900 mb-3">תקופות שמירה:</h3>
+                      <ul className="space-y-1 text-purple-800 text-sm">
+                        <li>• מידע לקוחות פעילים: כל עוד הקשר עסקי קיים</li>
+                        <li>• הצעות מחיר: 3 שנים מיום הגשה</li>
+                        <li>• חוזים ופרויקטים: 7 שנים (חובת חוק)</li>
+                        <li>• נתוני אנליטיקה: 2 שנים</li>
+                        <li>• מידע שיווקי: עד ביטול ההסכמה</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-purple-900 mb-3">מיקום השרתים:</h3>
+                      <ul className="space-y-1 text-purple-800 text-sm">
+                        <li>• שרתים ראשיים: אירופה (GDPR compliant)</li>
+                        <li>• גיבוי: ישראל (מרכזי נתונים מוסדרים)</li>
+                        <li>• CDN: רשת גלובלית מאובטחת</li>
+                        <li>• כל השרתים עומדים בתקני אבטחה בינלאומיים</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Section 9 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  9. קטינים והגנת ילדים
+                </h2>
+                <div className="bg-orange-50 border border-orange-200 p-6 rounded-lg">
+                  <p className="text-orange-800">
+                    <strong>השירותים שלנו מיועדים לקהל בוגר.</strong> איננו אוספים מידע מקטינים מתחת לגיל 16 
+                    ללא הסכמת הורים. אם גילינו שאספנו מידע מקטין ללא הסכמה, נמחק אותו מיידית. 
+                    הורים יכולים לפנות אלינו לכל בירור או בקשה.
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 10 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  10. שינויים במדיניות
+                </h2>
+                <p className="text-gray-700 mb-4">
+                  אנו עשויים לעדכן מדיניות זו מעת לעת כדי לשקף שינויים בשירותים או בחוקים. 
+                  כל עדכון יכלול:
+                </p>
+                <ul className="space-y-2 text-gray-600">
+                  <li>• פרסום העדכון באתר עם תאריך עדכון</li>
+                  <li>• הודעה ללקוחות רשומים על שינויים משמעותיים</li>
+                  <li>• תקופת מעבר של 30 יום להתאמה</li>
+                  <li>• אפשרות לבטל שירותים אם לא מסכימים לשינויים</li>
+                </ul>
+              </section>
+
+              {/* Section 11 */}
+              <section>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  11. צור קשר - פרטיות ומידע
+                </h2>
+                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 rounded-lg">
+                  <h3 className="text-xl font-bold mb-6 text-center">יש לכם שאלות על הפרטיות שלכם?</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a
+                      href="mailto:eranfixer@gmail.com?subject=שאלה בנושא פרטיות"
+                      className="flex items-center justify-center bg-white/10 backdrop-blur rounded-lg p-4 hover:bg-white/20 transition-colors"
+                    >
+                      <Mail className="w-6 h-6 ml-3" />
+                      <div>
+                        <div className="font-semibold">אימייל</div>
+                        <div className="text-sm text-blue-100">eranfixer@gmail.com</div>
+                      </div>
+                    </a>
+                    
+                    <a
+                      href="tel:052-212-6366"
+                      className="flex items-center justify-center bg-white/10 backdrop-blur rounded-lg p-4 hover:bg-white/20 transition-colors"
+                    >
+                      <Phone className="w-6 h-6 ml-3" />
+                      <div>
+                        <div className="font-semibold">טלפון</div>
+                        <div className="text-sm text-blue-100">052-212-6366</div>
+                      </div>
+                    </a>
+                    
+                    <a
+                      href="https://wa.me/972522126366?text=יש לי שאלה על מדיניות הפרטיות"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center bg-white/10 backdrop-blur rounded-lg p-4 hover:bg-white/20 transition-colors"
+                    >
+                      <div className="w-6 h-6 ml-3 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs font-bold">W</span>
+                      </div>
+                      <div>
+                        <div className="font-semibold">וואטסאפ</div>
+                        <div className="text-sm text-blue-100">מענה מיידי</div>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <div className="text-center mt-6">
+                    <p className="text-blue-100 text-sm">
+                      <strong>נענה לכל פנייה תוך 24 שעות בימי עבודה</strong><br />
+                      מחויבים לשקיפות מלאה ושירות מקצועי
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              {/* Legal Section */}
+              <section className="border-t border-gray-200 pt-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  מידע משפטי ותקנים
+                </h2>
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-3">תקנים והסמכות:</h3>
+                      <ul className="space-y-1 text-gray-600 text-sm">
+                        <li>• חוק הגנת הפרטיות התשמ"א-1981 (ישראל)</li>
+                        <li>• תקנות GDPR האירופיות</li>
+                        <li>• תקן ISO 27001 לאבטחת מידע</li>
+                        <li>• תקנות הגנת צרכנים</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-3">פרטי החברה:</h3>
+                      <ul className="space-y-1 text-gray-600 text-sm">
+                        <li>• שם: EranFixer (ערן פיקסר)</li>
+                        <li>• מיקום: תל אביב, ישראל</li>
+                        <li>• רישוי עסק: פעיל ומעודכן</li>
+                        <li>• ביטוח אחריות מקצועית: פעיל</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            {/* Call to Action */}
+            <div className="mt-12 pt-8 border-t border-gray-200 text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                רוצים לדעת עוד?
+              </h3>
+              <p className="text-gray-600 mb-6">
+                אנו מחויבים לשקיפות מלאה. יש לכם שאלות? אנחנו כאן בשבילכם.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/contact"
+                  className="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors inline-block"
+                >
+                  צור קשר בנושא פרטיות
+                </a>
+                <a
+                  href="/terms-of-use"
+                  className="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-600 hover:text-white transition-colors inline-block"
+                >
+                  תנאי השימוש
+                </a>
               </div>
-            </section>
-          </div>
-
-          <div className="mt-12 text-center">
-            <a
-              href="/contact"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              יש לכם שאלות? צרו קשר
-            </a>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
