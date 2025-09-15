@@ -66,9 +66,10 @@ export const PagesManager: React.FC = () => {
   const handleSavePage = async (pageData: any) => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
+      console.log('Current user:', user)
       if (!user) throw new Error('משתמש לא מחובר')
 
-      console.log('Saving page with data:', pageData)
+      console.log('Saving page with full data:', pageData)
 
       const pagePayload = {
         title: pageData.title,
@@ -81,10 +82,11 @@ export const PagesManager: React.FC = () => {
         updated_at: new Date().toISOString()
       }
 
-      console.log('Page payload:', pagePayload)
+      console.log('Final page payload to save:', pagePayload)
 
       if (editingPage) {
         // Update existing page
+        console.log('Updating existing page with ID:', editingPage.id)
         const { data, error } = await supabase
           .from('pages')
           .update(pagePayload)
@@ -92,18 +94,20 @@ export const PagesManager: React.FC = () => {
           .select()
 
         if (error) throw error
-        console.log('Page updated successfully:', data)
+        console.log('Page updated successfully - result:', data)
         toast.success('העמוד עודכן בהצלחה')
       } else {
         // Create new page
+        console.log('Creating new page...')
         const { data, error } = await supabase
           .from('pages')
           .insert([{ ...pagePayload, created_at: new Date().toISOString() }])
           .select()
 
+        console.log('Create page result:', { data, error })
         if (error) throw error
         
-        console.log('Page created successfully:', data)
+        console.log('Page created successfully - new page data:', data)
         toast.success('העמוד נוצר בהצלחה')
       }
 
@@ -111,7 +115,10 @@ export const PagesManager: React.FC = () => {
       setEditingPage(null)
       loadPages()
     } catch (error: any) {
-      console.error('Error saving page:', error)
+      console.error('DETAILED Error saving page:', error)
+      console.error('Error code:', error.code)
+      console.error('Error message:', error.message)
+      console.error('Error details:', error.details)
       toast.error(error.message || 'שגיאה בשמירת העמוד')
     }
   }
