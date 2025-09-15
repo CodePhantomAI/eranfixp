@@ -191,10 +191,10 @@ export const DynamicPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600 dark:text-gray-300">טוען תוכן...</p>
+          <p className="mt-4 text-gray-600">טוען תוכן...</p>
         </div>
       </div>
     )
@@ -202,10 +202,10 @@ export const DynamicPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-red-600 mb-4">שגיאה</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <p className="text-xl text-gray-600 mb-8">
             {error}
           </p>
           <a
@@ -221,10 +221,10 @@ export const DynamicPage: React.FC = () => {
 
   if (notFound || !content) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
+          <p className="text-xl text-gray-600 mb-8">
             {contentType === 'blog' && 'הפוסט לא נמצא'}
             {contentType === 'portfolio' && 'הפרויקט לא נמצא'}
             {contentType === 'research' && 'המחקר לא נמצא'}
@@ -239,7 +239,7 @@ export const DynamicPage: React.FC = () => {
             </a>
             <a
               href={contentType === 'blog' ? '/blog' : contentType === 'portfolio' ? '/portfolio' : '/'}
-              className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors inline-block"
+              className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors inline-block"
             >
               {contentType === 'blog' && 'לכל הפוסטים'}
               {contentType === 'portfolio' && 'לכל הפרויקטים'}
