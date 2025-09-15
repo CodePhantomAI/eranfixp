@@ -36,9 +36,14 @@ export const PageEditor: React.FC<PageEditorProps> = ({
     content: initialData?.content || '',
     meta_title: initialData?.meta_title || '',
     meta_description: initialData?.meta_description || '',
-    status: initialData?.status || 'draft'
+    status: initialData?.status || 'published'
   })
   const [errors, setErrors] = useState<{[key: string]: string}>({})
+  
+  // Debug logging for form data
+  React.useEffect(() => {
+    console.log('PageEditor formData changed:', formData)
+  }, [formData])
 
   // Auto-generate slug from title
   React.useEffect(() => {
