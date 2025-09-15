@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Star, ExternalLink, Building, Users, Award, TrendingUp } from 'lucide-react'
+import { Star, ExternalLink, Building, Users, Award, TrendingUp, ArrowLeft } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { updateSEOTags } from '../../lib/seo'
 
 interface Client {
   id: string
@@ -33,6 +34,14 @@ export const ClientsPage: React.FC = () => {
   const [selectedIndustry, setSelectedIndustry] = useState<string>('all')
 
   useEffect(() => {
+    // Set SEO for clients page
+    updateSEOTags({
+      title: 'הלקוחות שלנו - EranFixer | המלצות ועדויות מלקוחות מרוצים',
+      description: 'קראו המלצות ועדויות מלקוחות מרוצים של EranFixer. חברות ועסקים שבחרו בשירותי הקידום, פיתוח ופתרונות הדיגיטל שלנו ורואים תוצאות מדהימות.',
+      url: 'https://eran-fixer.com/clients',
+      type: 'website'
+    })
+    
     loadClients()
   }, [])
 
@@ -327,14 +336,23 @@ export const ClientsPage: React.FC = () => {
           <p className="text-xl text-blue-100 mb-8">
             בואו נדבר על איך אנחנו יכולים לעזור לעסק שלכם לצמוח
           </p>
-          <a
-            href="https://wa.me/972522126366?text=היי, אני מעוניין להצטרף ללקוחות המרוצים שלכם"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-colors inline-block"
-          >
-            בואו נתחיל לעבוד יחד בווטסאפ
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://wa.me/972522126366?text=היי, אני מעוניין להצטרף ללקוחות המרוצים שלכם"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-colors inline-flex items-center justify-center"
+            >
+              בואו נתחיל לעבוד יחד
+              <ArrowLeft className="w-4 h-4 mr-2" />
+            </a>
+            <a
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors inline-block"
+            >
+              צור קשר לפרטים
+            </a>
+          </div>
         </div>
       </section>
     </div>
