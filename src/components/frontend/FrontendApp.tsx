@@ -20,10 +20,7 @@ import { DynamicPage } from './DynamicPage'
 import { SystemAboutPage } from './SystemAboutPage'
 import { FloatingButtons } from './FloatingButtons'
 import { BackToTop } from '../ui/BackToTop'
-import { PerformanceMonitor } from '../ui/PerformanceMonitor'
 import { SearchModal } from '../ui/SearchModal'
-import { ReadingProgress } from '../ui/ReadingProgress'
-import { CookieConsent } from '../ui/CookieConsent'
 
 export const FrontendApp: React.FC = () => {
   return (

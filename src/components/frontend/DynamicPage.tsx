@@ -3,6 +3,9 @@ import { useParams, useLocation } from 'react-router-dom'
 import { ArrowLeft, Download, Calendar, User, Tag } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { formatDate } from '../../lib/utils'
+import { RelatedContent } from '../ui/RelatedContent'
+import { TableOfContents } from '../ui/TableOfContents'
 
 interface Page {
   id: string
@@ -188,10 +191,10 @@ export const DynamicPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600 dark:text-gray-300">טוען תוכן...</p>
+          <p className="mt-4 text-gray-600">טוען תוכן...</p>
         </div>
       </div>
     )
@@ -199,10 +202,10 @@ export const DynamicPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-red-600 mb-4">שגיאה</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <p className="text-xl text-gray-600 mb-8">
             {error}
           </p>
           <a
@@ -218,10 +221,10 @@ export const DynamicPage: React.FC = () => {
 
   if (notFound || !content) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
+          <p className="text-xl text-gray-600 mb-8">
             {contentType === 'blog' && 'הפוסט לא נמצא'}
             {contentType === 'portfolio' && 'הפרויקט לא נמצא'}
             {contentType === 'research' && 'המחקר לא נמצא'}
@@ -236,7 +239,7 @@ export const DynamicPage: React.FC = () => {
             </a>
             <a
               href={contentType === 'blog' ? '/blog' : contentType === 'portfolio' ? '/portfolio' : '/'}
-              className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors inline-block"
+              className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors inline-block"
             >
               {contentType === 'blog' && 'לכל הפוסטים'}
               {contentType === 'portfolio' && 'לכל הפרויקטים'}
@@ -252,9 +255,11 @@ export const DynamicPage: React.FC = () => {
   // Render different layouts based on content type
   if (contentType === 'blog') {
     return (
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <>
+        <TableOfContents content={content.content} />
+        <div className="py-20 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+            <article className="bg-white rounded-2xl shadow-sm p-8">
           {content.featured_image && (
             <img
               src={content.featured_image}
@@ -308,6 +313,7 @@ export const DynamicPage: React.FC = () => {
           </article>
         </div>
       </div>
+      </>
     )
   }
 
@@ -445,6 +451,8 @@ export const DynamicPage: React.FC = () => {
       </div>
     )
   }
+
+  // Default page layout
   return (
     <div className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
