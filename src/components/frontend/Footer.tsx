@@ -57,50 +57,50 @@ export const Footer: React.FC = () => {
                 <span className="text-white font-bold text-xl">EF</span>
               </div>
               <div>
-                <div className="font-bold text-xl">
+                <div className="font-bold text-xl text-white">
                   <GradientText gradient="blue">ערן פיקסר</GradientText>
                 </div>
-                <div className="text-gray-400 text-sm">פתרונות דיגיטליים</div>
+                <div className="text-gray-300 text-sm font-medium">פתרונות דיגיטליים</div>
               </div>
             </div>
             
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              מומחים בקידום אתרים אורגני, בניית אתרים מקצועיים, 
-              ניהול מוניטין דיגיטלי ואוטומציה מבוססת AI.
+            <p className="text-gray-200 mb-6 leading-relaxed font-medium">
+              <span className="text-white font-bold">מומחים</span> בקידום אתרים אורגני, בניית אתרים מקצועיים, 
+              <span className="text-white font-bold">ניהול מוניטין דיגיטלי</span> ואוטומציה מבוססת <span className="text-white font-bold">AI</span>.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-3">
               <a 
                 href="tel:052-212-6366" 
-                className="flex items-center text-gray-300 hover:text-white transition-colors group"
+                className="flex items-center text-white hover:text-blue-300 transition-colors group font-medium"
               >
                 <Phone className="w-4 h-4 ml-3 group-hover:animate-pulse" />
-                052-212-6366
+                <span className="font-bold">052-212-6366</span>
               </a>
               <a 
                 href="mailto:eranfixer@gmail.com" 
-                className="flex items-center text-gray-300 hover:text-white transition-colors group"
+                className="flex items-center text-white hover:text-blue-300 transition-colors group font-medium"
               >
                 <Mail className="w-4 h-4 ml-3 group-hover:animate-pulse" />
-                eranfixer@gmail.com
+                <span className="font-bold">eranfixer@gmail.com</span>
               </a>
-              <div className="flex items-center text-gray-300">
+              <div className="flex items-center text-white font-medium">
                 <MapPin className="w-4 h-4 ml-3" />
-                תל אביב, ישראל
+                <span className="font-bold">תל אביב, ישראל</span>
               </div>
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="font-bold text-lg mb-6">שירותים</h3>
+            <h3 className="font-bold text-lg mb-6 text-white">שירותים</h3>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block"
+                    className="text-gray-200 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block font-medium"
                   >
                     {link.name}
                   </a>
@@ -111,13 +111,13 @@ export const Footer: React.FC = () => {
 
           {/* Company */}
           <div>
-            <h3 className="font-bold text-lg mb-6">החברה</h3>
+            <h3 className="font-bold text-lg mb-6 text-white">החברה</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block"
+                    className="text-gray-200 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block font-medium"
                   >
                     {link.name}
                   </a>
@@ -128,13 +128,13 @@ export const Footer: React.FC = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="font-bold text-lg mb-6">משאבים</h3>
+            <h3 className="font-bold text-lg mb-6 text-white">משאבים</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block"
+                    className="text-gray-200 hover:text-white transition-colors hover:translate-x-1 transform duration-200 block font-medium"
                   >
                     {link.name}
                   </a>
@@ -146,7 +146,7 @@ export const Footer: React.FC = () => {
 
         {/* Local Services Section */}
         <div className="mt-12 pt-8 border-t border-gray-800">
-          <h3 className="font-bold text-lg mb-6 text-center">
+          <h3 className="font-bold text-lg mb-6 text-center text-white">
             <GradientText gradient="blue">שירותים מקומיים</GradientText>
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -158,7 +158,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-all duration-200 hover:scale-105 group"
               >
-                <div className="text-sm text-gray-300 group-hover:text-white transition-colors">
+                <div className="text-sm text-gray-200 group-hover:text-white transition-colors font-medium">
                   {service.name}
                 </div>
               </a>
@@ -168,7 +168,7 @@ export const Footer: React.FC = () => {
 
         {/* Partner Sites Section */}
         <div className="mt-8 pt-8 border-t border-gray-800 overflow-hidden">
-          <h3 className="font-bold text-lg mb-6 text-center">
+          <h3 className="font-bold text-lg mb-6 text-center text-white">
             <GradientText gradient="purple">אתרים שותפים</GradientText>
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -180,7 +180,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-center p-3 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded-lg hover:from-blue-700/50 hover:to-purple-700/50 transition-all duration-200 hover:scale-105 group min-w-0"
               >
-                <div className="text-sm text-gray-300 group-hover:text-white transition-colors break-words">
+                <div className="text-sm text-gray-200 group-hover:text-white transition-colors break-words font-medium">
                   {site.name}
                 </div>
               </a>
@@ -192,13 +192,13 @@ export const Footer: React.FC = () => {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-6 space-x-reverse mb-6 md:mb-0">
-              <span className="text-gray-400">עקבו אחרינו:</span>
+              <span className="text-white font-bold">עקבו אחרינו:</span>
               <div className="flex space-x-4 space-x-reverse">
                 <a 
                   href="https://www.facebook.com/mrfixermusic/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="עקבו אחרינו בפייסבוק"
                 >
                   <Facebook className="w-5 h-5" />
@@ -207,7 +207,7 @@ export const Footer: React.FC = () => {
                   href="https://www.instagram.com/mrfixermusic/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="עקבו אחרינו באינסטגרם"
                 >
                   <Instagram className="w-5 h-5" />
@@ -216,7 +216,7 @@ export const Footer: React.FC = () => {
                   href="https://www.linkedin.com/in/eranfixer/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="התחברו אלינו בלינקדאין"
                 >
                   <Linkedin className="w-5 h-5" />
@@ -225,7 +225,7 @@ export const Footer: React.FC = () => {
                   href="https://x.com/eranfixer" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="עקבו אחרינו ב-X (טוויטר)"
                 >
                   <Twitter className="w-5 h-5" />
@@ -234,7 +234,7 @@ export const Footer: React.FC = () => {
                   href="https://www.tiktok.com/@mrfixermusics" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="עקבו אחרינו בטיקטוק"
                 >
                   <div className="w-5 h-5 rounded bg-gradient-to-r from-pink-500 to-blue-500 flex items-center justify-center text-xs font-bold">
@@ -245,7 +245,7 @@ export const Footer: React.FC = () => {
                   href="https://share.google/nfODajB37QMcuQsJW" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  className="text-gray-200 hover:text-white transition-colors hover:scale-110 transform duration-200"
                   title="המיקום שלנו בגוגל"
                 >
                   <Globe className="w-5 h-5" />
@@ -260,7 +260,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full font-medium hover:from-green-700 hover:to-green-800 transition-all duration-200 hover:scale-105 inline-flex items-center"
             >
-              בואו נתחיל לעבוד
+              <span className="font-bold text-white">בואו נתחיל לעבוד</span>
               <ArrowLeft className="w-4 h-4 mr-2" />
             </a>
           </div>
@@ -271,8 +271,8 @@ export const Footer: React.FC = () => {
       <div className="bg-gray-950 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 Eran Fixer. כל הזכויות שמורות.
+            <div className="text-gray-300 text-sm mb-4 md:mb-0 font-medium">
+              © 2025 <span className="text-white font-bold">Eran Fixer</span>. כל הזכויות שמורות.
             </div>
             
             <div className="flex items-center space-x-6 space-x-reverse text-sm">
@@ -280,7 +280,7 @@ export const Footer: React.FC = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors font-medium"
                 >
                   {link.name}
                 </a>
@@ -290,7 +290,7 @@ export const Footer: React.FC = () => {
                   localStorage.removeItem('cookie-consent')
                   window.location.reload()
                 }}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-300 hover:text-white transition-colors font-medium"
               >
                 הגדרות עוגיות
               </button>
