@@ -68,6 +68,31 @@ html {
   color: white;
 }
 
+/* Force all text in homepage hero section to be visible */
+section[class*="from-blue"] p,
+section[class*="from-blue"] span,
+section[class*="from-blue"] div,
+section[class*="via-blue"] p,
+section[class*="via-blue"] span,
+section[class*="via-blue"] div,
+section[class*="to-blue"] p,
+section[class*="to-blue"] span,
+section[class*="to-blue"] div,
+.bg-gradient-to-br p,
+.bg-gradient-to-br span,
+.bg-gradient-to-br div {
+  color: #e5e7eb !important;
+}
+
+/* Make bold text WHITE on hero sections */
+section[class*="from-blue"] .font-bold,
+section[class*="via-blue"] .font-bold,
+section[class*="to-blue"] .font-bold,
+.bg-gradient-to-br .font-bold {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
 /* Focus styles */
 *:focus {
   outline: 2px solid #3b82f6;
