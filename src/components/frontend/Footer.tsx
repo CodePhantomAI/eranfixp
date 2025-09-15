@@ -285,6 +285,15 @@ export const Footer: React.FC = () => {
                   {link.name}
                 </a>
               ))}
+              <button
+                onClick={() => {
+                  localStorage.removeItem('cookie-consent')
+                  window.location.reload()
+                }}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                הגדרות עוגיות
+              </button>
             </div>
           </div>
         </div>

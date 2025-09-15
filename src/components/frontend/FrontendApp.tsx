@@ -18,6 +18,7 @@ import { DynamicPage } from './DynamicPage'
 import { SystemAboutPage } from './SystemAboutPage'
 import { FloatingButtons } from './FloatingButtons'
 import { BackToTop } from '../ui/BackToTop'
+import { CookieConsent } from '../ui/CookieConsent'
 import { PrivacyPolicyPage } from './PrivacyPolicyPage'
 import { TermsOfUsePage } from './TermsOfUsePage'
 
@@ -28,6 +29,7 @@ export const FrontendApp: React.FC = () => {
         <FrontendLayout>
           <FloatingButtons />
           <BackToTop />
+          <CookieConsent />
           
           <Routes>
             <Route path="/" element={<HomePage />} />
