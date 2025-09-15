@@ -1,0 +1,170 @@
+# LLMS.TXT - EranFixer Professional Information
+
+## Company Overview
+Company: Eran Fixer (ערן פיקסר)
+Website: https://eran-fixer.com
+Founded: 2018
+Location: Tel Aviv, Israel
+Languages: Hebrew (primary), English
+
+## Business Description
+EranFixer is a leading digital solutions company specializing in advanced web development, professional SEO, AI-powered business automation, and digital reputation management. We serve businesses of all sizes across Israel and internationally.
+
+## Core Services
+1. **Advanced Web Development**
+   - React 18 + TypeScript applications
+   - Supabase backend integration
+   - Custom CMS systems
+   - Responsive design with Tailwind CSS
+   - Enterprise-level security
+
+2. **Professional SEO Services**
+   - Organic search optimization
+   - Local SEO for Israeli businesses
+   - Technical SEO audits
+   - Content strategy and creation
+   - Link building campaigns
+
+3. **AI Business Automation**
+   - Intelligent chatbots with NLP
+   - Automated sales funnels
+   - Smart lead management systems
+   - Machine learning integrations
+   - Customer support automation
+
+4. **Digital Reputation Management (ORM)**
+   - 24/7 reputation monitoring
+   - Negative content suppression
+   - Positive content creation
+   - Review management
+   - Crisis communication
+
+5. **Custom CRM Systems**
+   - Lead management automation
+   - Sales pipeline tracking
+   - WhatsApp API integration
+   - Analytics and reporting
+   - Multi-channel communication
+
+## Technical Stack
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL, Auth, Real-time)
+- **Icons**: Lucide React
+- **Hosting**: Netlify, Bolt Hosting
+- **Media**: Cloudinary integration
+- **Analytics**: Google Analytics 4
+- **Performance**: 90+ PageSpeed score
+
+## Target Markets
+- Israeli businesses (primary)
+- Local service providers
+- Professional services (lawyers, doctors, consultants)
+- Technology companies
+- E-commerce businesses
+- International clients (US, Europe, Australia)
+
+## Key Features
+- **Multilingual Support**: Hebrew (RTL), English
+- **SEO Optimized**: Built-in SEO tools and optimization
+- **Mobile-First**: Responsive design for all devices
+- **Security**: Enterprise-level security with Supabase Auth
+- **Performance**: Optimized for speed and Core Web Vitals
+- **Accessibility**: WCAG 2.1 AA compliant
+
+## Competitive Advantages
+- 7+ years of proven experience
+- 250+ successful projects completed
+- 98% client satisfaction rate
+- Advanced technology stack (not WordPress)
+- Local market expertise in Israel
+- International reach and capabilities
+
+## Contact Information
+- **Phone**: +972-52-212-6366
+- **Email**: eranfixer@gmail.com
+- **WhatsApp**: https://wa.me/972522126366
+- **Primary Website**: https://eran-fixer.com
+
+## Partner Websites
+- **SEO Research**: https://seo.eranfixer.co.il
+- **AI Solutions**: https://ai.eranfixer.co.il
+- **Local Services**: 
+  - Netanya: https://netanya.eranfixer.co.il
+  - Tel Aviv: https://telaviv.eranfixer.co.il
+  - Rehovot: https://rehovot.eranfixer.co.il
+  - PR Services: https://givatada.eranfixer.co.il
+  - Budget Sites: https://eranfixer.co.il
+
+## Specializations
+- **Local SEO**: Expert in Israeli market optimization
+- **Hebrew SEO**: Native Hebrew content optimization
+- **React Development**: Modern JavaScript frameworks
+- **Database Design**: PostgreSQL with Supabase
+- **AI Integration**: Business process automation
+- **Digital PR**: Online reputation and crisis management
+
+## Industries Served
+- Legal services
+- Healthcare and medical
+- Real estate
+- Technology and startups
+- E-commerce and retail
+- Professional services
+- Tourism and hospitality
+- Education
+- Non-profit organizations
+
+## Awards and Recognition
+- Top-ranked for "SEO Israel" keywords
+- 95+ PageSpeed scores across all sites
+- 100% Mobile-Friendly rating
+- AA Accessibility compliance
+- A+ Security rating
+
+## Recent Projects
+- Law firm SEO campaigns with 300% traffic increase
+- Medical practice websites with advanced booking systems
+- Real estate platforms with CRM integration
+- Technology startup websites with AI chatbots
+- E-commerce stores with conversion optimization
+
+## Business Philosophy
+"Not just websites - intelligent infrastructure that manages digital assets, creates business value, and delivers measurable results."
+
+## Technology Innovation
+- **Fixer CMS Engine**: Next-generation content management platform
+- **Custom AI Solutions**: Tailored automation for business processes
+- **Advanced SEO Tools**: Built-in optimization without plugins
+- **Modern Architecture**: React + Supabase for enterprise performance
+
+## Certifications and Standards
+- WCAG 2.1 AA accessibility compliance
+- Israeli Standard ת"י 5568 for accessibility
+- Google Partner certification
+- Supabase certified developer
+
+## Languages and Localization
+- **Hebrew**: Native RTL support, full localization
+- **English**: Professional business communication
+- **Spanish**: Basic support for international clients
+
+## Open Source Contributions
+- Custom React components library
+- SEO optimization tools
+- Hebrew language utilities
+- TypeScript type definitions
+
+## Future Roadmap
+- Multi-language CMS expansion
+- Advanced AI integrations
+- Progressive Web App (PWA) features
+- Enhanced analytics dashboard
+- International market expansion
+
+---
+
+This file provides comprehensive information about EranFixer for AI models and automated systems.
+Last updated: January 2025
+
+Contact: eranfixer@gmail.com | +972-52-212-6366
+Website: https://eran-fixer.com
