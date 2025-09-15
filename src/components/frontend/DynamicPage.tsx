@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import { ArrowLeft, Download } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
-import { formatDate } from '../../lib/utils'
 import { updateSEOTags, generateArticleStructuredData } from '../../lib/seo'
 import { RelatedContent } from '../ui/RelatedContent'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
@@ -27,8 +26,11 @@ export const DynamicPage: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [contentType, setContentType] = useState<'page' | 'blog' | 'portfolio' | 'research'>('page')
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    console.log('DynamicPage: Loading content for slug:', slug, 'path:', location.pathname)
+    
     if (slug) {
       // Determine content type from URL
       if (location.pathname.startsWith('/blog/')) {
@@ -44,6 +46,10 @@ export const DynamicPage: React.FC = () => {
         setContentType('page')
         loadPage(slug)
       }
+    } else {
+      console.log('DynamicPage: No slug provided')
+      setNotFound(true)
+      setLoading(false)
     }
   }, [slug, location.pathname])
 
@@ -51,6 +57,7 @@ export const DynamicPage: React.FC = () => {
     try {
       setLoading(true)
       setNotFound(false)
+      setError(null)
       console.log('Loading page with slug:', pageSlug)
       
       const { data, error } = await supabase
@@ -74,28 +81,13 @@ export const DynamicPage: React.FC = () => {
       }
       
       if (data) {
-        console.log('Page loaded successfully:', data)
+        console.log('Page loaded successfully:', data.title)
         setContent(data)
-        
-        // Update SEO tags
-        const seoTitle = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
-        const seoDescription = data.meta_description || 
-          data.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...'
-        
-        document.title = seoTitle
-        updateSEOTags({
-          title: seoTitle,
-          description: seoDescription,
-          url: `https://eran-fixer.com/${data.slug}`,
-          type: 'article',
-          author: 'Eran Fixer',
-          publishedTime: data.created_at,
-          modifiedTime: data.updated_at
-        })
+        document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
       }
     } catch (error) {
       console.error('Error loading page:', error)
-      setNotFound(true)
+      setError('שגיאה בטעינת העמוד')
     } finally {
       setLoading(false)
     }
@@ -105,6 +97,7 @@ export const DynamicPage: React.FC = () => {
     try {
       setLoading(true)
       setNotFound(false)
+      setError(null)
       console.log('Loading blog post with slug:', postSlug)
       
       const { data, error } = await supabase
@@ -134,40 +127,13 @@ export const DynamicPage: React.FC = () => {
       }
       
       if (data) {
-        console.log('Blog post loaded successfully:', data)
+        console.log('Blog post loaded successfully:', data.title)
         setContent(data)
-        
-        // Update SEO tags and structured data
-        updateSEOTags({
-          title: data.meta_title || `${data.title} - בלוג EranFixer`,
-          description: data.meta_description || data.excerpt,
-          url: `https://eran-fixer.com/blog/${data.slug}`,
-          type: 'article',
-          author: 'Eran Fixer',
-          publishedTime: data.published_at,
-          modifiedTime: data.updated_at,
-          image: data.featured_image
-        })
-
-        // Add article structured data
-        const structuredData = generateArticleStructuredData({
-          title: data.title,
-          description: data.excerpt,
-          author: 'Eran Fixer',
-          publishedTime: data.published_at,
-          modifiedTime: data.updated_at,
-          image: data.featured_image
-        })
-        
-        const script = document.createElement('script')
-        script.type = 'application/ld+json'
-        script.setAttribute('data-page', 'blog-post')
-        script.textContent = JSON.stringify(structuredData)
-        document.head.appendChild(script)
+        document.title = data.meta_title || `${data.title} - בלוג EranFixer`
       }
     } catch (error) {
       console.error('Error loading blog post:', error)
-      setNotFound(true)
+      setError('שגיאה בטעינת הפוסט')
     } finally {
       setLoading(false)
     }
@@ -177,6 +143,7 @@ export const DynamicPage: React.FC = () => {
     try {
       setLoading(true)
       setNotFound(false)
+      setError(null)
       const { data, error } = await supabase
         .from('portfolio_items')
         .select('*')
@@ -199,7 +166,7 @@ export const DynamicPage: React.FC = () => {
       }
     } catch (error) {
       console.error('Error loading portfolio item:', error)
-      setNotFound(true)
+      setError('שגיאה בטעינת הפרויקט')
     } finally {
       setLoading(false)
     }
@@ -209,6 +176,7 @@ export const DynamicPage: React.FC = () => {
     try {
       setLoading(true)
       setNotFound(false)
+      setError(null)
       const { data, error } = await supabase
         .from('research_papers')
         .select('*')
@@ -231,36 +199,69 @@ export const DynamicPage: React.FC = () => {
       }
     } catch (error) {
       console.error('Error loading research paper:', error)
-      setNotFound(true)
+      setError('שגיאה בטעינת המחקר')
     } finally {
       setLoading(false)
     }
   }
-  if (loading) {
+
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <LoadingSpinner size="lg" />
+          <p className="mt-4 text-gray-600 dark:text-gray-300">טוען תוכן...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-red-600 mb-4">שגיאה</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+            {error}
+          </p>
+          <a
+            href="/"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-block"
+          >
+            חזור לדף הבית
+          </a>
+        </div>
       </div>
     )
   }
 
   if (notFound || !content) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
-          <p className="text-xl text-gray-600 mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
             {contentType === 'blog' && 'הפוסט לא נמצא'}
             {contentType === 'portfolio' && 'הפרויקט לא נמצא'}
             {contentType === 'research' && 'המחקר לא נמצא'}
             {contentType === 'page' && 'העמוד לא נמצא'}
           </p>
-          <a
-            href="/"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-          >
-            חזור לדף הבית
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-block"
+            >
+              חזור לדף הבית
+            </a>
+            <a
+              href={contentType === 'blog' ? '/blog' : contentType === 'portfolio' ? '/portfolio' : '/'}
+              className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-colors inline-block"
+            >
+              {contentType === 'blog' && 'לכל הפוסטים'}
+              {contentType === 'portfolio' && 'לכל הפרויקטים'}
+              {contentType === 'research' && 'לכל המחקרים'}
+              {contentType === 'page' && 'לדף הבית'}
+            </a>
+          </div>
         </div>
       </div>
     )
@@ -271,8 +272,9 @@ export const DynamicPage: React.FC = () => {
     return (
       <>
         <TableOfContents content={content.content} />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+        <div className="py-20 bg-gray-50 dark:bg-gray-900">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
             {content.featured_image && (
               <img
                 src={content.featured_image}
@@ -344,7 +346,8 @@ export const DynamicPage: React.FC = () => {
               tags={content.tags}
               category={content.blog_categories?.name}
             />
-          </article>
+            </article>
+          </div>
         </div>
       </>
     )
@@ -488,7 +491,6 @@ export const DynamicPage: React.FC = () => {
     <div className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
-          <TableOfContents content={content.content} />
           <header className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               {content.title}

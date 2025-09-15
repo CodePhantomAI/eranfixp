@@ -55,10 +55,8 @@ export const FrontendApp: React.FC = () => {
             <Route path="/portfolio/:slug" element={<DynamicPage />} />
             <Route path="/research/:slug" element={<DynamicPage />} />
             
-            {/* CMS pages - must be last to avoid conflicts */}
-            <Route path="/:slug" element={<DynamicPage />} />
-            
             {/* 404 fallback - catches everything else */}
+            <Route path="/:slug" element={<DynamicPage />} />
             <Route path="*" element={
               <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
