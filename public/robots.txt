@@ -1,23 +1,11 @@
-# Robots.txt עבור EranFixer.com - מותאם לקידום אתרים מקצועי
+# Robots.txt עבור EranFixer.com - אופטימלי לקידום אתרים
 User-agent: *
 Allow: /
 
-# חסימת דפי ניהול ו-API
+# חסימת דפי ניהול בלבד (נחוץ לאבטחה)
 Disallow: /admin/
-Disallow: /api/
-Disallow: /auth/
-Disallow: /_next/
-Disallow: /static/
 
-# חסימת קבצים טכניים
-Disallow: /*.json$
-Disallow: /*?*
-Disallow: /.*
-Disallow: /*utm_*
-Disallow: /*ref=*
-Disallow: /*fbclid=*
-
-# אפשר למנועי חיפוש מובילים להיכנס לכל התוכן הציבורי
+# אפשר למנועי חיפוש מובילים הכל
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
