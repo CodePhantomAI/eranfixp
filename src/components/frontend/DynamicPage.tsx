@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { ArrowLeft, Download } from 'lucide-react'
+import { ArrowLeft, Download, Calendar, User, Tag } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
-import { updateSEOTags, generateArticleStructuredData } from '../../lib/seo'
-import { RelatedContent } from '../ui/RelatedContent'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 
 interface Page {
@@ -29,8 +27,6 @@ export const DynamicPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('DynamicPage: Loading content for slug:', slug, 'path:', location.pathname)
-    
     if (slug) {
       // Determine content type from URL
       if (location.pathname.startsWith('/blog/')) {
@@ -47,7 +43,6 @@ export const DynamicPage: React.FC = () => {
         loadPage(slug)
       }
     } else {
-      console.log('DynamicPage: No slug provided')
       setNotFound(true)
       setLoading(false)
     }
@@ -58,7 +53,6 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
-      console.log('Loading page with slug:', pageSlug)
       
       const { data, error } = await supabase
         .from('pages')
@@ -67,26 +61,21 @@ export const DynamicPage: React.FC = () => {
         .eq('status', 'published')
         .maybeSingle()
 
-      console.log('Page query result:', { data, error })
 
       if (error && error.code !== 'PGRST116') {
-        console.error('Database error loading page:', error)
         throw error
       }
       
       if (!data) {
-        console.log('Page not found:', pageSlug)
         setNotFound(true)
         return
       }
       
       if (data) {
-        console.log('Page loaded successfully:', data.title)
         setContent(data)
         document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
       }
     } catch (error) {
-      console.error('Error loading page:', error)
       setError('שגיאה בטעינת העמוד')
     } finally {
       setLoading(false)
@@ -98,7 +87,6 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
-      console.log('Loading blog post with slug:', postSlug)
       
       const { data, error } = await supabase
         .from('blog_posts')
@@ -113,26 +101,21 @@ export const DynamicPage: React.FC = () => {
         .eq('status', 'published')
         .maybeSingle()
 
-      console.log('Blog post query result:', { data, error })
 
       if (error && error.code !== 'PGRST116') {
-        console.error('Database error loading blog post:', error)
         throw error
       }
       
       if (!data) {
-        console.log('Blog post not found:', postSlug)
         setNotFound(true)
         return
       }
       
       if (data) {
-        console.log('Blog post loaded successfully:', data.title)
         setContent(data)
         document.title = data.meta_title || `${data.title} - בלוג EranFixer`
       }
     } catch (error) {
-      console.error('Error loading blog post:', error)
       setError('שגיאה בטעינת הפוסט')
     } finally {
       setLoading(false)
@@ -162,7 +145,6 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
-        document.title = `${data.title} - תיק עבודות EranFixer`
       }
     } catch (error) {
       console.error('Error loading portfolio item:', error)
@@ -195,7 +177,6 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
-        document.title = `${data.title} - מחקרים EranFixer`
       }
     } catch (error) {
       console.error('Error loading research paper:', error)
@@ -270,86 +251,62 @@ export const DynamicPage: React.FC = () => {
   // Render different layouts based on content type
   if (contentType === 'blog') {
     return (
-      <>
-        <TableOfContents content={content.content} />
-        <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="py-20 bg-gray-50 dark:bg-gray-900">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
-            {content.featured_image && (
-              <img
-                src={content.featured_image}
-                alt={content.title}
-                className="w-full h-64 object-cover rounded-lg mb-8"
-              />
-            )}
-            <header className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                {content.blog_categories && (
-                  <span 
-                    className="px-3 py-1 rounded-full text-sm font-medium text-white animate-pulse"
-                    style={{ backgroundColor: content.blog_categories.color }}
-                  >
-                    {content.blog_categories.name}
-                  </span>
-                )}
-                <span className="text-gray-500 text-sm">
-                  {formatDate(content.published_at)}
+          {content.featured_image && (
+            <img
+              src={content.featured_image}
+              alt={content.title}
+              className="w-full h-64 object-cover rounded-lg mb-8"
+            />
+          )}
+          
+          <header className="mb-8">
+            <div className="flex items-center gap-4 mb-4">
+              {content.blog_categories && (
+                <span 
+                  className="px-3 py-1 rounded-full text-sm font-medium text-white"
+                  style={{ backgroundColor: content.blog_categories.color }}
+                >
+                  {content.blog_categories.name}
                 </span>
-                <span className="text-gray-500 text-sm">
-                  {content.read_time} דקות קריאה
-                </span>
-              </div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                {content.title}
-              </h1>
-              {content.excerpt && (
-                <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {content.excerpt}
-                </p>
               )}
-            </header>
+              <div className="flex items-center text-gray-500 text-sm">
+                <Calendar className="w-4 h-4 ml-1" />
+                {formatDate(content.published_at)}
+              </div>
+              <span className="text-gray-500 text-sm">
+                {content.read_time} דקות קריאה
+              </span>
+            </div>
             
-            <div 
-              className="prose prose-lg max-w-none dark:prose-invert"
-              style={{ direction: 'rtl' }}
-              dangerouslySetInnerHTML={{ __html: content.content }}
-            />
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {content.title}
+            </h1>
             
-            {/* Add custom styles for better text visibility */}
-            <style jsx>{`
-              .prose * {
-                color: inherit !important;
-              }
-              .dark .prose * {
-                color: #e5e7eb !important;
-              }
-              .dark .prose h1,
-              .dark .prose h2,
-              .dark .prose h3,
-              .dark .prose h4,
-              .dark .prose h5,
-              .dark .prose h6 {
-                color: #ffffff !important;
-                font-weight: bold !important;
-              }
-              .dark .prose b,
-              .dark .prose strong {
-                color: #60a5fa !important;
-                font-weight: 700 !important;
-                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-              }
-            `}</style>
-            
-            <RelatedContent 
-              currentId={content.id}
-              currentType="blog"
-              tags={content.tags}
-              category={content.blog_categories?.name}
-            />
-            </article>
-          </div>
+            {content.excerpt && (
+              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                {content.excerpt}
+              </p>
+            )}
+          </header>
+          
+          <div 
+            className="prose prose-lg max-w-none dark:prose-invert"
+            style={{ direction: 'rtl' }}
+            dangerouslySetInnerHTML={{ __html: content.content }}
+          />
+          
+          <RelatedContent 
+            currentId={content.id}
+            currentType="blog"
+            tags={content.tags || []}
+            category={content.blog_categories?.name}
+          />
+          </article>
         </div>
-      </>
+      </div>
     )
   }
 
