@@ -231,6 +231,17 @@ export const Footer: React.FC = () => {
                   <Twitter className="w-5 h-5" />
                 </a>
                 <a 
+                  href="https://www.tiktok.com/@mrfixermusics" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="עקבו אחרינו בטיקטוק"
+                >
+                  <div className="w-5 h-5 rounded bg-gradient-to-r from-pink-500 to-blue-500 flex items-center justify-center text-xs font-bold">
+                    T
+                  </div>
+                </a>
+                <a 
                   href="https://share.google/nfODajB37QMcuQsJW" 
                   target="_blank" 
                   rel="noopener noreferrer" 
