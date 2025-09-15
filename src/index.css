@@ -215,13 +215,40 @@ html {
 
 /* Bold text styling */
 b, strong {
-  color: #ffffff !important;
+  color: #1f2937 !important;
   font-weight: 700 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Ensure bold text is always visible */
+.prose b,
+.prose strong {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Light theme bold text */
+body b,
+body strong {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
 }
 
 .dark b,
 .dark strong {
+  color: #60a5fa !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Fix for prose content */
+.prose strong,
+.prose b {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+.dark .prose strong,
+.dark .prose b {
   color: #60a5fa !important;
   font-weight: 700 !important;
 }
@@ -233,6 +260,20 @@ b, strong {
 
 .dark * {
   color: #e5e7eb;
+}
+
+/* Override any problematic text colors */
+p, div, span, li, td, th {
+  color: #374151 !important;
+}
+
+.dark p,
+.dark div,
+.dark span,
+.dark li,
+.dark td,
+.dark th {
+  color: #e5e7eb !important;
 }
 
 /* Override any black text in dark mode */
