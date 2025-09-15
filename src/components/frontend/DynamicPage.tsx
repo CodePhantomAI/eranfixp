@@ -61,6 +61,7 @@ export const DynamicPage: React.FC = () => {
         .from('pages')
         .select('*')
         .eq('slug', pageSlug)
+        .eq('status', 'published')
         .maybeSingle()
 
 
@@ -72,17 +73,6 @@ export const DynamicPage: React.FC = () => {
         setNotFound(true)
         return
       }
-      // Check if page is published, if not show draft warning
-      if (data.status !== 'published') {
-        // For admin users, show draft content with warning
-        // For regular users, show 404
-        const isAdmin = window.location.pathname.startsWith('/admin')
-        if (!isAdmin) {
-          setNotFound(true)
-          return
-        }
-      }
-      
       
       if (data) {
         setContent(data)

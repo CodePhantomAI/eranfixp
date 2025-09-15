@@ -37,7 +37,7 @@ export const PageEditor: React.FC<PageEditorProps> = ({
     meta_title: initialData?.meta_title || '',
     meta_description: initialData?.meta_description || '',
     status: initialData?.status || 'draft'
-  })
+  status: initialData?.status || 'published'
   const [errors, setErrors] = useState<{[key: string]: string}>({})
 
   // Auto-generate slug from title
@@ -210,7 +210,7 @@ export const PageEditor: React.FC<PageEditorProps> = ({
                 <option value="archived">בארכיון</option>
               </select>
               <p className="text-sm text-gray-500 mt-1">
-                <strong>חשוב:</strong> רק עמודים עם סטטוס "פורסם" יופיעו באתר הציבורי
+                <strong>חשוב:</strong> עמודים עם סטטוס "פורסם" מופיעים באתר הציבורי מיד
               </p>
             </div>
 
