@@ -37,7 +37,7 @@ export const PageEditor: React.FC<PageEditorProps> = ({
     meta_title: initialData?.meta_title || '',
     meta_description: initialData?.meta_description || '',
     status: initialData?.status || 'draft'
-  status: initialData?.status || 'published'
+  })
   const [errors, setErrors] = useState<{[key: string]: string}>({})
 
   // Auto-generate slug from title
@@ -102,8 +102,8 @@ export const PageEditor: React.FC<PageEditorProps> = ({
           </div>
           
           <div className="flex items-center space-x-3 space-x-reverse">
-            <Button variant="ghost" size="sm">
-              <Eye className="w-4 h-4 ml-1" onClick={() => setShowPreview(true)} />
+            <Button variant="ghost" size="sm" onClick={() => setShowPreview(true)}>
+              <Eye className="w-4 h-4 ml-1" />
               תצוגה מקדימה
             </Button>
             <Button 
