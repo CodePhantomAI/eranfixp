@@ -20,7 +20,6 @@ import { DynamicPage } from './DynamicPage'
 import { SystemAboutPage } from './SystemAboutPage'
 import { FloatingButtons } from './FloatingButtons'
 import { BackToTop } from '../ui/BackToTop'
-import { SearchModal } from '../ui/SearchModal'
 
 export const FrontendApp: React.FC = () => {
   return (
@@ -29,7 +28,6 @@ export const FrontendApp: React.FC = () => {
         <FrontendLayout>
           <FloatingButtons />
           <BackToTop />
-          <SearchModal />
           
           <Routes>
             <Route path="/" element={<HomePage />} />
