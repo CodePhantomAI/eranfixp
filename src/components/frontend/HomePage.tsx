@@ -196,9 +196,9 @@ export const HomePage: React.FC = () => {
                 </span>
               </h1>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                <strong>מומחה מוכח</strong> בקידום אתרים אורגני (SEO), בניית אתרים מקצועיים עם React ו-TypeScript, 
+                <span className="text-white font-bold">מומחה מוכח</span> בקידום אתרים אורגני (SEO), בניית אתרים מקצועיים עם React ו-TypeScript, 
                 ניהול מוניטין דיגיטלי ואוטומציה מבוססת בינה מלאכותית. 
-                <strong>7+ שנות ניסיון</strong> עם <strong>250+ לקוחות מרוצים</strong> בישראל ובעולם.
+                <span className="text-white font-bold">7+ שנות ניסיון</span> עם <span className="text-white font-bold">250+ לקוחות מרוצים</span> בישראל ובעולם.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
