@@ -19,6 +19,7 @@ import { SystemAboutPage } from './SystemAboutPage'
 import { FloatingButtons } from './FloatingButtons'
 import { BackToTop } from '../ui/BackToTop'
 import { PrivacyPolicyPage } from './PrivacyPolicyPage'
+import { TermsOfUsePage } from './TermsOfUsePage'
 
 export const FrontendApp: React.FC = () => {
   return (
