@@ -35,7 +35,7 @@ export const PrivacyPolicyPage: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-sm p-8 lg:p-12">
             <div className="text-sm text-gray-500 mb-8 text-center">
-              עודכן לאחרונה: {new Date().toLocaleDateString('he-IL', { 
+              <strong>עודכן לאחרונה:</strong> {new Date().toLocaleDateString('he-IL', { 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
@@ -50,16 +50,18 @@ export const PrivacyPolicyPage: React.FC = () => {
                     <Eye className="w-6 h-6 text-blue-600" />
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900">
-                    1. מחויבות לפרטיות
+                    <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                      1. מחויבות לפרטיות
+                    </span>
                   </h2>
                 </div>
                 <div className="bg-blue-50 p-6 rounded-lg mb-6">
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-800 leading-relaxed">
                     <strong>EranFixer מחויבת להגנה על הפרטיות שלכם.</strong> אנו מבינים כמה חשוב המידע האישי שלכם 
                     ופועלים על פי עקרונות שקיפות, אבטחה ואחריות בכל הקשור לטיפול בנתונים אישיים.
                   </p>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   מדיניות פרטיות זו מסבירה איך אנו אוספים, משתמשים, מגנים ומשתפים את המידע האישי שלכם 
                   כאשר אתם משתמשים באתר שלנו או בשירותים שלנו. המדיניות בנויה בהתאם לחוק הגנת הפרטיות 
                   הישראלי, תקנות ה-GDPR האירופיות ולמיטב השיטות הבינלאומיות בתחום הגנת הפרטיות.
@@ -73,7 +75,9 @@ export const PrivacyPolicyPage: React.FC = () => {
                     <CheckCircle className="w-6 h-6 text-green-600" />
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900">
-                    2. מידע שאנו אוספים
+                    <span className="bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
+                      2. מידע שאנו אוספים
+                    </span>
                   </h2>
                 </div>
                 <p className="text-gray-700 mb-6">
@@ -129,9 +133,16 @@ export const PrivacyPolicyPage: React.FC = () => {
 
               {/* Section 3 */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  3. איך אנו משתמשים במידע
-                </h2>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center ml-4">
+                    <CheckCircle className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                      3. איך אנו משתמשים במידע
+                    </span>
+                  </h2>
+                </div>
                 <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6">
                   <h3 className="font-bold text-gray-900 mb-4">המטרות העיקריות:</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -164,7 +175,9 @@ export const PrivacyPolicyPage: React.FC = () => {
                     <Lock className="w-6 h-6 text-red-600" />
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900">
-                    4. אבטחה והגנה על המידע
+                    <span className="bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
+                      4. אבטחה והגנה על המידע
+                    </span>
                   </h2>
                 </div>
                 <div className="bg-red-50 border border-red-200 p-6 rounded-lg mb-6">
@@ -196,9 +209,16 @@ export const PrivacyPolicyPage: React.FC = () => {
 
               {/* Section 5 */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  5. שיתוף מידע עם צדדים שלישיים
-                </h2>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center ml-4">
+                    <Shield className="w-6 h-6 text-yellow-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    <span className="bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                      5. שיתוף מידע עם צדדים שלישיים
+                    </span>
+                  </h2>
+                </div>
                 <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg mb-6">
                   <h3 className="font-bold text-yellow-900 mb-3">🚫 אנו לעולם לא:</h3>
                   <ul className="space-y-2 text-yellow-800">
@@ -237,9 +257,16 @@ export const PrivacyPolicyPage: React.FC = () => {
 
               {/* Section 6 */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  6. הזכויות שלכם
-                </h2>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center ml-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                      6. הזכויות שלכם
+                    </span>
+                  </h2>
+                </div>
                 <p className="text-gray-700 mb-6">
                   על פי חוק הגנת הפרטיות הישראלי ותקנות GDPR, יש לכם הזכויות הבאות:
                 </p>
@@ -272,7 +299,9 @@ export const PrivacyPolicyPage: React.FC = () => {
               {/* Section 7 */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  7. Cookies ומעקב
+                  <span className="bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                    7. Cookies ומעקב
+                  </span>
                 </h2>
                 <div className="bg-gray-50 p-6 rounded-lg mb-6">
                   <h3 className="font-bold text-gray-900 mb-4">סוגי Cookies שאנו משתמשים:</h3>
@@ -299,7 +328,9 @@ export const PrivacyPolicyPage: React.FC = () => {
               {/* Section 8 */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  8. אחסון ושמירת מידע
+                  <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                    8. אחסון ושמירת מידע
+                  </span>
                 </h2>
                 <div className="bg-purple-50 p-6 rounded-lg mb-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -329,7 +360,9 @@ export const PrivacyPolicyPage: React.FC = () => {
               {/* Section 9 */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  9. קטינים והגנת ילדים
+                  <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                    9. קטינים והגנת ילדים
+                  </span>
                 </h2>
                 <div className="bg-orange-50 border border-orange-200 p-6 rounded-lg">
                   <p className="text-orange-800">
@@ -343,7 +376,9 @@ export const PrivacyPolicyPage: React.FC = () => {
               {/* Section 10 */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  10. שינויים במדיניות
+                  <span className="bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
+                    10. שינויים במדיניות
+                  </span>
                 </h2>
                 <p className="text-gray-700 mb-4">
                   אנו עשויים לעדכן מדיניות זו מעת לעת כדי לשקף שינויים בשירותים או בחוקים. 
@@ -360,7 +395,9 @@ export const PrivacyPolicyPage: React.FC = () => {
               {/* Section 11 */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  11. צור קשר - פרטיות ומידע
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    11. צור קשר - פרטיות ומידע
+                  </span>
                 </h2>
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 rounded-lg">
                   <h3 className="text-xl font-bold mb-6 text-center">יש לכם שאלות על הפרטיות שלכם?</h3>
@@ -414,9 +451,13 @@ export const PrivacyPolicyPage: React.FC = () => {
 
               {/* Legal Section */}
               <section className="border-t border-gray-200 pt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  מידע משפטי ותקנים
-                </h2>
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    <span className="bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent">
+                      📋 מידע משפטי ותקנים
+                    </span>
+                  </h2>
+                </div>
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
