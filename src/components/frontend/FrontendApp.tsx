@@ -18,6 +18,7 @@ import { DynamicPage } from './DynamicPage'
 import { SystemAboutPage } from './SystemAboutPage'
 import { FloatingButtons } from './FloatingButtons'
 import { BackToTop } from '../ui/BackToTop'
+import { PrivacyPolicyPage } from './PrivacyPolicyPage'
 
 export const FrontendApp: React.FC = () => {
   return (
