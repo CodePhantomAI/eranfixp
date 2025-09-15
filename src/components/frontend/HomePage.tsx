@@ -176,7 +176,7 @@ export const HomePage: React.FC = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden" role="banner">
+      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20">
           {/* Animated background elements */}
           <div className="absolute top-20 right-20 w-32 h-32 bg-blue-400/10 rounded-full animate-pulse"></div>
@@ -206,7 +206,6 @@ export const HomePage: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-white text-blue-900 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-colors inline-flex items-center justify-center"
-                  aria-label="שלח הודעה בוואטסאפ לערן פיקסר"
                 >
                   שלח הודעה בווטסאפ
                   <ArrowLeft className="mr-2 w-5 h-5" />
@@ -216,14 +215,12 @@ export const HomePage: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-900 transition-colors inline-flex items-center"
-                  aria-label="בקר באתר האינטרנט לאתרים במחיר מיוחד"
                 >
                   אתר ב-29.90₪ לחודש
                 </a>
                 <a
                   href="/portfolio"
                   className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-900 transition-colors inline-flex items-center justify-center"
-                  aria-label="צפה בתיק העבודות של ערן פיקסר"
                 >
                   צפו בעבודות שלנו
                 </a>
@@ -233,9 +230,8 @@ export const HomePage: React.FC = () => {
               <div className="relative">
                 <LazyImage
                   src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="צוות עובד על פתרונות דיגיטליים מתקדמים"
+                  alt="Digital Solutions"
                   className="rounded-2xl shadow-2xl"
-                  priority={true}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent rounded-2xl"></div>
                 

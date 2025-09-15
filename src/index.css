@@ -69,29 +69,34 @@ html {
 }
 
 /* Force all text in homepage hero section to be visible */
-/* Improved focus styles for accessibility */
+section[class*="from-blue"] p,
+section[class*="from-blue"] span,
+section[class*="from-blue"] div,
+section[class*="via-blue"] p,
+section[class*="via-blue"] span,
+section[class*="via-blue"] div,
+section[class*="to-blue"] p,
+section[class*="to-blue"] span,
+section[class*="to-blue"] div,
+.bg-gradient-to-br p,
+.bg-gradient-to-br span,
+.bg-gradient-to-br div {
+  color: #e5e7eb !important;
+}
+
+/* Make bold text WHITE on hero sections */
+section[class*="from-blue"] .font-bold,
+section[class*="via-blue"] .font-bold,
+section[class*="to-blue"] .font-bold,
+.bg-gradient-to-br .font-bold {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Focus styles */
 *:focus {
-  outline: 3px solid #3b82f6;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
-  outline-style: solid;
-}
-
-/* Skip link for keyboard navigation */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #3b82f6;
-  color: white;
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 4px;
-  z-index: 1000;
-  font-weight: bold;
-}
-
-.skip-link:focus {
-  top: 6px;
 }
 
 /* Line clamp utilities */
@@ -189,57 +194,156 @@ html {
 }
 
 /* Fix text visibility in dark mode */
-/* Improved text contrast for accessibility */
-.text-gray-200 {
-  color: #f3f4f6 !important;
+.dark .prose,
+.dark .prose *,
+.dark .chat-message,
+.dark .mat-card-content,
+.dark .message-content {
+  color: #f9fafb !important;
 }
 
-.text-gray-300 {
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+.dark .prose p,
+.dark .prose span,
+.dark .prose div {
   color: #e5e7eb !important;
 }
 
-/* Better font rendering */
-body {
+/* Chat and message content styling */
+.chat-panel-content,
+.chat-message-pair,
+.individual-message,
+.to-user-container,
+.mat-card,
+.mat-mdc-card,
+.mdc-card,
+.to-user-message-card-content,
+.mat-mdc-card-content,
+.message-content,
+.to-user-message-inner-content {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border: 1px solid #4b5563 !important;
+  padding: 1rem !important;
+  border-radius: 0.75rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Bold text styling */
+b, strong {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure bold text is always visible */
+.prose b,
+.prose strong {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Light theme bold text */
+body b,
+body strong {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Special styling for bold text on colored backgrounds */
+.text-blue-100 strong,
+.text-blue-200 strong,
+.text-blue-300 strong,
+.text-white strong,
+.bg-blue-600 strong,
+.bg-blue-700 strong,
+.bg-blue-800 strong,
+.bg-blue-900 strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* For gradient backgrounds and hero sections */
+section[class*="bg-gradient"] strong,
+section[class*="from-blue"] strong,
+.bg-gradient-to-br strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Homepage hero section - ensure all bold text is white */
+.bg-gradient-to-br strong,
+.bg-gradient-to-br b,
+section[class*="from-blue"] strong,
+section[class*="from-blue"] b,
+section[class*="via-blue"] strong,
+section[class*="via-blue"] b,
+section[class*="to-blue"] strong,
+section[class*="to-blue"] b,
+.text-blue-100 strong,
+.text-blue-100 b {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+.dark b,
+.dark strong {
+  color: #60a5fa !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Fix for prose content */
+.prose strong,
+.prose b {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+.dark .prose strong,
+.dark .prose b {
+  color: #60a5fa !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure all text is visible */
+* {
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .text-gray-200 {
-    color: #ffffff !important;
-  }
-  .text-gray-300 {
-    color: #ffffff !important;
-  }
+.dark * {
+  color: #e5e7eb;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Override any problematic text colors */
+p, div, span, li, td, th {
+  color: #374151 !important;
 }
 
-/* Performance optimizations */
-img {
-  content-visibility: auto;
+.dark p,
+.dark div,
+.dark span,
+.dark li,
+.dark td,
+.dark th {
+  color: #e5e7eb !important;
 }
 
-/* Better button focus styles */
-button:focus-visible {
-  outline: 3px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Link focus styles */
-a:focus-visible {
-  outline: 3px solid #3b82f6;
-  outline-offset: 2px;
-  border-radius: 4px;
+/* Override any black text in dark mode */
+.dark [style*="color: black"],
+.dark [style*="color: #000"],
+.dark [style*="color: #000000"] {
+  color: #f9fafb !important;
 }
 .slide-in-from-top-5 {
   animation-name: slideInFromTop5;

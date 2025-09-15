@@ -18,31 +18,8 @@ export default defineConfig({
       }
     }
   },
-  build: {
-    sourcemap: false,
-    minify: 'terser',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['lucide-react'],
-          supabase: ['@supabase/supabase-js']
-        }
-      }
-    }
-  },
   optimizeDeps: {
     exclude: ['lucide-react'],
-  },
-  server: {
-    port: 3000,
-    host: true,
-    strictPort: false
-  },
-  preview: {
-    port: 4173,
-    host: true
   },
   server: {
     port: 3000,
