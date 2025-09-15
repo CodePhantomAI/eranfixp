@@ -135,21 +135,15 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertLink = () => {
     if (linkUrl) {
-      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline">${linkText || selectedText || linkUrl}</a>`
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline font-medium">${linkText || selectedText || linkUrl}</a>&nbsp;`
       
-      if (selectedText) {
-        // Replace selected text with link
-        execCommand('insertHTML', linkHtml)
-      } else {
-        // Insert new link
-        execCommand('insertHTML', linkHtml + ' ')
-      }
+      // Always use insertHTML for consistent behavior
+      document.execCommand('insertHTML', false, linkHtml)
       
       // Update content after inserting link
-      setTimeout(() => {
-        updateContent()
-        console.log('Link inserted, content updated')
-      }, 200)
+      setTimeout(updateContent, 100)
+      
+      console.log('Link inserted:', linkHtml)
       
       setLinkUrl('')
       setLinkText('')
@@ -160,9 +154,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertImage = () => {
     if (imageUrl) {
-      const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" />`
-      execCommand('insertHTML', imageHtml)
+      const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" loading="lazy" />&nbsp;`
+      document.execCommand('insertHTML', false, imageHtml)
       setTimeout(updateContent, 200)
+      console.log('Image inserted:', imageHtml)
       setImageUrl('')
       setImageAlt('')
       setShowImageModal(false)
