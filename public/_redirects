@@ -1,14 +1,20 @@
-# Specific routes first
+# Netlify redirects for Single Page Application (SPA)
+
+# Admin routes - protected area
 /admin/*           /index.html  200
+
+# Dynamic content routes
 /blog/*            /index.html  200
 /portfolio/*       /index.html  200
 /research/*        /index.html  200
 
-# Static files - should be served directly
+# Static files - serve directly
 /robots.txt        /robots.txt   200
 /sitemap.xml       /sitemap.xml  200
+/favicon.ico       /favicon.ico  200
 
 # API routes (if any)
 /api/*             /api/:splat   200
 
-# Catch-all for SPA
+# All other routes - SPA catch-all (MUST be last)
+/*                 /index.html  200
