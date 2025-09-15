@@ -255,6 +255,22 @@ section[class*="from-blue"] strong,
   font-weight: 700 !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
 }
+
+/* Homepage hero section - ensure all bold text is white */
+.bg-gradient-to-br strong,
+.bg-gradient-to-br b,
+section[class*="from-blue"] strong,
+section[class*="from-blue"] b,
+section[class*="via-blue"] strong,
+section[class*="via-blue"] b,
+section[class*="to-blue"] strong,
+section[class*="to-blue"] b,
+.text-blue-100 strong,
+.text-blue-100 b {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
 .dark b,
 .dark strong {
   color: #60a5fa !important;
