@@ -194,17 +194,50 @@ export const Footer: React.FC = () => {
             <div className="flex items-center space-x-6 space-x-reverse mb-6 md:mb-0">
               <span className="text-gray-400">עקבו אחרינו:</span>
               <div className="flex space-x-4 space-x-reverse">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                <a 
+                  href="https://www.facebook.com/mrfixermusic/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="עקבו אחרינו בפייסבוק"
+                >
                   <Facebook className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                <a 
+                  href="https://www.instagram.com/mrfixermusic/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="עקבו אחרינו באינסטגרם"
+                >
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                <a 
+                  href="https://www.linkedin.com/in/eranfixer/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="התחברו אלינו בלינקדאין"
+                >
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200">
+                <a 
+                  href="https://x.com/eranfixer" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="עקבו אחרינו ב-X (טוויטר)"
+                >
                   <Twitter className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://share.google/nfODajB37QMcuQsJW" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-200"
+                  title="המיקום שלנו בגוגל"
+                >
+                  <Globe className="w-5 h-5" />
                 </a>
               </div>
             </div>
