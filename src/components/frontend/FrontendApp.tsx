@@ -52,8 +52,10 @@ export const FrontendApp: React.FC = () => {
             <Route path="/portfolio/:slug" element={<DynamicPage />} />
             <Route path="/research/:slug" element={<DynamicPage />} />
             
-            {/* 404 fallback - catches everything else */}
+            {/* Dynamic pages (must be before 404 fallback) */}
             <Route path="/:slug" element={<DynamicPage />} />
+            
+            {/* 404 fallback - catches everything else */}
             <Route path="*" element={
               <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">

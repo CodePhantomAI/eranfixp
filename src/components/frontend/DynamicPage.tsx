@@ -22,6 +22,10 @@ interface Page {
 export const DynamicPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const location = useLocation()
+  
+  // Debug logging
+  console.log('DynamicPage loading with:', { slug, pathname: location.pathname })
+  
   const [page, setPage] = useState<Page | null>(null)
   const [content, setContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -30,18 +34,24 @@ export const DynamicPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    console.log('DynamicPage useEffect:', { slug, pathname: location.pathname })
+    
     if (slug) {
       // Determine content type from URL
       if (location.pathname.startsWith('/blog/')) {
+        console.log('Loading blog post:', slug)
         setContentType('blog')
         loadBlogPost(slug)
       } else if (location.pathname.startsWith('/portfolio/')) {
+        console.log('Loading portfolio item:', slug)
         setContentType('portfolio')
         loadPortfolioItem(slug)
       } else if (location.pathname.startsWith('/research/')) {
+        console.log('Loading research paper:', slug)
         setContentType('research')
         loadResearchPaper(slug)
       } else {
+        console.log('Loading page:', slug)
         setContentType('page')
         loadPage(slug)
       }
@@ -57,28 +67,34 @@ export const DynamicPage: React.FC = () => {
       setNotFound(false)
       setError(null)
       
+      console.log('Loading page with slug:', pageSlug)
+      
       const { data, error } = await supabase
         .from('pages')
         .select('*')
         .eq('slug', pageSlug)
-        .eq('status', 'published')
         .maybeSingle()
 
+      console.log('Supabase response:', { data, error })
 
       if (error && error.code !== 'PGRST116') {
+        console.error('Supabase error:', error)
         throw error
       }
       
       if (!data) {
+        console.log('No page found for slug:', pageSlug)
         setNotFound(true)
         return
       }
       
       if (data) {
+        console.log('Page loaded successfully:', data)
         setContent(data)
         document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
       }
     } catch (error) {
+      console.error('Error loading page:', error)
       setError('שגיאה בטעינת העמוד')
     } finally {
       setLoading(false)
