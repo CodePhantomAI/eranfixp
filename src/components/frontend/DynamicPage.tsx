@@ -199,6 +199,7 @@ export const DynamicPage: React.FC = () => {
       </div>
     )
   }
+  }
 
   if (error) {
     return (
@@ -255,9 +256,11 @@ export const DynamicPage: React.FC = () => {
   // Render different layouts based on content type
   if (contentType === 'blog') {
     return (
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <>
+        <TableOfContents content={content.content} />
+        <div className="py-20 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+            <article className="bg-white rounded-2xl shadow-sm p-8">
           {content.featured_image && (
             <img
               src={content.featured_image}
@@ -311,6 +314,7 @@ export const DynamicPage: React.FC = () => {
           </article>
         </div>
       </div>
+      </>
     )
   }
 
