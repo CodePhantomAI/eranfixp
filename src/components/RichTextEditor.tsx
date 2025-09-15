@@ -17,6 +17,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   height = '400px'
 }) => {
   const editorRef = useRef<HTMLDivElement>(null)
+  const [isInitialized, setIsInitialized] = useState(false)
   const [showLinkModal, setShowLinkModal] = useState(false)
   const [showImageModal, setShowImageModal] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
@@ -26,23 +27,71 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [selectedText, setSelectedText] = useState('')
 
   useEffect(() => {
-    if (editorRef.current && editorRef.current.innerHTML !== value) {
+    if (editorRef.current && !isInitialized) {
       editorRef.current.innerHTML = value
+      setIsInitialized(true)
     }
-  }, [value])
+  }, [value, isInitialized])
+
+  // Separate effect for handling external content changes
+  useEffect(() => {
+    if (isInitialized && editorRef.current && editorRef.current.innerHTML !== value && value !== '') {
+      // Only update if the content is significantly different
+      const currentContent = editorRef.current.innerHTML
+      if (currentContent.length === 0 && value.length > 0) {
+        editorRef.current.innerHTML = value
+      }
+    }
+  }, [value, isInitialized])
 
   const execCommand = (command: string, value?: string) => {
     document.execCommand(command, false, value)
-    updateContent()
+    // Force update content after command
+    setTimeout(updateContent, 100)
   }
 
   const updateContent = () => {
     if (editorRef.current) {
-      onChange(editorRef.current.innerHTML)
+      const newContent = editorRef.current.innerHTML
+      console.log('RichTextEditor updating content:', newContent)
+      onChange(newContent)
+    }
+  }
+
+  // Handle input events with debouncing
+  const handleInput = () => {
+    updateContent()
+  }
+
+  // Handle paste events
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData('text/plain')
+    document.execCommand('insertText', false, text)
+    setTimeout(updateContent, 100)
+  }
+
+  // Handle focus events
+  const handleFocus = () => {
+    if (editorRef.current) {
+      console.log('Editor focused, current content:', editorRef.current.innerHTML)
+    }
+  }
+
+  // Handle blur events  
+  const handleBlur = () => {
+    updateContent()
+    if (editorRef.current) {
+      console.log('Editor blurred, final content:', editorRef.current.innerHTML)
     }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Update content on certain key events
+    if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
+      setTimeout(updateContent, 50)
+    }
+
     // Keyboard shortcuts
     if (e.ctrlKey) {
       switch (e.key) {
@@ -86,13 +135,21 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertLink = () => {
     if (linkUrl) {
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline">${linkText || selectedText || linkUrl}</a>`
+      
       if (selectedText) {
         // Replace selected text with link
-        execCommand('insertHTML', `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline">${linkText || selectedText}</a>`)
+        execCommand('insertHTML', linkHtml)
       } else {
         // Insert new link
-        execCommand('insertHTML', `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline">${linkText || linkUrl}</a>`)
+        execCommand('insertHTML', linkHtml + ' ')
       }
+      
+      // Update content after inserting link
+      setTimeout(() => {
+        updateContent()
+        console.log('Link inserted, content updated')
+      }, 200)
       
       setLinkUrl('')
       setLinkText('')
@@ -105,6 +162,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     if (imageUrl) {
       const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" />`
       execCommand('insertHTML', imageHtml)
+      setTimeout(updateContent, 200)
       setImageUrl('')
       setImageAlt('')
       setShowImageModal(false)
@@ -254,8 +312,12 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       <div
         ref={editorRef}
         contentEditable
-        onInput={updateContent}
+        onInput={handleInput}
+        onPaste={handlePaste}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        suppressContentEditableWarning={true}
         className="focus:outline-none prose prose-sm max-w-none p-4"
         style={{ 
           direction: 'rtl', 

@@ -134,6 +134,7 @@ export const BlogManager: React.FC = () => {
       }
 
       console.log('Saving blog post with data:', postPayload)
+      console.log('Blog content being saved:', postPayload.content.substring(0, 200))
 
       let error
       
@@ -147,6 +148,7 @@ export const BlogManager: React.FC = () => {
         error = result.error
         if (result.data) {
           console.log('Blog post updated successfully:', result.data[0])
+          console.log('Updated blog content preview:', result.data[0].content.substring(0, 200))
         }
       } else {
         // Create new post
@@ -157,6 +159,7 @@ export const BlogManager: React.FC = () => {
         error = result.error
         if (result.data) {
           console.log('Blog post created successfully:', result.data[0])
+          console.log('Created blog content preview:', result.data[0].content.substring(0, 200))
         }
       }
 

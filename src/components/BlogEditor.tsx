@@ -87,8 +87,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     e.preventDefault()
     
     if (!validateForm()) {
+      console.log('Blog validation failed:', errors)
       return
     }
+    
+    console.log('Submitting blog with content length:', formData.content.length)
+    console.log('Blog content preview:', formData.content.substring(0, 200))
     
     setIsLoading(true)
     try {
