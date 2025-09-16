@@ -9,6 +9,7 @@ import { PageEditor } from './PageEditor'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
+import { AutoSEO } from '../lib/seo-automation'
 
 interface Page {
   id: string
@@ -95,6 +96,12 @@ export const PagesManager: React.FC = () => {
 
         if (error) throw error
         console.log('Page updated successfully - result:', data)
+        
+        // הודעה לגוגל על עדכון העמוד
+        if (data && data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/${data[0].slug}`)
+        }
+        
         toast.success('העמוד עודכן בהצלחה')
       } else {
         // Create new page
@@ -108,6 +115,13 @@ export const PagesManager: React.FC = () => {
         if (error) throw error
         
         console.log('Page created successfully - new page data:', data)
+        
+        // הודעה לגוגל על עמוד חדש
+        if (data && data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/${data[0].slug}`)
+          console.log('Notified Google about new page:', data[0].slug)
+        }
+        
         toast.success('העמוד נוצר בהצלחה')
       }
 

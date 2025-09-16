@@ -301,6 +301,18 @@ export const SEODashboard: React.FC = () => {
             className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors group text-center"
           >
             <Globe className="w-8 h-8 text-gray-400 group-hover:text-blue-500 mx-auto mb-2" />
+        <div className="mb-6 p-4 bg-green-50 rounded-lg">
+          <h4 className="font-medium text-green-900 mb-2">✅ מה תוקן לאינדקס:</h4>
+          <ul className="text-sm text-green-700 space-y-1">
+            <li>• כל עמוד חדש נשלח אוטומטית לגוגל</li>
+            <li>• Meta tags דינמיים לכל עמוד</li>
+            <li>• Structured Data מתקדם</li>
+            <li>• Canonical URLs תקינים</li>
+            <li>• Sitemap מתעדכן אוטומטית</li>
+            <li>• IndexNow API לאינדקס מיידי</li>
+          </ul>
+        </div>
+        
             <p className="text-sm font-medium text-gray-600 group-hover:text-blue-600">Mobile-Friendly Test</p>
           </button>
         </div>

@@ -7,6 +7,7 @@ import { ResearchEditor } from './ResearchEditor'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
+import { AutoSEO } from '../lib/seo-automation'
 
 interface ResearchPaper {
   id: string
@@ -120,6 +121,12 @@ export const ResearchManager: React.FC = () => {
           .select()
         error = result.error
         console.log('Research paper updated:', result.data)
+        
+        // הודעה לגוגל על עדכון מחקר
+        if (result.data && result.data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/research/${result.data[0].slug}`)
+        }
+        
         toast.success('המחקר עודכן בהצלחה')
       } else {
         // Create new paper
@@ -129,6 +136,13 @@ export const ResearchManager: React.FC = () => {
           .select()
         error = result.error
         console.log('Research paper created:', result.data)
+        
+        // הודעה לגוגל על מחקר חדש
+        if (result.data && result.data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/research/${result.data[0].slug}`)
+          console.log('Notified Google about new research paper:', result.data[0].slug)
+        }
+        
         toast.success('המחקר נוצר בהצלחה')
       }
 

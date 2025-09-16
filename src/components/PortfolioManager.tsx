@@ -7,6 +7,7 @@ import { PortfolioEditor } from './PortfolioEditor'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
+import { AutoSEO } from '../lib/seo-automation'
 
 interface PortfolioItem {
   id: string
@@ -120,6 +121,11 @@ export const PortfolioManager: React.FC = () => {
           .select()
         error = result.error
         console.log('Portfolio item updated:', result.data)
+        
+        // הודעה לגוגל על עדכון פרויקט
+        if (result.data && result.data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/portfolio/${result.data[0].slug}`)
+        }
       } else {
         // Create new item
         const result = await supabase
@@ -128,6 +134,12 @@ export const PortfolioManager: React.FC = () => {
           .select()
         error = result.error
         console.log('Portfolio item created:', result.data)
+        
+        // הודעה לגוגל על פרויקט חדש
+        if (result.data && result.data[0]) {
+          AutoSEO.notifyGoogleOfNewPage(`/portfolio/${result.data[0].slug}`)
+          console.log('Notified Google about new portfolio item:', result.data[0].slug)
+        }
       }
 
       if (error) throw error

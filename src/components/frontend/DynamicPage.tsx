@@ -6,6 +6,7 @@ import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { formatDate } from '../../lib/utils'
 import { RelatedContent } from '../ui/RelatedContent'
 import { TableOfContents } from '../ui/TableOfContents'
+import { useSEOOptimization } from '../../lib/seo-automation'
 
 interface Page {
   id: string
@@ -22,6 +23,7 @@ interface Page {
 export const DynamicPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const location = useLocation()
+  const { updatePageSEO } = useSEOOptimization()
   
   // Debug logging
   console.log('DynamicPage loading with:', { slug, pathname: location.pathname })
@@ -92,6 +94,15 @@ export const DynamicPage: React.FC = () => {
         console.log('Page loaded successfully:', data)
         setContent(data)
         document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
+        
+        // עדכון SEO אוטומטי
+        updatePageSEO({
+          title: data.meta_title || `${data.title} - ארן פיקסר | EranFixer`,
+          description: data.meta_description || data.content.replace(/<[^>]*>/g, '').substring(0, 160),
+          slug: data.slug,
+          type: 'page',
+          modifiedTime: data.updated_at
+        })
       }
     } catch (error) {
       console.error('Error loading page:', error)
@@ -133,6 +144,17 @@ export const DynamicPage: React.FC = () => {
       if (data) {
         setContent(data)
         document.title = data.meta_title || `${data.title} - בלוג EranFixer`
+        
+        // עדכון SEO לבלוג
+        updatePageSEO({
+          title: data.meta_title || `${data.title} - בלוג EranFixer`,
+          description: data.meta_description || data.excerpt,
+          slug: data.slug,
+          type: 'blog',
+          publishedTime: data.published_at,
+          modifiedTime: data.updated_at,
+          image: data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        })
       }
     } catch (error) {
       setError('שגיאה בטעינת הפוסט')
@@ -164,6 +186,16 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
+        
+        // עדכון SEO לפורטפוליו
+        updatePageSEO({
+          title: `${data.title} - תיק עבודות | EranFixer`,
+          description: data.description,
+          slug: data.slug,
+          type: 'portfolio',
+          modifiedTime: data.updated_at,
+          image: data.featured_image
+        })
       }
     } catch (error) {
       console.error('Error loading portfolio item:', error)
@@ -196,6 +228,17 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
+        
+        // עדכון SEO למחקרים
+        updatePageSEO({
+          title: `${data.title} - מחקרים | EranFixer`,
+          description: data.abstract,
+          slug: data.slug,
+          type: 'research',
+          publishedTime: data.publication_date,
+          modifiedTime: data.updated_at,
+          image: data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        })
       }
     } catch (error) {
       console.error('Error loading research paper:', error)
