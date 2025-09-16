@@ -60,7 +60,7 @@ export const updateSEOTags = (data: SEOData) => {
     updateMetaTag('og:image', data.image, true)
     updateMetaTag('og:image:width', '1200', true)
     updateMetaTag('og:image:height', '630', true)
-    updateMetaTag('og:image:alt', data.title || 'ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים', true)
+    updateMetaTag('og:image:alt', data.title + ' | ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים', true)
   }
 
   if (data.publishedTime) {
@@ -78,7 +78,7 @@ export const updateSEOTags = (data: SEOData) => {
   
   if (data.image) {
     updateMetaTag('twitter:image', data.image)
-    updateMetaTag('twitter:image:alt', data.title || 'ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים')
+    updateMetaTag('twitter:image:alt', data.title + ' | ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים')
   }
 }
 
