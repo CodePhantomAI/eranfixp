@@ -97,17 +97,56 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   // Better paste handler
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault()
-    const text = e.clipboardData.getData('text/plain')
     
-    // Insert as plain text to avoid formatting issues
-    const selection = window.getSelection()
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0)
-      range.deleteContents()
-      range.insertNode(document.createTextNode(text))
-      range.collapse(false)
-      selection.removeAllRanges()
-      selection.addRange(range)
+    // Try to get HTML first, then fall back to plain text
+    const htmlData = e.clipboardData.getData('text/html')
+    const textData = e.clipboardData.getData('text/plain')
+    
+    console.log('Paste data:', { hasHTML: !!htmlData, hasText: !!textData })
+    
+    if (htmlData) {
+      // Clean and preserve HTML formatting
+      const cleanHtml = htmlData
+        .replace(/<meta[^>]*>/gi, '')
+        .replace(/<style[^>]*>.*?<\/style>/gi, '')
+        .replace(/<script[^>]*>.*?<\/script>/gi, '')
+        .replace(/<!--.*?-->/gi, '')
+        .replace(/<link[^>]*>/gi, '')
+        .replace(/style="[^"]*"/gi, '') // Remove inline styles that might conflict
+        .replace(/<font[^>]*>/gi, '<span>') // Convert font tags to span
+        .replace(/<\/font>/gi, '</span>')
+        .replace(/<b(\s[^>]*)?>([^<]*)<\/b>/gi, '<strong>$2</strong>') // Convert b to strong
+        .replace(/<i(\s[^>]*)?>([^<]*)<\/i>/gi, '<em>$2</em>') // Convert i to em
+        .replace(/\s+/g, ' ') // Normalize whitespace
+        .trim()
+
+      console.log('Cleaned HTML:', cleanHtml)
+
+      // Insert HTML content
+      execCommand('insertHTML', cleanHtml)
+    } else if (textData) {
+      // For plain text, try to detect and create structure
+      const lines = textData.split('\n').filter(line => line.trim())
+      let structuredContent = ''
+      
+      lines.forEach((line, index) => {
+        const trimmedLine = line.trim()
+        
+        // Detect potential headings (lines that are shorter and look like titles)
+        if (trimmedLine.length < 60 && !trimmedLine.endsWith('.') && !trimmedLine.endsWith(',')) {
+          if (index === 0) {
+            structuredContent += `<h1>${trimmedLine}</h1>`
+          } else {
+            structuredContent += `<h2>${trimmedLine}</h2>`
+          }
+        } else {
+          // Regular paragraph
+          structuredContent += `<p>${trimmedLine}</p>`
+        }
+      })
+      
+      console.log('Structured content:', structuredContent)
+      execCommand('insertHTML', structuredContent)
     }
     
     setTimeout(updateContent, 100)
