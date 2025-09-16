@@ -153,7 +153,7 @@ export const DynamicPage: React.FC = () => {
           type: 'blog',
           publishedTime: data.published_at,
           modifiedTime: data.updated_at,
-          image: data.featured_image || 'https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png'
+          image: data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
         })
       }
     } catch (error) {
@@ -237,7 +237,7 @@ export const DynamicPage: React.FC = () => {
           type: 'research',
           publishedTime: data.publication_date,
           modifiedTime: data.updated_at,
-          image: data.featured_image || 'https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png'
+          image: data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
         })
       }
     } catch (error) {

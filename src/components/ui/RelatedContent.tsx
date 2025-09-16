@@ -122,7 +122,7 @@ export const RelatedContent: React.FC<RelatedContentProps> = ({
           >
             <div className="relative h-48 overflow-hidden">
               <img
-                src={item.image || 'https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png'}
+                src={item.image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                 alt={item.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
