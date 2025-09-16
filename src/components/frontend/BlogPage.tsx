@@ -265,7 +265,7 @@ export const BlogPage: React.FC = () => {
                     <article key={post.id} className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
                       <div className="relative h-48">
                         <img
-                          src={post.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
+                          src={post.featured_image || 'https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png'}
                           alt={post.title}
                           className="w-full h-full object-cover"
                         />
