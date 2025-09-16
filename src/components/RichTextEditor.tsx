@@ -135,7 +135,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertLink = () => {
     if (linkUrl) {
-      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline; cursor: pointer;">${linkText || selectedText || linkUrl}</a>`
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800 cursor-pointer" style="color: #3b82f6 !important; text-decoration: underline !important; pointer-events: all !important; position: relative !important; z-index: 1 !important;">${linkText || selectedText || linkUrl}</a>`
       
       if (selectedText) {
         // Replace selected text with link
@@ -647,6 +647,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           transition: color 0.2s;
           cursor: pointer;
           pointer-events: all;
+          position: relative;
+          z-index: 1;
         }
         .prose a:hover { 
           color: #1d4ed8;
@@ -655,6 +657,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .dark .prose a {
           color: #60a5fa !important;
           cursor: pointer;
+          pointer-events: all;
         }
         .dark .prose a:hover {
           color: #93c5fd !important;

@@ -361,12 +361,12 @@ export const DynamicPage: React.FC = () => {
             className="prose prose-lg max-w-none dark:prose-invert"
             style={{ direction: 'rtl' }}
             onClick={(e) => {
-              // Make links clickable in preview
               const target = e.target as HTMLElement
               if (target.tagName === 'A') {
-                e.stopPropagation()
                 const href = target.getAttribute('href')
                 if (href) {
+                  e.preventDefault()
+                  e.stopPropagation()
                   window.open(href, '_blank', 'noopener,noreferrer')
                 }
               }

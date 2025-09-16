@@ -91,8 +91,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       return
     }
     
-    console.log('Submitting blog with content length:', formData.content.length)
-    console.log('Blog content preview:', formData.content.substring(0, 200))
+    console.log('Submitting blog with content:', {
+      contentLength: formData.content.length,
+      hasLinks: /<a[^>]*href/g.test(formData.content),
+      linkCount: (formData.content.match(/<a[^>]*href/g) || []).length,
+      contentPreview: formData.content.substring(0, 300)
+    })
     
     setIsLoading(true)
     try {

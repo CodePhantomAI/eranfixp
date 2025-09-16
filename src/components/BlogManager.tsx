@@ -136,7 +136,12 @@ export const BlogManager: React.FC = () => {
       }
 
       console.log('Saving blog post with data:', postPayload)
-      console.log('Blog content being saved:', postPayload.content.substring(0, 200))
+      console.log('Blog content analysis:', {
+        contentLength: postPayload.content.length,
+        hasLinks: /<a[^>]*href/g.test(postPayload.content),
+        linkCount: (postPayload.content.match(/<a[^>]*href/g) || []).length,
+        preview: postPayload.content.substring(0, 300)
+      })
 
       let error
       
