@@ -5,10 +5,13 @@ import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { SEOAudit, SEOChecklistItem, PerformanceMonitor, SitemapGenerator } from '../../lib/seo-checklist'
+import { RealTimeAnalytics } from './RealTimeAnalytics'
+import { ContentAnalyzer } from './ContentAnalyzer'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
 export const SEODashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'audit' | 'analytics' | 'content'>('audit')
   const [auditResults, setAuditResults] = useState<{
     score: number
     checklist: SEOChecklistItem[]
@@ -129,24 +132,67 @@ export const SEODashboard: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">SEO Dashboard</h1>
-          <p className="text-gray-600 mt-1">ניטור ואופטימיזציה למנועי חיפוש</p>
+          <p className="text-gray-600 mt-1">ניטור מתקדם ואופטימיזציה למנועי חיפוש</p>
         </div>
         <div className="flex gap-3">
           <Button variant="secondary" onClick={generateSitemap}>
             <Globe className="w-4 h-4 ml-2" />
             יצירת Sitemap
           </Button>
-          <Button onClick={runSEOAudit} disabled={isRunningAudit}>
+          {activeTab === 'audit' && (
+            <Button onClick={runSEOAudit} disabled={isRunningAudit}>
             {isRunningAudit ? (
               <LoadingSpinner size="sm" className="ml-2" />
             ) : (
               <RefreshCw className="w-4 h-4 ml-2" />
             )}
             {isRunningAudit ? 'רץ ביקורת...' : 'הרץ ביקורת SEO'}
-          </Button>
+            </Button>
+          )}
         </div>
       </div>
 
+      {/* Navigation Tabs */}
+      <div className="bg-white rounded-xl shadow-sm border">
+        <div className="flex border-b">
+          <button
+            onClick={() => setActiveTab('audit')}
+            className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'audit'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <CheckCircle className="w-4 h-4 inline ml-2" />
+            ביקורת SEO
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'analytics'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <TrendingUp className="w-4 h-4 inline ml-2" />
+            אנליטיקה מתקדמת
+          </button>
+          <button
+            onClick={() => setActiveTab('content')}
+            className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'content'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Search className="w-4 h-4 inline ml-2" />
+            ניתוח תוכן
+          </button>
+        </div>
+
+        <div className="p-6">
+          {activeTab === 'audit' && (
+            <div className="space-y-6">
       {/* SEO Score */}
       {auditResults && (
         <Card variant="elevated" className="bg-gradient-to-r from-blue-50 to-purple-50">
@@ -348,6 +394,18 @@ export const SEODashboard: React.FC = () => {
           </div>
         </div>
       </Card>
+            </div>
+          )}
+
+          {activeTab === 'analytics' && (
+            <RealTimeAnalytics timeRange="30d" />
+          )}
+
+          {activeTab === 'content' && (
+            <ContentAnalyzer />
+          )}
+        </div>
+      </div>
     </div>
   )
 }
