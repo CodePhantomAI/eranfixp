@@ -296,6 +296,57 @@ section[class*="to-blue"] b,
   font-weight: 700 !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
 }
+
+/* Footer specific text visibility fixes */
+footer .text-gray-200,
+footer .text-gray-300 {
+  color: #e5e7eb !important;
+}
+
+footer .text-white {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+footer h3 {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure all footer links are visible */
+footer a {
+  color: #d1d5db !important;
+  font-weight: 500 !important;
+}
+
+footer a:hover {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* Featured clients section fix */
+.bg-gradient-to-br.from-blue-50 {
+  background: linear-gradient(to bottom right, #eff6ff, #ffffff) !important;
+}
+
+.bg-gradient-to-br.from-blue-50 * {
+  color: #374151 !important;
+}
+
+.bg-gradient-to-br.from-blue-50 h3 {
+  color: #1f2937 !important;
+  font-weight: 700 !important;
+}
+
+.bg-gradient-to-br.from-blue-50 p {
+  color: #4b5563 !important;
+}
+
+.bg-gradient-to-br.from-blue-50 .text-blue-700,
+.bg-gradient-to-br.from-blue-50 .text-blue-800 {
+  color: #1d4ed8 !important;
+  font-weight: 600 !important;
+}
 .dark b,
 .dark strong {
   color: #60a5fa !important;
