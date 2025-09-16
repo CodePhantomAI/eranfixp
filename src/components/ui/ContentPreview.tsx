@@ -98,6 +98,17 @@ export const ContentPreview: React.FC<ContentPreviewProps> = ({
               <div 
                 className="prose prose-sm max-w-none"
                 style={{ direction: 'rtl' }}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement
+                  if (target.tagName === 'A') {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    const href = target.getAttribute('href')
+                    if (href) {
+                      window.open(href, '_blank', 'noopener,noreferrer')
+                    }
+                  }
+                }}
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>

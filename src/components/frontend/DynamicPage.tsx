@@ -360,6 +360,17 @@ export const DynamicPage: React.FC = () => {
           <div 
             className="prose prose-lg max-w-none dark:prose-invert"
             style={{ direction: 'rtl' }}
+            onClick={(e) => {
+              // Make links clickable in preview
+              const target = e.target as HTMLElement
+              if (target.tagName === 'A') {
+                e.stopPropagation()
+                const href = target.getAttribute('href')
+                if (href) {
+                  window.open(href, '_blank', 'noopener,noreferrer')
+                }
+              }
+            }}
             dangerouslySetInnerHTML={{ __html: content.content }}
           />
           
@@ -426,6 +437,16 @@ export const DynamicPage: React.FC = () => {
             <div 
               className="prose prose-lg max-w-none dark:prose-invert"
               style={{ direction: 'rtl' }}
+              onClick={(e) => {
+                const target = e.target as HTMLElement
+                if (target.tagName === 'A') {
+                  e.stopPropagation()
+                  const href = target.getAttribute('href')
+                  if (href) {
+                    window.open(href, '_blank', 'noopener,noreferrer')
+                  }
+                }
+              }}
               dangerouslySetInnerHTML={{ __html: content.content }}
             />
             
@@ -496,6 +517,16 @@ export const DynamicPage: React.FC = () => {
             <div 
               className="prose prose-lg max-w-none dark:prose-invert"
               style={{ direction: 'rtl' }}
+              onClick={(e) => {
+                const target = e.target as HTMLElement
+                if (target.tagName === 'A') {
+                  e.stopPropagation()
+                  const href = target.getAttribute('href')
+                  if (href) {
+                    window.open(href, '_blank', 'noopener,noreferrer')
+                  }
+                }
+              }}
               dangerouslySetInnerHTML={{ __html: content.content }}
             />
             
@@ -528,6 +559,16 @@ export const DynamicPage: React.FC = () => {
           <div 
             className="prose prose-lg max-w-none dark:prose-invert"
             style={{ direction: 'rtl' }}
+            onClick={(e) => {
+              const target = e.target as HTMLElement
+              if (target.tagName === 'A') {
+                e.stopPropagation()
+                const href = target.getAttribute('href')
+                if (href) {
+                  window.open(href, '_blank', 'noopener,noreferrer')
+                }
+              }
+            }}
             dangerouslySetInnerHTML={{ __html: content.content }}
           />
         </article>
