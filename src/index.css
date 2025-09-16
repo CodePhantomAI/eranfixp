@@ -375,55 +375,29 @@ p, div, span, li, td, th {
   }
 }
 
-/* CRITICAL: Ensure all links are visible and clickable */
-a, [href] {
-  color: #3b82f6 !important;
-  text-decoration: underline !important;
-  cursor: pointer !important;
-  pointer-events: all !important;
-  display: inline !important;
-  position: relative !important;
-  z-index: 10 !important;
-  font-weight: 500 !important;
-}
-
-a:hover, [href]:hover {
-  color: #1d4ed8 !important;
-  text-decoration: underline !important;
-}
-
-/* Links in prose content */
+/* Make sure links are always clickable */
 .prose a,
-[class*="prose"] a,
-div[contenteditable] a,
-[dangerouslySetInnerHTML] a {
+[class*="prose"] a {
   color: #3b82f6 !important;
   text-decoration: underline !important;
   cursor: pointer !important;
   pointer-events: all !important;
-  font-weight: 500 !important;
-  transition: color 0.2s ease !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .prose a:hover,
-[class*="prose"] a:hover,
-div[contenteditable] a:hover,
-[dangerouslySetInnerHTML] a:hover {
+[class*="prose"] a:hover {
   color: #1d4ed8 !important;
-  transform: translateY(-1px) !important;
+  text-decoration: underline !important;
 }
 
-/* Dark mode links */
-.dark a,
-.dark [href],
 .dark .prose a,
 .dark [class*="prose"] a {
   color: #60a5fa !important;
   text-decoration: underline !important;
 }
 
-.dark a:hover,
-.dark [href]:hover,
 .dark .prose a:hover,
 .dark [class*="prose"] a:hover {
   color: #93c5fd !important;

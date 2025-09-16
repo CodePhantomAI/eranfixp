@@ -148,8 +148,8 @@ export const BlogManager: React.FC = () => {
           .select()
         error = result.error
         if (result.data) {
-          console.log('Blog post updated successfully:', result.data[0].title)
-          console.log('Content includes links:', result.data[0].content.includes('<a href'))
+          console.log('Blog post updated successfully:', result.data[0])
+          console.log('Updated blog content preview:', result.data[0].content.substring(0, 200))
           
           // הודעה לגוגל על עדכון פוסט
           AutoSEO.notifyGoogleOfNewPage(`/blog/${result.data[0].slug}`)
@@ -162,11 +162,12 @@ export const BlogManager: React.FC = () => {
           .select()
         error = result.error
         if (result.data) {
-          console.log('Blog post created successfully:', result.data[0].title)
-          console.log('Content includes links:', result.data[0].content.includes('<a href'))
+          console.log('Blog post created successfully:', result.data[0])
+          console.log('Created blog content preview:', result.data[0].content.substring(0, 200))
           
           // הודעה לגוגל על פוסט חדש
           AutoSEO.notifyGoogleOfNewPage(`/blog/${result.data[0].slug}`)
+          console.log('Notified Google about new blog post:', result.data[0].slug)
         }
       }
 
