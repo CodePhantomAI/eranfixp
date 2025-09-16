@@ -184,7 +184,7 @@ export const ClientsPage: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {featuredClients.map((client) => (
-                <div key={client.id} className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 shadow-sm border-2 border-blue-100">
+                <div key={client.id} className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 shadow-sm border-2 border-blue-100 text-gray-900">
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center">
                       {client.logo ? (
@@ -199,9 +199,9 @@ export const ClientsPage: React.FC = () => {
                         </div>
                       )}
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">{client.name}</h3>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-900">{client.name}</h3>
                         {client.industry && (
-                          <p className="text-blue-600 font-medium">{client.industry}</p>
+                          <p className="text-blue-700 font-medium">{client.industry}</p>
                         )}
                       </div>
                     </div>
@@ -212,13 +212,13 @@ export const ClientsPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-gray-600 mb-6 leading-relaxed">
+                  <p className="text-gray-800 mb-6 leading-relaxed font-medium">
                     {client.description}
                   </p>
 
                   {client.testimonial && (
-                    <blockquote className="bg-white p-4 rounded-lg border-r-4 border-blue-500 mb-6">
-                      <p className="text-gray-700 italic">"{client.testimonial}"</p>
+                    <blockquote className="bg-white p-4 rounded-lg border-r-4 border-blue-500 mb-6 shadow-sm">
+                      <p className="text-gray-800 italic font-medium">"{client.testimonial}"</p>
                     </blockquote>
                   )}
 
@@ -229,7 +229,7 @@ export const ClientsPage: React.FC = () => {
                           <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600 mr-2">
+                      <span className="text-sm text-gray-800 mr-2 font-medium">
                         {client.project_count} פרויקטים
                       </span>
                     </div>
@@ -239,7 +239,7 @@ export const ClientsPage: React.FC = () => {
                         href={client.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-blue-600 hover:text-blue-700 transition-colors"
+                        className="flex items-center text-blue-700 hover:text-blue-800 transition-colors font-medium"
                       >
                         <ExternalLink className="w-4 h-4 ml-1" />
                         <span className="text-sm">אתר הלקוח</span>
