@@ -163,7 +163,7 @@ export const BlogPage: React.FC = () => {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="relative h-64 lg:h-auto">
                       <img
-                        src={featuredPost.featured_image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80'}
+                        src={featuredPost.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                         alt={featuredPost.title}
                         className="w-full h-full object-cover"
                       />
@@ -254,7 +254,7 @@ export const BlogPage: React.FC = () => {
                     <article key={post.id} className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
                       <div className="relative h-48">
                         <img
-                          src={post.featured_image || 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                          src={post.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                           alt={post.title}
                           className="w-full h-full object-cover"
                         />

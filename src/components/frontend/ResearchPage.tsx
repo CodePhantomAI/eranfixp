@@ -176,7 +176,7 @@ export const ResearchPage: React.FC = () => {
                     <div className="lg:col-span-1">
                       <div className="relative h-48 lg:h-full min-h-[200px] rounded-lg overflow-hidden">
                         <img
-                          src={paper.featured_image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+                          src={paper.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                           alt={paper.title}
                           className="w-full h-full object-cover"
                         />
