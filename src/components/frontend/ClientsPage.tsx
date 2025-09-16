@@ -230,7 +230,6 @@ export const ClientsPage: React.FC = () => {
                         ))}
                       </div>
                       <span className="text-sm text-gray-800 mr-2 font-medium">
-                      <span className="text-sm text-gray-700 mr-2 font-medium">
                         {client.project_count} פרויקטים
                       </span>
                     </div>
