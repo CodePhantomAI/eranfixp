@@ -7,8 +7,8 @@ import { LoadingSpinner } from './ui/LoadingSpinner'
 
 export const LoginForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [email, setEmail] = useState('eranfixer@gmail.com')
-  const [password, setPassword] = useState('7198258eranfixer')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<{email?: string, password?: string}>({})
 
   const validateForm = () => {
