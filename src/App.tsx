@@ -16,6 +16,7 @@ import { MediaManager } from './components/MediaManager'
 import { LoadingSpinner } from './components/ui/LoadingSpinner'
 import { FrontendApp } from './components/frontend/FrontendApp'
 import { SEODashboard } from './components/admin/SEODashboard'
+import { SystemSettings } from './components/admin/SystemSettings'
 
 // Import toast for error handling
 import toast from 'react-hot-toast'
@@ -130,10 +131,7 @@ const AppContent: React.FC = () => {
       <Route path="/admin/settings" element={
         <SearchProvider>
           <Layout currentPage="settings">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-6">הגדרות מערכת</h1>
-              <p className="text-gray-600">הגדרות המערכת יתווספו בהמשך...</p>
-            </div>
+            <SystemSettings />
           </Layout>
         </SearchProvider>
       } />
