@@ -3,6 +3,7 @@ import { Calendar, Clock, User, Tag, ArrowLeft, Search, Filter } from 'lucide-re
 import { supabase } from '../../lib/supabase'
 import { formatDate } from '../../lib/utils'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
+import { updateSEOTags } from '../../lib/seo'
 
 interface BlogPost {
   id: string
@@ -35,6 +36,15 @@ export const BlogPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
   useEffect(() => {
+    // Set SEO for blog page
+    updateSEOTags({
+      title: 'בלוג EranFixer - מאמרים מקצועיים על קידום אתרים ופיתוח',
+      description: 'מאמרים מעמיקים ומקצועיים על קידום אתרים, פיתוח מתקדם, בינה מלאכותית ושיווק דיגיטלי. תוכן איכותי מהמומחים של EranFixer',
+      url: 'https://eran-fixer.com/blog',
+      image: 'https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png',
+      type: 'website'
+    })
+    
     loadBlogData()
   }, [])
 

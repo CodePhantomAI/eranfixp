@@ -286,9 +286,11 @@ export class AutoSEO {
     updateMetaTag('twitter:title', pageData.title)
     updateMetaTag('twitter:description', pageData.description)
     updateMetaTag('twitter:site', '@eranfixer')
+    updateMetaTag('twitter:creator', '@eranfixer')
     
     if (pageData.image) {
       updateMetaTag('twitter:image', pageData.image)
+      updateMetaTag('twitter:image:alt', pageData.title)
     }
 
     // Article tags
