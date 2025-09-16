@@ -24,69 +24,99 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [linkText, setLinkText] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [imageAlt, setImageAlt] = useState('')
-  const [selectedText, setSelectedText] = useState('')
+  const [savedSelection, setSavedSelection] = useState<Range | null>(null)
 
+  // Initialize editor content
   useEffect(() => {
-    if (editorRef.current && !isInitialized) {
+    if (editorRef.current && !isInitialized && value) {
+      console.log('RichTextEditor: Initializing with value:', value.substring(0, 200))
       editorRef.current.innerHTML = value
       setIsInitialized(true)
     }
   }, [value, isInitialized])
 
-  // Separate effect for handling external content changes
-  useEffect(() => {
-    if (isInitialized && editorRef.current && editorRef.current.innerHTML !== value && value !== '') {
-      // Only update if the content is significantly different
-      const currentContent = editorRef.current.innerHTML
-      if (currentContent.length === 0 && value.length > 0) {
-        editorRef.current.innerHTML = value
-      }
+  // Save current selection before opening modals
+  const saveSelection = () => {
+    const selection = window.getSelection()
+    if (selection && selection.rangeCount > 0) {
+      setSavedSelection(selection.getRangeAt(0).cloneRange())
     }
-  }, [value, isInitialized])
-
-  const execCommand = (command: string, value?: string) => {
-    document.execCommand(command, false, value)
-    // Force update content after command
-    setTimeout(updateContent, 100)
   }
 
+  // Restore selection when inserting content
+  const restoreSelection = () => {
+    if (savedSelection) {
+      const selection = window.getSelection()
+      if (selection) {
+        selection.removeAllRanges()
+        selection.addRange(savedSelection)
+      }
+    }
+  }
+
+  // Enhanced content update with better logging
   const updateContent = () => {
     if (editorRef.current) {
       const newContent = editorRef.current.innerHTML
-      console.log('RichTextEditor updating content:', newContent)
-      onChange(newContent)
+      console.log('RichTextEditor: Updating content length:', newContent.length)
+      console.log('RichTextEditor: Has links:', /<a[^>]*href/i.test(newContent))
+      console.log('RichTextEditor: Content preview:', newContent.substring(0, 300))
+      
+      // Clean up the HTML a bit
+      const cleanContent = newContent
+        .replace(/<div><br><\/div>/g, '<br>')
+        .replace(/<div>/g, '<p>')
+        .replace(/<\/div>/g, '</p>')
+      
+      onChange(cleanContent)
     }
   }
 
-  // Handle input events with debouncing
-  const handleInput = () => {
+  // Enhanced command execution
+  const execCommand = (command: string, value?: string) => {
+    try {
+      editorRef.current?.focus()
+      const success = document.execCommand(command, false, value)
+      console.log(`Command ${command} executed:`, success)
+      
+      // Force update after a short delay
+      setTimeout(() => {
+        updateContent()
+      }, 100)
+    } catch (error) {
+      console.error('Error executing command:', error)
+    }
+  }
+
+  // Enhanced input handler
+  const handleInput = (e: React.FormEvent) => {
+    console.log('RichTextEditor: Input event triggered')
     updateContent()
   }
 
-  // Handle paste events
+  // Better paste handler
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text/plain')
-    document.execCommand('insertText', false, text)
+    
+    // Insert as plain text to avoid formatting issues
+    const selection = window.getSelection()
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0)
+      range.deleteContents()
+      range.insertNode(document.createTextNode(text))
+      range.collapse(false)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+    
     setTimeout(updateContent, 100)
   }
 
-  // Handle focus events
-  const handleFocus = () => {
-    if (editorRef.current) {
-      console.log('Editor focused, current content:', editorRef.current.innerHTML)
-    }
-  }
-
-  // Handle blur events  
-  const handleBlur = () => {
-    updateContent()
-    if (editorRef.current) {
-      console.log('Editor blurred, final content:', editorRef.current.innerHTML)
-    }
-  }
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Log key events for debugging
+    console.log('Key pressed:', e.key, 'Ctrl:', e.ctrlKey)
+    
     // Update content on certain key events
     if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
       setTimeout(updateContent, 50)
@@ -125,45 +155,84 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   }
 
   const openLinkModal = () => {
+    saveSelection()
     const selection = window.getSelection()
     const text = selection?.toString() || ''
-    setSelectedText(text)
     setLinkText(text)
     setLinkUrl('')
     setShowLinkModal(true)
   }
 
+  // Enhanced link insertion with better HTML
   const insertLink = () => {
-    if (linkUrl) {
-      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800 cursor-pointer" style="color: #3b82f6 !important; text-decoration: underline !important; pointer-events: all !important; position: relative !important; z-index: 1 !important;">${linkText || selectedText || linkUrl}</a>`
-      
-      if (selectedText) {
-        // Replace selected text with link
-        execCommand('insertHTML', linkHtml)
+    if (!linkUrl.trim()) return
+
+    restoreSelection()
+    
+    const finalText = linkText.trim() || linkUrl
+    console.log('Inserting link:', { url: linkUrl, text: finalText })
+
+    // Create a more robust link HTML
+    const linkElement = document.createElement('a')
+    linkElement.href = linkUrl
+    linkElement.target = '_blank'
+    linkElement.rel = 'noopener noreferrer'
+    linkElement.className = 'editor-link'
+    linkElement.style.cssText = 'color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;'
+    linkElement.textContent = finalText
+
+    try {
+      // Try to use the selection to replace content
+      const selection = window.getSelection()
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0)
+        range.deleteContents()
+        range.insertNode(linkElement)
+        
+        // Move cursor after the link
+        range.setStartAfter(linkElement)
+        range.collapse(true)
+        selection.removeAllRanges()
+        selection.addRange(range)
       } else {
-        // Insert new link
-        execCommand('insertHTML', linkHtml)
+        // Fallback: append to editor
+        editorRef.current?.appendChild(linkElement)
       }
+
+      console.log('Link inserted successfully')
       
-      // Force content update immediately
-      updateContent()
+      // Force update
+      setTimeout(() => {
+        updateContent()
+        console.log('Content after link insert:', editorRef.current?.innerHTML.substring(0, 500))
+      }, 200)
       
-      setLinkUrl('')
-      setLinkText('')
-      setSelectedText('')
-      setShowLinkModal(false)
+    } catch (error) {
+      console.error('Error inserting link:', error)
+      // Fallback method
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="editor-link" style="color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;">${finalText}</a>`
+      execCommand('insertHTML', linkHtml)
     }
+    
+    setLinkUrl('')
+    setLinkText('')
+    setSavedSelection(null)
+    setShowLinkModal(false)
   }
 
   const insertImage = () => {
-    if (imageUrl) {
-      const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" />`
-      execCommand('insertHTML', imageHtml)
-      setTimeout(updateContent, 200)
-      setImageUrl('')
-      setImageAlt('')
-      setShowImageModal(false)
-    }
+    if (!imageUrl.trim()) return
+
+    const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-image" />`
+    execCommand('insertHTML', imageHtml)
+    
+    setTimeout(() => {
+      updateContent()
+    }, 200)
+    
+    setImageUrl('')
+    setImageAlt('')
+    setShowImageModal(false)
   }
 
   const formatHeading = (level: number) => {
@@ -171,11 +240,23 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   }
 
   const insertHr = () => {
-    execCommand('insertHTML', '<hr style="margin: 20px 0; border: none; border-top: 2px solid #e5e7eb;" />')
+    const hrHtml = '<hr style="margin: 20px 0; border: none; border-top: 2px solid #e5e7eb;" class="editor-hr" />'
+    execCommand('insertHTML', hrHtml)
   }
 
   const clearFormatting = () => {
     execCommand('removeFormat')
+  }
+
+  // Enhanced blur handler to ensure content is saved
+  const handleBlur = () => {
+    console.log('RichTextEditor: Blur event - saving content')
+    updateContent()
+  }
+
+  // Enhanced focus handler
+  const handleFocus = () => {
+    console.log('RichTextEditor: Focus event')
   }
 
   const toolbarSections = [
@@ -299,9 +380,11 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           ))}
         </div>
 
-        {/* Keyboard Shortcuts Help */}
-        <div className="text-xs text-gray-500 bg-blue-50 px-3 py-2 rounded">
+        {/* Debug Info */}
+        <div className="text-xs text-gray-500 bg-yellow-50 px-3 py-2 rounded">
           💡 <strong>קיצורי מקלדת:</strong> Ctrl+B (מודגש) | Ctrl+I (נטוי) | Ctrl+K (קישור) | Ctrl+Z (בטל)
+          <br />
+          <strong>Debug:</strong> תוכן: {value.length} תווים | קישורים: {(value.match(/<a[^>]*href/g) || []).length}
         </div>
       </div>
 
@@ -315,7 +398,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         suppressContentEditableWarning={true}
-        className="focus:outline-none prose prose-sm max-w-none p-4"
+        className="focus:outline-none prose prose-sm max-w-none p-4 min-h-[400px]"
         style={{ 
           direction: 'rtl', 
           minHeight: height,
@@ -327,35 +410,38 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       {/* Enhanced Link Modal */}
       <Modal
         isOpen={showLinkModal}
-        onClose={() => setShowLinkModal(false)}
+        onClose={() => {
+          setShowLinkModal(false)
+          setSavedSelection(null)
+        }}
         title="הוסף קישור"
         size="md"
       >
         <div className="space-y-4">
-          {selectedText && (
-            <div className="bg-blue-50 p-3 rounded-lg">
-              <span className="text-sm text-blue-700">טקסט נבחר: "</span>
-              <strong className="text-blue-900">{selectedText}</strong>
-              <span className="text-sm text-blue-700">"</span>
-            </div>
-          )}
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h4 className="font-medium text-blue-900 mb-2">💡 טיפ לקישורים:</h4>
+            <p className="text-sm text-blue-700">
+              בחר טקסט לפני לחיצה על "הוסף קישור" או הקלד טקסט חדש למטה
+            </p>
+          </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              טקסט הקישור
+              טקסט הקישור *
             </label>
             <input
               type="text"
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
-              placeholder={selectedText || "טקסט הקישור"}
+              placeholder="הטקסט שיהיה קישור"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              כתובת URL
+              כתובת URL *
             </label>
             <input
               type="url"
@@ -364,32 +450,52 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
               placeholder="https://example.com"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               autoFocus
+              required
             />
           </div>
           
           <div className="bg-gray-50 p-3 rounded-lg">
             <h4 className="text-sm font-medium text-gray-700 mb-2">דוגמאות נפוצות:</h4>
-            <div className="space-y-1 text-sm">
+            <div className="grid grid-cols-1 gap-2 text-sm">
               <button
                 type="button"
-                onClick={() => setLinkUrl('https://wa.me/972522126366')}
-                className="block text-blue-600 hover:text-blue-700"
+                onClick={() => {
+                  setLinkUrl('https://wa.me/972522126366')
+                  setLinkText('שלח הודעה בווטסאפ')
+                }}
+                className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
               >
-                https://wa.me/972522126366 (WhatsApp)
+                📱 וואטסאפ - https://wa.me/972522126366
               </button>
               <button
                 type="button"
-                onClick={() => setLinkUrl('mailto:eranfixer@gmail.com')}
-                className="block text-blue-600 hover:text-blue-700"
+                onClick={() => {
+                  setLinkUrl('mailto:eranfixer@gmail.com')
+                  setLinkText('שלח מייל')
+                }}
+                className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
               >
-                mailto:eranfixer@gmail.com (Email)
+                📧 מייל - mailto:eranfixer@gmail.com
               </button>
               <button
                 type="button"
-                onClick={() => setLinkUrl('tel:052-212-6366')}
-                className="block text-blue-600 hover:text-blue-700"
+                onClick={() => {
+                  setLinkUrl('tel:052-212-6366')
+                  setLinkText('התקשר עכשיו')
+                }}
+                className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
               >
-                tel:052-212-6366 (טלפון)
+                📞 טלפון - tel:052-212-6366
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setLinkUrl('https://seo.eranfixer.co.il')
+                  setLinkText('מחקרי SEO מתקדמים')
+                }}
+                className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
+              >
+                🔍 SEO Research - https://seo.eranfixer.co.il
               </button>
             </div>
           </div>
@@ -397,13 +503,16 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           <div className="flex justify-end space-x-3 space-x-reverse">
             <Button
               variant="secondary"
-              onClick={() => setShowLinkModal(false)}
+              onClick={() => {
+                setShowLinkModal(false)
+                setSavedSelection(null)
+              }}
             >
               ביטול
             </Button>
             <Button 
               onClick={insertLink}
-              disabled={!linkUrl}
+              disabled={!linkUrl.trim() || !linkText.trim()}
             >
               <Link className="w-4 h-4 ml-2" />
               הוסף קישור
@@ -452,28 +561,40 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
             <div className="grid grid-cols-2 gap-2 text-sm">
               <button
                 type="button"
-                onClick={() => setImageUrl('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')}
+                onClick={() => {
+                  setImageUrl('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
+                  setImageAlt('עסקים וטכנולוגיה')
+                }}
                 className="text-blue-600 hover:text-blue-700 text-right"
               >
                 עסקים וטכנולוגיה
               </button>
               <button
                 type="button"
-                onClick={() => setImageUrl('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')}
+                onClick={() => {
+                  setImageUrl('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
+                  setImageAlt('פיתוח ואתרים')
+                }}
                 className="text-blue-600 hover:text-blue-700 text-right"
               >
                 פיתוח ואתרים
               </button>
               <button
                 type="button"
-                onClick={() => setImageUrl('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')}
+                onClick={() => {
+                  setImageUrl('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
+                  setImageAlt('עבודה צוותית')
+                }}
                 className="text-blue-600 hover:text-blue-700 text-right"
               >
                 עבודה צוותית
               </button>
               <button
                 type="button"
-                onClick={() => setImageUrl('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')}
+                onClick={() => {
+                  setImageUrl('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')
+                  setImageAlt('פגישות ויעוץ')
+                }}
                 className="text-blue-600 hover:text-blue-700 text-right"
               >
                 פגישות ויעוץ
@@ -641,38 +762,71 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           background: #374151 !important;
           color: #fbbf24 !important;
         }
-        .prose a { 
-          color: #3b82f6; 
-          text-decoration: underline;
-          transition: color 0.2s;
-          cursor: pointer;
-          pointer-events: all;
-          position: relative;
-          z-index: 1;
+        
+        /* Enhanced link styles - VERY IMPORTANT! */
+        .prose a,
+        .prose .editor-link,
+        [contenteditable] a,
+        [contenteditable] .editor-link { 
+          color: #3b82f6 !important; 
+          text-decoration: underline !important;
+          font-weight: 500 !important;
+          cursor: pointer !important;
+          pointer-events: all !important;
+          position: relative !important;
+          z-index: 1 !important;
+          transition: all 0.2s ease !important;
+          display: inline !important;
+          background: transparent !important;
+          border: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
         }
-        .prose a:hover { 
-          color: #1d4ed8;
-          text-decoration: underline;
+        
+        .prose a:hover,
+        .prose .editor-link:hover,
+        [contenteditable] a:hover,
+        [contenteditable] .editor-link:hover { 
+          color: #1d4ed8 !important;
+          text-decoration: underline !important;
+          background-color: rgba(59, 130, 246, 0.1) !important;
+          padding: 1px 2px !important;
+          border-radius: 3px !important;
         }
-        .dark .prose a {
+        
+        .dark .prose a,
+        .dark .prose .editor-link,
+        .dark [contenteditable] a,
+        .dark [contenteditable] .editor-link {
           color: #60a5fa !important;
-          cursor: pointer;
-          pointer-events: all;
+          text-decoration: underline !important;
+          font-weight: 500 !important;
         }
-        .dark .prose a:hover {
+
+        .dark .prose a:hover,
+        .dark .prose .editor-link:hover,
+        .dark [contenteditable] a:hover,
+        .dark [contenteditable] .editor-link:hover {
           color: #93c5fd !important;
+          background-color: rgba(96, 165, 250, 0.2) !important;
+          padding: 1px 2px !important;
+          border-radius: 3px !important;
         }
-        .prose img {
+        
+        .prose img,
+        .prose .editor-image {
           border-radius: 8px;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           margin: 1em 0;
         }
-        .prose hr {
+        .prose hr,
+        .prose .editor-hr {
           border: none;
           border-top: 2px solid #e5e7eb;
           margin: 2em 0;
         }
-        .dark .prose hr {
+        .dark .prose hr,
+        .dark .prose .editor-hr {
           border-top-color: #4b5563 !important;
         }
         
