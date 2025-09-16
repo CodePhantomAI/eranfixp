@@ -6,7 +6,8 @@ import { Input } from '../ui/Input'
 import { Modal } from '../ui/Modal'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { supabase } from '../../lib/supabase'
-import { AutoSEO, SitemapGenerator } from '../../lib/seo-automation'
+import { AutoSEO } from '../../lib/seo-automation'
+import { SitemapGenerator } from '../../lib/seo-checklist'
 import toast from 'react-hot-toast'
 
 interface SystemConfig {
