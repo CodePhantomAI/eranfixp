@@ -135,21 +135,18 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertLink = () => {
     if (linkUrl) {
-      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline">${linkText || selectedText || linkUrl}</a>`
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: underline; cursor: pointer;">${linkText || selectedText || linkUrl}</a>`
       
       if (selectedText) {
         // Replace selected text with link
         execCommand('insertHTML', linkHtml)
       } else {
         // Insert new link
-        execCommand('insertHTML', linkHtml + ' ')
+        execCommand('insertHTML', linkHtml)
       }
       
-      // Update content after inserting link
-      setTimeout(() => {
-        updateContent()
-        console.log('Link inserted, content updated')
-      }, 200)
+      // Force content update immediately
+      updateContent()
       
       setLinkUrl('')
       setLinkText('')
@@ -648,13 +645,16 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           color: #3b82f6; 
           text-decoration: underline;
           transition: color 0.2s;
+          cursor: pointer;
+          pointer-events: all;
         }
         .prose a:hover { 
           color: #1d4ed8;
-          text-decoration: none;
+          text-decoration: underline;
         }
         .dark .prose a {
           color: #60a5fa !important;
+          cursor: pointer;
         }
         .dark .prose a:hover {
           color: #93c5fd !important;
