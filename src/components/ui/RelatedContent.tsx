@@ -46,6 +46,8 @@ export const RelatedContent: React.FC<RelatedContentProps> = ({
           .select('id, title, excerpt, slug, featured_image, published_at, tags, blog_categories(name)')
           .eq('status', 'published')
           .neq('id', currentId)
+          .order('published_at', { ascending: false })
+          .order('created_at', { ascending: false })
           .limit(3)
 
         relatedData = (blogPosts || []).map(post => ({

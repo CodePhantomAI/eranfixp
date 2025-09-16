@@ -60,6 +60,7 @@ export const BlogPage: React.FC = () => {
         `)
         .eq('status', 'published')
         .order('published_at', { ascending: false })
+        .order('created_at', { ascending: false })
 
       setCategories(categoriesData || [])
       setPosts(postsData || [])

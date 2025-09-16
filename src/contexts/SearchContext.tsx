@@ -59,6 +59,8 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           .from('blog_posts')
           .select('id, title, excerpt, slug, featured_image, published_at')
           .eq('status', 'published')
+          .order('published_at', { ascending: false })
+          .order('created_at', { ascending: false })
           .or(`title.ilike.%${searchQuery}%,excerpt.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`)
 
         // Search in portfolio

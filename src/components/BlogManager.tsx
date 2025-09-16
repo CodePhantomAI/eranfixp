@@ -80,7 +80,8 @@ export const BlogManager: React.FC = () => {
             color
           )
         `)
-        .order('updated_at', { ascending: false })
+        .order('published_at', { ascending: false })
+        .order('created_at', { ascending: false })
 
       setCategories(categoriesData || [])
       setPosts(postsData || [])

@@ -11,10 +11,10 @@ const stats = [
 ]
 
 const recentPages = [
-  { title: 'דף הבית', status: 'published', lastModified: '2 שעות', views: 145 },
-  { title: 'שירותי SEO', status: 'published', lastModified: '1 יום', views: 89 },
-  { title: 'פתרונות AI', status: 'draft', lastModified: '3 ימים', views: 0 },
-  { title: 'יצירת קשר', status: 'published', lastModified: '1 שבוע', views: 67 },
+  { title: 'מאמר על AI החדש', status: 'published', lastModified: '30 דקות', views: 23 },
+  { title: 'קידום מקצועי 2025', status: 'published', lastModified: '2 שעות', views: 145 },
+  { title: 'פתרונות אוטומציה', status: 'draft', lastModified: '1 יום', views: 0 },
+  { title: 'עדכון שירותי SEO', status: 'published', lastModified: '3 ימים', views: 89 },
 ]
 
 export const Dashboard: React.FC = () => {
