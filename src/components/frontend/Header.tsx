@@ -4,6 +4,7 @@ import { useScrollDirection } from '../../hooks/useScrollDirection'
 import { useSearch } from '../../contexts/SearchContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { SearchButton } from '../ui/SearchButton'
+import { SearchModal } from '../ui/SearchModal'
 import { ThemeToggle } from '../ui/ThemeToggle'
 import { cn } from '../../lib/utils'
 

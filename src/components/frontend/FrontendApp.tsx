@@ -27,6 +27,7 @@ export const FrontendApp: React.FC = () => {
     <ThemeProvider>
       <SearchProvider>
         <FrontendLayout>
+         <SearchModal />
           <FloatingButtons />
           <BackToTop />
           <CookieConsent />

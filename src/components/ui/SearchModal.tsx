@@ -172,7 +172,7 @@ export const SearchModal: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300">
                 חפשו בכל התוכן: עמודים, בלוג, פרויקטים ומחקרים
               </p>
-              <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+             <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 hidden lg:block">
                 <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl</kbd> + 
                 <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs mx-1">K</kbd>
                 לפתיחה מהירה
