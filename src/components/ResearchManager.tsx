@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
 import { AutoSEO } from '../lib/seo-automation'
+import { useAutoSitemap } from '../lib/auto-sitemap'
 
 interface ResearchPaper {
   id: string
@@ -38,6 +39,7 @@ const categories = [
 ]
 
 export const ResearchManager: React.FC = () => {
+  const { updateSitemapForContent } = useAutoSitemap()
   const [papers, setPapers] = useState<ResearchPaper[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -125,6 +127,7 @@ export const ResearchManager: React.FC = () => {
         // הודעה לגוגל על עדכון מחקר
         if (result.data && result.data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/research/${result.data[0].slug}`)
+          updateSitemapForContent('research', result.data[0].slug, result.data[0].status)
         }
         
         toast.success('המחקר עודכן בהצלחה')
@@ -140,6 +143,7 @@ export const ResearchManager: React.FC = () => {
         // הודעה לגוגל על מחקר חדש
         if (result.data && result.data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/research/${result.data[0].slug}`)
+          updateSitemapForContent('research', result.data[0].slug, result.data[0].status)
           console.log('Notified Google about new research paper:', result.data[0].slug)
         }
         

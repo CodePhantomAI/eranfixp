@@ -8,6 +8,7 @@ import { SEOAudit, SEOChecklistItem, PerformanceMonitor, SitemapGenerator } from
 import { RealTimeAnalytics } from './RealTimeAnalytics'
 import { ContentAnalyzer } from './ContentAnalyzer'
 import { LinkTester } from './LinkTester'
+import { AutoSitemapManager } from '../../lib/auto-sitemap'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
@@ -73,18 +74,18 @@ export const SEODashboard: React.FC = () => {
 
   const generateSitemap = async () => {
     try {
-      // Load all published content
-      const [pagesResult, postsResult, portfolioResult] = await Promise.all([
-        supabase.from('pages').select('*').eq('status', 'published'),
-        supabase.from('blog_posts').select('*').eq('status', 'published'),
-        supabase.from('portfolio_items').select('*').eq('status', 'published')
-      ])
-
-      const sitemap = await SitemapGenerator.generateSitemap(
-        pagesResult.data || [],
-        postsResult.data || [],
-        portfolioResult.data || []
-      )
+      // שימוש במערכת Auto-Sitemap החדשה
+      const success = await AutoSitemapManager.updateSitemapOnContentChange()
+      
+      if (!success) {
+        throw new Error('Failed to generate auto sitemap')
+      }
+      
+      const sitemap = localStorage.getItem('auto-generated-sitemap')
+      
+      if (!sitemap) {
+        throw new Error('No sitemap generated')
+      }
 
       // Download sitemap
       const blob = new Blob([sitemap], { type: 'application/xml' })
@@ -95,7 +96,7 @@ export const SEODashboard: React.FC = () => {
       a.click()
       URL.revokeObjectURL(url)
 
-      toast.success('Sitemap נוצר והורד בהצלחה!')
+      toast.success('Sitemap אוטומטי נוצר והורד בהצלחה!')
     } catch (error) {
       toast.error('שגיאה ביצירת Sitemap')
       console.error('Sitemap generation error:', error)

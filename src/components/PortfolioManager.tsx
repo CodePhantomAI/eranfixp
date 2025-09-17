@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
 import { AutoSEO } from '../lib/seo-automation'
+import { useAutoSitemap } from '../lib/auto-sitemap'
 
 interface PortfolioItem {
   id: string
@@ -35,6 +36,7 @@ const categories = [
 ]
 
 export const PortfolioManager: React.FC = () => {
+  const { updateSitemapForContent } = useAutoSitemap()
   const [items, setItems] = useState<PortfolioItem[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -125,6 +127,7 @@ export const PortfolioManager: React.FC = () => {
         // הודעה לגוגל על עדכון פרויקט
         if (result.data && result.data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/portfolio/${result.data[0].slug}`)
+          updateSitemapForContent('portfolio', result.data[0].slug, result.data[0].status)
         }
       } else {
         // Create new item
@@ -138,6 +141,7 @@ export const PortfolioManager: React.FC = () => {
         // הודעה לגוגל על פרויקט חדש
         if (result.data && result.data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/portfolio/${result.data[0].slug}`)
+          updateSitemapForContent('portfolio', result.data[0].slug, result.data[0].status)
           console.log('Notified Google about new portfolio item:', result.data[0].slug)
         }
       }

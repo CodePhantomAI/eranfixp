@@ -8,6 +8,7 @@ import { LoadingSpinner } from '../ui/LoadingSpinner'
 import { supabase } from '../../lib/supabase'
 import { AutoSEO } from '../../lib/seo-automation'
 import { SitemapGenerator } from '../../lib/seo-checklist'
+import { AutoSitemapManager } from '../../lib/auto-sitemap'
 import toast from 'react-hot-toast'
 
 interface SystemConfig {
@@ -150,20 +151,18 @@ export const SystemSettings: React.FC = () => {
   const generateSitemap = async () => {
     try {
       setLoading(true)
-      toast.info('יוצר sitemap...')
+      toast.info('יוצר sitemap מעודכן...')
       
-      // Load all published content
-      const [pagesResult, postsResult, portfolioResult] = await Promise.all([
-        supabase.from('pages').select('*').eq('status', 'published'),
-        supabase.from('blog_posts').select('*').eq('status', 'published'),
-        supabase.from('portfolio_items').select('*').eq('status', 'published')
-      ])
-
-      const sitemap = await SitemapGenerator.generateSitemap(
-        pagesResult.data || [],
-        postsResult.data || [],
-        portfolioResult.data || []
-      )
+      // עדכון אוטומטי של sitemap
+      const success = await AutoSitemapManager.updateSitemapOnContentChange()
+      
+      if (!success) {
+        throw new Error('Failed to generate sitemap')
+      }
+      
+      // קבלת ה-sitemap המעודכן
+      const sitemap = localStorage.getItem('auto-generated-sitemap') || 
+                     await AutoSEO.generateCompleteSitemap()
 
       // Download sitemap
       const blob = new Blob([sitemap], { type: 'application/xml' })
@@ -175,11 +174,11 @@ export const SystemSettings: React.FC = () => {
       URL.revokeObjectURL(url)
 
       // Auto submit to search engines
-      const submitted = await AutoSEO.submitToSearchConsole()
+      const submitted = await AutoSEO.submitToSearchConsole(`${AutoSEO['baseUrl']}/sitemap.xml`)
       if (submitted) {
-        toast.success('Sitemap נוצר ונשלח למנועי חיפוש!')
+        toast.success('Sitemap מעודכן ונשלח למנועי חיפוש אוטומטית!')
       } else {
-        toast.success('Sitemap נוצר והורד בהצלחה!')
+        toast.success('Sitemap מעודכן והורד בהצלחה!')
       }
     } catch (error) {
       toast.error('שגיאה ביצירת Sitemap')
