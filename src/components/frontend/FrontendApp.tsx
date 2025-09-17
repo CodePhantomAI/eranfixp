@@ -21,6 +21,7 @@ import { BackToTop } from '../ui/BackToTop'
 import { CookieConsent } from '../ui/CookieConsent'
 import { PrivacyPolicyPage } from './PrivacyPolicyPage'
 import { TermsOfUsePage } from './TermsOfUsePage'
+import { SearchModal } from '../ui/SearchModal'
 
 export const FrontendApp: React.FC = () => {
   return (
