@@ -33,15 +33,14 @@
     
     <link rel="canonical" href="https://eran-fixer.com/" />
     <meta name="theme-color" content="#3b82f6" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     
     <!-- Critical performance hints -->
-    <link rel="preload" href="/src/main.tsx" as="script" crossorigin />
+    <link rel="modulepreload" href="/src/main.tsx" crossorigin />
     
     <!-- Security headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     
     <!-- Open Graph -->
@@ -65,24 +64,33 @@
     <meta name="twitter:creator" content="@eranfixer" />
     
     <!-- Organization Schema -->
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-41Q3197J1M"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      // Initialize with consent denied by default
-      gtag('consent', 'default', {
-        'analytics_storage': 'denied',
-        'functionality_storage': 'denied',
-        'security_storage': 'granted',
-        'personalization_storage': 'denied',
-        'ad_storage': 'denied'
-      });
-      
-      gtag('config', 'G-41Q3197J1M');
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Eran Fixer",
+      "alternateName": "ערן פיקסר",
+      "url": "https://eran-fixer.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png"
+      },
+      "description": "ערן פיקסר - מומחה מוכח בקידום אתרים אורגני, בניית אתרים מקצועיים, פתרונות בינה מלאכותית ואוטומציה עסקית",
+      "telephone": "+972-52-212-6366",
+      "email": "eranfixer@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IL",
+        "addressRegion": "מרכז",
+        "addressLocality": "תל אביב"
+      },
+      "foundingDate": "2018",
+      "numberOfEmployees": "1-10",
+      "serviceArea": {
+        "@type": "Country",
+        "name": "Israel"
+      }
+    }
     </script>
   </head>
   <body>

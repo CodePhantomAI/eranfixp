@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FileText, Target, Eye, TrendingUp, AlertTriangle, CheckCircle, Info, BarChart } from 'lucide-react'
+import { FileText, Target, Eye, TrendingUp, AlertTriangle, CheckCircle, Info, BarChart, Clock, RefreshCw } from 'lucide-react'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { LoadingSpinner } from '../ui/LoadingSpinner'
