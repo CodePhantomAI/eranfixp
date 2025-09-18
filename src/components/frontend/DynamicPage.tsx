@@ -316,49 +316,49 @@ export const DynamicPage: React.FC = () => {
     return (
       <>
         <TableOfContents content={content.content} />
-        <div className="py-20 bg-gray-50">
+        <div className="py-8 sm:py-12 lg:py-20 bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <article className="bg-white rounded-2xl shadow-sm p-8">
+            <article className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
           {content.featured_image && (
             <img
               src={content.featured_image}
               alt={content.title}
-              className="w-full h-64 object-cover rounded-lg mb-8"
+              className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg mb-6 sm:mb-8"
             />
           )}
           
-          <header className="mb-8">
-            <div className="flex items-center gap-4 mb-4">
+          <header className="mb-6 sm:mb-8">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
               {content.blog_categories && (
                 <span 
-                  className="px-3 py-1 rounded-full text-sm font-medium text-white"
+                  className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-white"
                   style={{ backgroundColor: content.blog_categories.color }}
                 >
                   {content.blog_categories.name}
                 </span>
               )}
-              <div className="flex items-center text-gray-500 text-sm">
+              <div className="flex items-center text-gray-500 text-xs sm:text-sm">
                 <Calendar className="w-4 h-4 ml-1" />
                 {formatDate(content.published_at)}
               </div>
-              <span className="text-gray-500 text-sm">
+              <span className="text-gray-500 text-xs sm:text-sm">
                 {content.read_time} דקות קריאה
               </span>
             </div>
             
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
               {content.title}
             </h1>
             
             {content.excerpt && (
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
                 {content.excerpt}
               </p>
             )}
           </header>
           
           <div 
-            className="prose prose-lg max-w-none dark:prose-invert"
+            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert"
             style={{ direction: 'rtl' }}
             onClick={(e) => {
               const target = e.target as HTMLElement
@@ -389,36 +389,36 @@ export const DynamicPage: React.FC = () => {
 
   if (contentType === 'portfolio') {
     return (
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="py-8 sm:py-12 lg:py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+          <article className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
             {content.featured_image && (
               <img
                 src={content.featured_image}
                 alt={content.title}
-                className="w-full h-64 object-cover rounded-lg mb-8"
+                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg mb-6 sm:mb-8"
               />
             )}
-            <header className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium animate-pulse">
+            <header className="mb-6 sm:mb-8">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
+                <span className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium animate-pulse">
                   {content.category}
                 </span>
                 {content.client_name && (
-                  <span className="text-gray-500 text-sm">
+                  <span className="text-gray-500 text-xs sm:text-sm">
                     לקוח: {content.client_name}
                   </span>
                 )}
                 {content.completion_date && (
-                  <span className="text-gray-500 text-sm">
+                  <span className="text-gray-500 text-xs sm:text-sm">
                     הושלם: {formatDate(content.completion_date)}
                   </span>
                 )}
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
                 {content.title}
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
                 {content.description}
               </p>
               {content.project_url && (
@@ -426,7 +426,7 @@ export const DynamicPage: React.FC = () => {
                   href={content.project_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 text-blue-600 hover:text-blue-700"
+                  className="inline-flex items-center mt-4 text-blue-600 hover:text-blue-700 text-sm sm:text-base"
                 >
                   צפה בפרויקט החי
                   <ArrowLeft className="w-4 h-4 mr-2" />
@@ -435,7 +435,7 @@ export const DynamicPage: React.FC = () => {
             </header>
             
             <div 
-              className="prose prose-lg max-w-none dark:prose-invert"
+              className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert"
               style={{ direction: 'rtl' }}
               onClick={(e) => {
                 const target = e.target as HTMLElement
@@ -463,41 +463,41 @@ export const DynamicPage: React.FC = () => {
 
   if (contentType === 'research') {
     return (
-      <div className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="py-8 sm:py-12 lg:py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
+          <article className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
             {content.featured_image && (
               <img
                 src={content.featured_image}
                 alt={content.title}
-                className="w-full h-64 object-cover rounded-lg mb-8"
+                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg mb-6 sm:mb-8"
               />
             )}
-            <header className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium animate-pulse">
+            <header className="mb-6 sm:mb-8">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
+                <span className="bg-purple-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium animate-pulse">
                   {content.category}
                 </span>
                 {content.publication_date && (
-                  <span className="text-gray-500 text-sm">
+                  <span className="text-gray-500 text-xs sm:text-sm">
                     פורסם: {formatDate(content.publication_date)}
                   </span>
                 )}
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-xs sm:text-sm">
                   {content.downloads} הורדות
                 </span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
                 {content.title}
               </h1>
               {content.authors.length > 0 && (
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-4">
                   מחברים: {content.authors.join(', ')}
                 </p>
               )}
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+              <div className="bg-gray-50 dark:bg-gray-700 p-3 sm:p-4 rounded-lg">
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">תקציר:</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
                   {content.abstract}
                 </p>
               </div>
@@ -506,7 +506,7 @@ export const DynamicPage: React.FC = () => {
                   href={content.pdf_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300"
+                  className="inline-flex items-center mt-4 bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300 text-sm sm:text-base"
                 >
                   הורד PDF
                   <Download className="w-4 h-4 mr-2" />
@@ -515,7 +515,7 @@ export const DynamicPage: React.FC = () => {
             </header>
             
             <div 
-              className="prose prose-lg max-w-none dark:prose-invert"
+              className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert"
               style={{ direction: 'rtl' }}
               onClick={(e) => {
                 const target = e.target as HTMLElement
@@ -544,20 +544,20 @@ export const DynamicPage: React.FC = () => {
 
   // Default page layout
   return (
-    <div className="py-20 bg-gray-50 dark:bg-gray-900">
+    <div className="py-8 sm:py-12 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8">
-          <header className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <article className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
+          <header className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
               {content.title}
             </h1>
-            <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               עודכן: {new Date(content.updated_at).toLocaleDateString('he-IL')}
             </div>
           </header>
           
           <div 
-            className="prose prose-lg max-w-none dark:prose-invert"
+            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert"
             style={{ direction: 'rtl' }}
             onClick={(e) => {
               const target = e.target as HTMLElement
