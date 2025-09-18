@@ -171,12 +171,12 @@ export const BlogPage: React.FC = () => {
               {/* Featured Post */}
               {featuredPost && (
                 <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="relative h-64 lg:h-auto">
+                  <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 lg:gap-8">
+                    <div className="relative h-48 sm:h-56 lg:h-auto order-1 lg:order-none">
                       <img
                         src={featuredPost.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                         alt={featuredPost.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-t-2xl lg:rounded-none lg:rounded-l-2xl"
                       />
                       <div className="absolute top-4 right-4">
                         <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -184,38 +184,38 @@ export const BlogPage: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="p-8">
-                      <div className="flex items-center gap-4 mb-4">
+                    <div className="p-4 sm:p-6 lg:p-8 order-2 lg:order-none">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
                         {featuredPost.blog_categories && (
                           <span 
-                            className="px-3 py-1 rounded-full text-sm font-medium text-white"
+                            className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-white"
                             style={{ backgroundColor: featuredPost.blog_categories.color }}
                           >
                             {featuredPost.blog_categories.name}
                           </span>
                         )}
-                        <div className="flex items-center text-gray-500 text-sm">
+                        <div className="flex items-center text-gray-500 text-xs sm:text-sm">
                           <Calendar className="w-4 h-4 ml-1" />
                           {formatDate(featuredPost.published_at)}
                         </div>
-                        <div className="flex items-center text-gray-500 text-sm">
+                        <div className="flex items-center text-gray-500 text-xs sm:text-sm">
                           <Clock className="w-4 h-4 ml-1" />
                           {featuredPost.read_time} דקות קריאה
                         </div>
                       </div>
                       
-                      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                      <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 leading-tight">
                         {featuredPost.title}
                       </h2>
                       
-                      <p className="text-gray-600 mb-6 leading-relaxed">
+                      <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                         {featuredPost.excerpt}
                       </p>
 
                       {featuredPost.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-6">
+                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-4 sm:mb-6">
                           {featuredPost.tags.map((tag, index) => (
-                            <span key={index} className="flex items-center text-gray-500 text-sm">
+                            <span key={index} className="flex items-center text-gray-500 text-xs sm:text-sm">
                               <Tag className="w-3 h-3 ml-1" />
                               {tag}
                             </span>
@@ -225,7 +225,7 @@ export const BlogPage: React.FC = () => {
 
                       <a
                         href={`/blog/${featuredPost.slug}`}
-                        className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm sm:text-base"
                       >
                         קרא עוד
                         <ArrowLeft className="w-4 h-4 mr-2" />
@@ -260,10 +260,10 @@ export const BlogPage: React.FC = () => {
 
               {/* Regular Posts Grid */}
               {regularPosts.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                   {regularPosts.map((post) => (
-                    <article key={post.id} className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
-                      <div className="relative h-48">
+                    <article key={post.id} className="bg-white rounded-xl sm:rounded-2xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
+                      <div className="relative h-36 sm:h-48">
                         <img
                           src={post.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'}
                           alt={post.title}
@@ -272,7 +272,7 @@ export const BlogPage: React.FC = () => {
                         {post.blog_categories && (
                           <div className="absolute top-4 right-4">
                             <span 
-                              className="px-2 py-1 rounded-full text-xs font-medium text-white"
+                              className="px-2 py-1 rounded-full text-xs font-medium text-white shadow-sm"
                               style={{ backgroundColor: post.blog_categories.color }}
                             >
                               {post.blog_categories.name}
@@ -281,8 +281,8 @@ export const BlogPage: React.FC = () => {
                         )}
                       </div>
                       
-                      <div className="p-6">
-                        <div className="flex items-center gap-4 mb-3 text-sm text-gray-500">
+                      <div className="p-4 sm:p-6">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3 text-xs sm:text-sm text-gray-500">
                           <div className="flex items-center">
                             <Calendar className="w-4 h-4 ml-1" />
                             {formatDate(post.published_at)}
@@ -293,17 +293,17 @@ export const BlogPage: React.FC = () => {
                           </div>
                         </div>
                         
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-tight">
                           {post.title}
                         </h3>
                         
-                        <p className="text-gray-600 mb-4 line-clamp-3">
+                        <p className="text-gray-600 mb-4 line-clamp-3 text-sm sm:text-base leading-relaxed">
                           {post.excerpt}
                         </p>
 
                         <a
                           href={`/blog/${post.slug}`}
-                          className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors"
+                          className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors text-sm sm:text-base"
                         >
                           קרא עוד
                           <ArrowLeft className="w-4 h-4 mr-2" />
