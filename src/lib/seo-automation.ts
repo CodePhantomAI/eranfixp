@@ -136,28 +136,29 @@ export class AutoSEO {
   // שליחה אוטומטית לGoogle Search Console
   static async submitToSearchConsole(sitemapUrl: string = `${this.baseUrl}/sitemap.xml`) {
     try {
-      // Google IndexNow API (חדש וחינמי)
-      const indexNowUrl = 'https://api.indexnow.org/indexnow'
-      
-      const response = await fetch(indexNowUrl, {
+      // Use our Supabase Edge Function to avoid CORS
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/notify-indexnow`;
+      const headers = {
+        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      };
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          host: 'eran-fixer.com',
-          key: 'eranfixer2025', // מפתח אימות פשוט
-          keyLocation: `${this.baseUrl}/eranfixer2025.txt`,
-          urlList: [sitemapUrl]
-        })
+        headers,
+        body: JSON.stringify({ url: sitemapUrl })
       })
 
       if (response.ok) {
-        console.log('Sitemap submitted to IndexNow successfully')
+        const result = await response.json()
+        console.log('Sitemap submitted to IndexNow successfully:', result)
         return true
+      } else {
+        const error = await response.json()
+        console.error('Error submitting sitemap to IndexNow:', error)
       }
     } catch (error) {
-      console.error('Error submitting to IndexNow:', error)
+      console.error('Error calling IndexNow Edge Function:', error)
     }
 
     return false
@@ -305,30 +306,31 @@ export class AutoSEO {
   // פונקציה להודעה לגוגל על עמוד חדש
   static async notifyGoogleOfNewPage(url: string) {
     try {
-      // Google IndexNow - הודעה מיידית על עמוד חדש
-      const indexNowUrl = 'https://api.indexnow.org/indexnow'
-      
       const fullUrl = url.startsWith('http') ? url : `${this.baseUrl}${url}`
-      
-      const response = await fetch(indexNowUrl, {
+
+      // Use our Supabase Edge Function to avoid CORS
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/notify-indexnow`;
+      const headers = {
+        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      };
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          host: 'eran-fixer.com',
-          key: 'eranfixer2025',
-          keyLocation: `${this.baseUrl}/eranfixer2025.txt`,
-          urlList: [fullUrl]
-        })
+        headers,
+        body: JSON.stringify({ url: fullUrl })
       })
 
       if (response.ok) {
-        console.log('Page submitted to Google IndexNow:', fullUrl)
+        const result = await response.json()
+        console.log('Page submitted to Google IndexNow successfully:', result)
         return true
+      } else {
+        const error = await response.json()
+        console.error('Error notifying Google of new page:', error)
       }
     } catch (error) {
-      console.error('Error notifying Google of new page:', error)
+      console.error('Error calling IndexNow Edge Function:', error)
     }
 
     return false
