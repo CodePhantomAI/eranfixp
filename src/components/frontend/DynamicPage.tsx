@@ -7,6 +7,7 @@ import { formatDate } from '../../lib/utils'
 import { RelatedContent } from '../ui/RelatedContent'
 import { TableOfContents } from '../ui/TableOfContents'
 import { useSEOOptimization } from '../../lib/seo-automation'
+import { updateSEOTags } from '../../lib/seo'
 
 interface Page {
   id: string
@@ -28,12 +29,37 @@ export const DynamicPage: React.FC = () => {
   // Debug logging
   console.log('DynamicPage loading with:', { slug, pathname: location.pathname })
   
+  // Force visibility immediately - CRITICAL for crawlers
+  useEffect(() => {
+    document.body.style.visibility = 'visible'
+    document.body.style.opacity = '1'
+    document.body.style.background = '#ffffff'
+  }, [])
+  
   const [page, setPage] = useState<Page | null>(null)
   const [content, setContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [contentType, setContentType] = useState<'page' | 'blog' | 'portfolio' | 'research'>('page')
   const [error, setError] = useState<string | null>(null)
+
+  // Immediate SEO setup for crawlers - CRITICAL for Facebook
+  useEffect(() => {
+    // Set basic meta tags immediately to help crawlers
+    const currentUrl = window.location.href
+    const baseTitle = 'EranFixer - ערן פיקסר | פתרונות דיגיטליים מתקדמים'
+    const baseDescription = 'מומחה מוכח בקידום אתרים אורגני, בניית אתרים מקצועיים, ניהול מוניטין דיגיטלי ופתרונות AI לעסקים'
+    const baseImage = 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+    
+    updateSEOTags({
+      title: baseTitle,
+      description: baseDescription,
+      url: currentUrl,
+      canonical: currentUrl,
+      image: baseImage,
+      type: 'article'
+    })
+  }, [])
 
   useEffect(() => {
     console.log('DynamicPage useEffect:', { slug, pathname: location.pathname })
@@ -87,6 +113,15 @@ export const DynamicPage: React.FC = () => {
       if (!data) {
         console.log('No page found for slug:', pageSlug)
         setNotFound(true)
+        
+        // Set 404 meta tags for crawlers
+        updateSEOTags({
+          title: `עמוד לא נמצא - ${pageSlug} | EranFixer`,
+          description: 'העמוד שחיפשתם לא נמצא באתר EranFixer',
+          url: window.location.href,
+          canonical: window.location.href,
+          type: 'website'
+        })
         return
       }
       
@@ -146,23 +181,24 @@ export const DynamicPage: React.FC = () => {
         
         // Enhanced SEO for Facebook sharing
         const blogUrl = `https://eran-fixer.com/blog/${data.slug}`
-        const blogImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        const blogImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
         
-        // Update SEO immediately for Facebook crawler
-        import('../../lib/seo').then(({ updateSEOTags }) => {
-          updateSEOTags({
-            title: data.meta_title || `${data.title} - בלוג EranFixer`,
-            description: data.meta_description || data.excerpt,
-            url: blogUrl,
-            canonical: blogUrl,
-            image: blogImage,
-            type: 'article',
-            author: 'ערן פיקסר',
-            publishedTime: data.published_at,
-            modifiedTime: data.updated_at,
-            keywords: data.tags || []
-          })
+        // Update SEO immediately for Facebook crawler - SYNCHRONOUS
+        updateSEOTags({
+          title: data.meta_title || `${data.title} - בלוג EranFixer`,
+          description: data.meta_description || data.excerpt,
+          url: blogUrl,
+          canonical: blogUrl,
+          image: blogImage,
+          type: 'article',
+          author: 'ערן פיקסר',
+          publishedTime: data.published_at,
+          modifiedTime: data.updated_at,
+          keywords: data.tags || []
         })
+        
+        // Force page title update
+        document.title = data.meta_title || `${data.title} - בלוג EranFixer`
         
         // עדכון SEO לבלוג
         updatePageSEO({
@@ -176,6 +212,7 @@ export const DynamicPage: React.FC = () => {
         })
       }
     } catch (error) {
+      console.error('Error loading blog post:', error)
       setError('שגיאה בטעינת הפוסט')
     } finally {
       setLoading(false)
@@ -205,6 +242,20 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
+        const portfolioUrl = `https://eran-fixer.com/portfolio/${data.slug}`
+        const portfolioImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        
+        // Update SEO for Facebook immediately
+        updateSEOTags({
+          title: `${data.title} - תיק עבודות | EranFixer`,
+          description: data.description,
+          url: portfolioUrl,
+          canonical: portfolioUrl,
+          image: portfolioImage,
+          type: 'article',
+          author: 'ערן פיקסר',
+          modifiedTime: data.updated_at
+        })
         
         // עדכון SEO לפורטפוליו
         updatePageSEO({
@@ -247,6 +298,21 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
+        const researchUrl = `https://eran-fixer.com/research/${data.slug}`
+        const researchImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        
+        // Update SEO for Facebook immediately
+        updateSEOTags({
+          title: `${data.title} - מחקרים | EranFixer`,
+          description: data.abstract,
+          url: researchUrl,
+          canonical: researchUrl,
+          image: researchImage,
+          type: 'article',
+          author: 'ערן פיקסר',
+          publishedTime: data.publication_date,
+          modifiedTime: data.updated_at
+        })
         
         // עדכון SEO למחקרים
         updatePageSEO({
