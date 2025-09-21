@@ -302,7 +302,7 @@ export class GoogleAnalyticsIntegration {
 
   static trackPageView(pagePath: string, pageTitle: string) {
     if (this.isGALoaded()) {
-      window.gtag('config', 'G-41Q3197J1M', {
+      window.gtag('config', 'G-LPXNLBRXYF', {
         page_path: pagePath,
         page_title: pageTitle
       })
