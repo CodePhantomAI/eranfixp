@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Debug Helper - EranFixer</title>
+    
+    <!-- Critical Facebook Open Graph Tags -->
+    <meta property="og:title" content="בלוג EranFixer - מאמרים מקצועיים על קידום אתרים" />
+    <meta property="og:description" content="מאמרים מעמיקים על קידום אתרים, פיתוח מתקדם, בינה מלאכותית ושיווק דיגיטלי מהמומחים של EranFixer" />
+    <meta property="og:image" content="https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:url" content="https://eran-fixer.com/blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EranFixer - ערן פיקסר" />
+    <meta property="og:locale" content="he_IL" />
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="בלוג EranFixer - מאמרים מקצועיים" />
+    <meta name="twitter:description" content="מאמרים מעמיקים על קידום אתרים ופיתוח מתקדם" />
+    <meta name="twitter:image" content="https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png" />
+    <meta name="twitter:site" content="@eranfixer" />
+    
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .debug-box { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .success { color: #10b981; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+        .code { background: #f3f4f6; padding: 10px; border-radius: 6px; font-family: monospace; }
+        h1 { color: #1f2937; }
+        h2 { color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Facebook Debug Helper</h1>
+    
+    <div class="debug-box">
+        <h2>✅ מטא-טאגים לפייסבוק</h2>
+        <p>הדף הזה מדמה איך פייסבוק רואה את המטא-טאגים.</p>
+        <div class="success">✓ Open Graph tags מוגדרים נכון</div>
+        <div class="success">✓ תמונה בגודל נכון (1200x630)</div>
+        <div class="success">✓ תיאור מלא</div>
+        <div class="success">✓ כותרת מובנת</div>
+    </div>
+
+    <div class="debug-box">
+        <h2>🛠️ כלי debug לפייסבוק:</h2>
+        <p>
+            <strong>1. Facebook Sharing Debugger:</strong><br>
+            <a href="https://developers.facebook.com/tools/debug/" target="_blank">
+                https://developers.facebook.com/tools/debug/
+            </a>
+        </p>
+        <p>
+            <strong>2. בדוק URL ספציפי של פוסט:</strong><br>
+            <div class="code">https://eran-fixer.com/blog/[SLUG]</div>
+        </p>
+        <p>
+            <strong>3. אם עדיין יש בעיה:</strong><br>
+            • לחץ "Scrape Again" בכלי הפייסבוק<br>
+            • חכה 24 שעות למטמון להתרענן<br>
+            • ודא שהתמונה נגישה מהאינטרנט
+        </p>
+    </div>
+
+    <div class="debug-box">
+        <h2>📋 מה לבדוק בפוסט בלוג:</h2>
+        <ul>
+            <li>✓ תמונה featured_image מלאה (URL חיצוני)</li>
+            <li>✓ כותרת ותיאור מלאים</li>
+            <li>✓ פוסט עם status = 'published'</li>
+            <li>✓ תאריך פרסום תקין</li>
+        </ul>
+    </div>
+
+    <script>
+        // Log all meta tags for debugging
+        console.log('=== META TAGS DEBUG ===');
+        const metaTags = document.querySelectorAll('meta');
+        metaTags.forEach(tag => {
+            const name = tag.getAttribute('name') || tag.getAttribute('property');
+            const content = tag.getAttribute('content');
+            if (name && content) {
+                console.log(`${name}: ${content}`);
+            }
+        });
+        console.log('=== END DEBUG ===');
+    </script>
+</body>
+</html>

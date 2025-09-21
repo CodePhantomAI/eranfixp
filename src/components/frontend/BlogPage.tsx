@@ -41,8 +41,10 @@ export const BlogPage: React.FC = () => {
       title: 'בלוג EranFixer - מאמרים מקצועיים על קידום אתרים ופיתוח',
       description: 'מאמרים מעמיקים ומקצועיים על קידום אתרים, פיתוח מתקדם, בינה מלאכותית ושיווק דיגיטלי. תוכן איכותי מהמומחים של EranFixer',
       url: 'https://eran-fixer.com/blog',
+      canonical: 'https://eran-fixer.com/blog',
       image: 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png',
-      type: 'website'
+      type: 'website',
+      keywords: ['בלוג', 'קידום אתרים', 'פיתוח אתרים', 'בינה מלאכותית', 'שיווק דיגיטלי', 'EranFixer']
     })
     
     loadBlogData()

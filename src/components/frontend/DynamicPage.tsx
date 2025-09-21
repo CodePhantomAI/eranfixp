@@ -143,7 +143,26 @@ export const DynamicPage: React.FC = () => {
       
       if (data) {
         setContent(data)
-        document.title = data.meta_title || `${data.title} - בלוג EranFixer`
+        
+        // Enhanced SEO for Facebook sharing
+        const blogUrl = `https://eran-fixer.com/blog/${data.slug}`
+        const blogImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+        
+        // Update SEO immediately for Facebook crawler
+        import('../../lib/seo').then(({ updateSEOTags }) => {
+          updateSEOTags({
+            title: data.meta_title || `${data.title} - בלוג EranFixer`,
+            description: data.meta_description || data.excerpt,
+            url: blogUrl,
+            canonical: blogUrl,
+            image: blogImage,
+            type: 'article',
+            author: 'ערן פיקסר',
+            publishedTime: data.published_at,
+            modifiedTime: data.updated_at,
+            keywords: data.tags || []
+          })
+        })
         
         // עדכון SEO לבלוג
         updatePageSEO({
@@ -153,7 +172,7 @@ export const DynamicPage: React.FC = () => {
           type: 'blog',
           publishedTime: data.published_at,
           modifiedTime: data.updated_at,
-          image: data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
+          image: blogImage
         })
       }
     } catch (error) {

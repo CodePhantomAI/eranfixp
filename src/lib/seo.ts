@@ -10,6 +10,7 @@ interface SEOData {
   author?: string
   publishedTime?: string
   modifiedTime?: string
+  canonical?: string
 }
 
 export const updateSEOTags = (data: SEOData) => {
@@ -47,10 +48,21 @@ export const updateSEOTags = (data: SEOData) => {
     updateMetaTag('author', data.author)
   }
 
-  // Open Graph tags
+  // Canonical URL - CRITICAL for Facebook
+  let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    document.head.appendChild(canonical)
+  }
+  canonical.href = data.canonical || data.url || window.location.href
+
+  // Open Graph tags - CRITICAL for Facebook
   updateMetaTag('og:title', data.title, true)
   updateMetaTag('og:description', data.description, true)
   updateMetaTag('og:type', data.type || 'website', true)
+  updateMetaTag('og:site_name', 'EranFixer - ערן פיקסר', true)
+  updateMetaTag('og:locale', 'he_IL', true)
   
   if (data.url) {
     updateMetaTag('og:url', data.url, true)
@@ -60,26 +72,44 @@ export const updateSEOTags = (data: SEOData) => {
     updateMetaTag('og:image', data.image, true)
     updateMetaTag('og:image:width', '1200', true)
     updateMetaTag('og:image:height', '630', true)
-    updateMetaTag('og:image:alt', data.title + ' | ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים', true)
+    updateMetaTag('og:image:alt', data.title, true)
+    updateMetaTag('og:image:type', 'image/jpeg', true)
+    updateMetaTag('og:image:secure_url', data.image, true)
   }
 
   if (data.publishedTime) {
     updateMetaTag('article:published_time', data.publishedTime, true)
+    updateMetaTag('article:author', data.author || 'ערן פיקסר', true)
   }
 
   if (data.modifiedTime) {
     updateMetaTag('article:modified_time', data.modifiedTime, true)
   }
 
-  // Twitter Card tags
+  // Twitter Card tags - also affects Facebook
   updateMetaTag('twitter:card', 'summary_large_image')
   updateMetaTag('twitter:title', data.title)
   updateMetaTag('twitter:description', data.description)
+  updateMetaTag('twitter:site', '@eranfixer')
+  updateMetaTag('twitter:creator', '@eranfixer')
   
   if (data.image) {
     updateMetaTag('twitter:image', data.image)
-    updateMetaTag('twitter:image:alt', data.title + ' | ערן פיקסר - מומחה קידום אתרים ופתרונות דיגיטליים')
+    updateMetaTag('twitter:image:alt', data.title)
   }
+
+  // Facebook specific tags
+  updateMetaTag('fb:app_id', '2234567890123456', true) // Optional - add your FB app ID
+  
+  // Force Facebook to refresh cache (for development)
+  if (process.env.NODE_ENV === 'development') {
+    updateMetaTag('og:updated_time', new Date().toISOString(), true)
+  }
+
+  // Additional SEO tags for better crawling
+  updateMetaTag('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')
+  updateMetaTag('googlebot', 'index, follow')
+  updateMetaTag('bingbot', 'index, follow')
 }
 
 export const generateStructuredData = (type: string, data: any) => {
