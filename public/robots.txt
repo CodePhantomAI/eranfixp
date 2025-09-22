@@ -1,16 +1,18 @@
 # Robots.txt עבור EranFixer.com - אופטימלי לקידום אתרים
+
+# ברירת מחדל: לאפשר הכל
 User-agent: *
 Allow: /
 
 # חסימת דפי ניהול בלבד (נחוץ לאבטחה)
 Disallow: /admin/
 
-# אפשר למנועי חיפוש מובילים הכל
+# מנועי חיפוש עיקריים
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
-User-agent: Bingbot  
+User-agent: Bingbot
 Allow: /
 Crawl-delay: 2
 
@@ -18,8 +20,12 @@ User-agent: Slurp
 Allow: /
 Crawl-delay: 3
 
-# מפת האתר המעודכנת
+# בוט של OpenAI לחיפוש (ChatGPT)
+User-agent: OAI-SearchBot
+Allow: /
+
+# מפת האתר
 Sitemap: https://eran-fixer.com/sitemap.xml
 
-# מידע נוסף למנועי חיפוש
-# Host: eran-fixer.com
+# מידע נוסף
+Host: eran-fixer.com
