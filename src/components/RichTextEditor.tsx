@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Bold, Italic, Underline, Link, Image, List, ListOrdered, Quote, Code, Undo, Redo, Type, Palette, AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
+import { Bold, Italic, Underline, Link, Image, Video, List, ListOrdered, Quote, Code, Undo, Redo, Type, Palette, AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
 
@@ -20,10 +20,13 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [isInitialized, setIsInitialized] = useState(false)
   const [showLinkModal, setShowLinkModal] = useState(false)
   const [showImageModal, setShowImageModal] = useState(false)
+  const [showVideoModal, setShowVideoModal] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
   const [linkText, setLinkText] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [imageAlt, setImageAlt] = useState('')
+  const [videoUrl, setVideoUrl] = useState('')
+  const [videoTitle, setVideoTitle] = useState('')
   const [savedSelection, setSavedSelection] = useState<Range | null>(null)
 
   // Initialize editor content
@@ -274,6 +277,60 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     setShowImageModal(false)
   }
 
+  const insertVideo = () => {
+    if (!videoUrl.trim()) return
+
+    let videoHtml = ''
+    
+    // Check if it's a Cloudinary video
+    if (videoUrl.includes('cloudinary.com') || videoUrl.includes('res.cloudinary.com')) {
+      videoHtml = `<video controls style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-video" title="${videoTitle}">
+        <source src="${videoUrl}" type="video/mp4">
+        <source src="${videoUrl.replace('.mp4', '.webm')}" type="video/webm">
+        הדפדפן שלכם לא תומך בהצגת וידאו.
+      </video>`
+    } else if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+      // YouTube embed
+      const videoId = videoUrl.includes('youtu.be') 
+        ? videoUrl.split('/').pop()?.split('?')[0]
+        : new URL(videoUrl).searchParams.get('v')
+      
+      videoHtml = `<div style="position: relative; padding-bottom: 56.25%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden;" class="editor-youtube">
+        <iframe src="https://www.youtube.com/embed/${videoId}" 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                allowfullscreen 
+                title="${videoTitle}">
+        </iframe>
+      </div>`
+    } else if (videoUrl.includes('vimeo.com')) {
+      // Vimeo embed
+      const videoId = videoUrl.split('/').pop()?.split('?')[0]
+      videoHtml = `<div style="position: relative; padding-bottom: 56.25%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden;" class="editor-vimeo">
+        <iframe src="https://player.vimeo.com/video/${videoId}" 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                allowfullscreen 
+                title="${videoTitle}">
+        </iframe>
+      </div>`
+    } else {
+      // Generic video file
+      videoHtml = `<video controls style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-video" title="${videoTitle}">
+        <source src="${videoUrl}" type="video/mp4">
+        הדפדפן שלכם לא תומך בהצגת וידאו.
+      </video>`
+    }
+    
+    execCommand('insertHTML', videoHtml)
+    
+    setTimeout(() => {
+      updateContent()
+    }, 200)
+    
+    setVideoUrl('')
+    setVideoTitle('')
+    setShowVideoModal(false)
+  }
+
   const formatHeading = (level: number) => {
     execCommand('formatBlock', `h${level}`)
   }
@@ -328,6 +385,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       buttons: [
         { icon: Link, command: openLinkModal, title: 'הוסף קישור (Ctrl+K)', shortcut: 'Ctrl+K' },
         { icon: Image, command: () => setShowImageModal(true), title: 'הוסף תמונה' },
+        { icon: Video, command: () => setShowVideoModal(true), title: 'הוסף סרטון' },
       ]
     },
     {
@@ -673,6 +731,116 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </div>
       </Modal>
 
+      {/* Enhanced Video Modal */}
+      <Modal
+        isOpen={showVideoModal}
+        onClose={() => setShowVideoModal(false)}
+        title="הוסף סרטון"
+        size="md"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              כתובת הסרטון
+            </label>
+            <input
+              type="url"
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+              placeholder="https://res.cloudinary.com/your-cloud/video/upload/..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              autoFocus
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              כותרת הסרטון
+            </label>
+            <input
+              type="text"
+              value={videoTitle}
+              onChange={(e) => setVideoTitle(e.target.value)}
+              placeholder="תיאור קצר של הסרטון לנגישות"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="bg-purple-50 p-3 rounded-lg">
+            <h4 className="text-sm font-medium text-purple-900 mb-2">🎬 סוגי סרטונים נתמכים:</h4>
+            <div className="grid grid-cols-1 gap-2 text-sm">
+              <div className="bg-white p-2 rounded border">
+                <strong className="text-purple-800">Cloudinary:</strong> 
+                <span className="text-gray-600"> res.cloudinary.com/your-cloud/video/upload/...</span>
+              </div>
+              <div className="bg-white p-2 rounded border">
+                <strong className="text-red-600">YouTube:</strong> 
+                <span className="text-gray-600"> youtube.com/watch?v=VIDEO_ID</span>
+              </div>
+              <div className="bg-white p-2 rounded border">
+                <strong className="text-blue-600">Vimeo:</strong> 
+                <span className="text-gray-600"> vimeo.com/VIDEO_ID</span>
+              </div>
+              <div className="bg-white p-2 rounded border">
+                <strong className="text-green-600">קובץ ישיר:</strong> 
+                <span className="text-gray-600"> example.com/video.mp4</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 p-3 rounded-lg">
+            <h4 className="text-sm font-medium text-blue-900 mb-2">💡 טיפים לCloudinary:</h4>
+            <div className="space-y-1 text-sm text-blue-700">
+              <p>• העלה סרטונים ל-Cloudinary Media Library</p>
+              <p>• קבל URL אופטימלי עם דחיסה אוטומטית</p>
+              <p>• השתמש בפורמטים: MP4, WebM לתאימות מקסימלית</p>
+              <p>• הוסף טרנספורמציות (רוחב, איכות) ל-URL</p>
+            </div>
+          </div>
+
+          {videoUrl && (
+            <div className="border rounded-lg p-3">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">תצוגה מקדימה:</h4>
+              {videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be') ? (
+                <div className="bg-red-50 p-4 rounded text-center text-sm text-red-700 border border-red-200">
+                  📺 סרטון YouTube יוצג כ-iframe מוטמע
+                </div>
+              ) : videoUrl.includes('vimeo.com') ? (
+                <div className="bg-blue-50 p-4 rounded text-center text-sm text-blue-700 border border-blue-200">
+                  📺 סרטון Vimeo יוצג כ-iframe מוטמע
+                </div>
+              ) : (
+                <video
+                  src={videoUrl}
+                  className="max-w-full h-32 object-cover rounded"
+                  controls
+                  muted
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+              )}
+            </div>
+          )}
+          
+          <div className="flex justify-end space-x-3 space-x-reverse">
+            <Button
+              variant="secondary"
+              onClick={() => setShowVideoModal(false)}
+            >
+              ביטול
+            </Button>
+            <Button 
+              onClick={insertVideo}
+              disabled={!videoUrl}
+            >
+              <Video className="w-4 h-4 ml-2" />
+              הוסף סרטון
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
       <style jsx>{`
         [contenteditable]:empty:before {
           content: attr(data-placeholder);
@@ -857,6 +1025,20 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           border-radius: 8px;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           margin: 1em 0;
+        }
+        .prose video,
+        .prose .editor-video {
+          border-radius: 8px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          margin: 1em 0;
+          max-width: 100%;
+        }
+        .prose .editor-youtube,
+        .prose .editor-vimeo {
+          margin: 1em 0;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .prose hr,
         .prose .editor-hr {
