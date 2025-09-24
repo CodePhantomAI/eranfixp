@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Bold, Italic, Underline, Link, Image, Video, List, ListOrdered, Quote, Code, Undo, Redo, Type, Palette, AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
+import { Bold, Italic, Underline, Link, Image, List, ListOrdered, Quote, Code, Undo, Redo, Type, Palette, AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
+import DOMPurify from 'dompurify'
 
 interface RichTextEditorProps {
   value: string
@@ -20,14 +21,54 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [isInitialized, setIsInitialized] = useState(false)
   const [showLinkModal, setShowLinkModal] = useState(false)
   const [showImageModal, setShowImageModal] = useState(false)
-  const [showVideoModal, setShowVideoModal] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
   const [linkText, setLinkText] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [imageAlt, setImageAlt] = useState('')
-  const [videoUrl, setVideoUrl] = useState('')
-  const [videoTitle, setVideoTitle] = useState('')
   const [savedSelection, setSavedSelection] = useState<Range | null>(null)
+
+  // Safe URL validation
+  const isSafeUrl = (url: string, allowedDomains?: string[]): boolean => {
+    try {
+      const urlObj = new URL(url)
+      const protocol = urlObj.protocol
+      
+      // Block dangerous protocols
+      if (!['http:', 'https:', 'mailto:', 'tel:'].includes(protocol)) {
+        return false
+      }
+      
+      // For external URLs, check allowed domains if specified
+      if (allowedDomains && protocol.startsWith('http')) {
+        return allowedDomains.some(domain => urlObj.hostname.includes(domain))
+      }
+      
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  // Sanitize HTML content
+  const sanitizeContent = (html: string): string => {
+    return DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: [
+        'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
+        'a', 'img', 'video', 'source', 'iframe',
+        'strong', 'em', 'b', 'i', 'u', 'br', 'hr', 'span'
+      ],
+      ALLOWED_ATTR: [
+        'href', 'src', 'alt', 'title', 'target', 'rel',
+        'controls', 'class', 'allowfullscreen', 'type'
+      ],
+      ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+      ADD_ATTR: ['target'],
+      FORBID_ATTR: ['style', 'onerror', 'onload', 'onclick', 'onmouseover'],
+      FORBID_TAGS: ['script', 'object', 'embed', 'link', 'meta'],
+      ALLOW_DATA_ATTR: false
+    })
+  }
 
   // Initialize editor content
   useEffect(() => {
@@ -61,9 +102,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const updateContent = () => {
     if (editorRef.current) {
       const newContent = editorRef.current.innerHTML
-      console.log('RichTextEditor: Updating content length:', newContent.length)
-      console.log('RichTextEditor: Has links:', /<a[^>]*href/i.test(newContent))
-      console.log('RichTextEditor: Content preview:', newContent.substring(0, 300))
       
       // Clean up the HTML a bit
       const cleanContent = newContent
@@ -71,7 +109,15 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(/<div>/g, '<p>')
         .replace(/<\/div>/g, '</p>')
       
-      onChange(cleanContent)
+      // Sanitize before sending to parent
+      const sanitizedContent = sanitizeContent(cleanContent)
+      onChange(sanitizedContent)
+      
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('RichTextEditor: Updating content length:', sanitizedContent.length)
+        console.log('RichTextEditor: Has links:', /<a[^>]*href/i.test(sanitizedContent))
+        console.log('RichTextEditor: Content preview:', sanitizedContent.substring(0, 300))
+      }
     }
   }
 
@@ -105,17 +151,18 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     const htmlData = e.clipboardData.getData('text/html')
     const textData = e.clipboardData.getData('text/plain')
     
-    console.log('Paste data:', { hasHTML: !!htmlData, hasText: !!textData })
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Paste data:', { hasHTML: !!htmlData, hasText: !!textData })
+    }
     
     if (htmlData) {
-      // Clean and preserve HTML formatting
-      const cleanHtml = htmlData
+      // First clean, then sanitize
+      let cleanHtml = htmlData
         .replace(/<meta[^>]*>/gi, '')
         .replace(/<style[^>]*>.*?<\/style>/gi, '')
         .replace(/<script[^>]*>.*?<\/script>/gi, '')
         .replace(/<!--.*?-->/gi, '')
         .replace(/<link[^>]*>/gi, '')
-        .replace(/style="[^"]*"/gi, '') // Remove inline styles that might conflict
         .replace(/<font[^>]*>/gi, '<span>') // Convert font tags to span
         .replace(/<\/font>/gi, '</span>')
         .replace(/<b(\s[^>]*)?>([^<]*)<\/b>/gi, '<strong>$2</strong>') // Convert b to strong
@@ -123,7 +170,12 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(/\s+/g, ' ') // Normalize whitespace
         .trim()
 
-      console.log('Cleaned HTML:', cleanHtml)
+      // Sanitize the HTML
+      cleanHtml = sanitizeContent(cleanHtml)
+      
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Cleaned and sanitized HTML:', cleanHtml)
+      }
 
       // Insert HTML content
       execCommand('insertHTML', cleanHtml)
@@ -148,7 +200,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }
       })
       
-      console.log('Structured content:', structuredContent)
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Structured content:', structuredContent)
+      }
       execCommand('insertHTML', structuredContent)
     }
     
@@ -157,15 +211,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Log key events for debugging
-    console.log('Key pressed:', e.key, 'Ctrl:', e.ctrlKey)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Key pressed:', e.key, 'Ctrl:', e.ctrlKey, 'Meta:', e.metaKey)
+    }
     
     // Update content on certain key events
     if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
       setTimeout(updateContent, 50)
     }
 
-    // Keyboard shortcuts
-    if (e.ctrlKey) {
+    // Keyboard shortcuts - support both Ctrl (Windows) and Cmd (Mac)
+    if (e.ctrlKey || e.metaKey) {
       switch (e.key) {
         case 'b':
           e.preventDefault()
@@ -208,20 +264,23 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   // Enhanced link insertion with better HTML
   const insertLink = () => {
     if (!linkUrl.trim()) return
+    
+    // Validate URL before insertion
+    if (!isSafeUrl(linkUrl)) {
+      alert('כתובת URL לא תקינה או לא בטוחה')
+      return
+    }
 
     restoreSelection()
     
     const finalText = linkText.trim() || linkUrl
-    console.log('Inserting link:', { url: linkUrl, text: finalText })
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Inserting link:', { url: linkUrl, text: finalText })
+    }
 
-    // Create a more robust link HTML
-    const linkElement = document.createElement('a')
-    linkElement.href = linkUrl
-    linkElement.target = '_blank'
-    linkElement.rel = 'noopener noreferrer'
-    linkElement.className = 'editor-link'
-    linkElement.style.cssText = 'color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;'
-    linkElement.textContent = finalText
+    // Create sanitized link HTML
+    const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="editor-link">${finalText}</a>`
+    const sanitizedLinkHtml = sanitizeContent(linkHtml)
 
     try {
       // Try to use the selection to replace content
@@ -229,31 +288,42 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       if (selection && selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
-        range.insertNode(linkElement)
         
-        // Move cursor after the link
-        range.setStartAfter(linkElement)
-        range.collapse(true)
-        selection.removeAllRanges()
-        selection.addRange(range)
+        // Create temporary container for sanitized HTML
+        const tempDiv = document.createElement('div')
+        tempDiv.innerHTML = sanitizedLinkHtml
+        const linkElement = tempDiv.firstChild
+        
+        if (linkElement) {
+          range.insertNode(linkElement)
+          
+          // Move cursor after the link
+          range.setStartAfter(linkElement)
+          range.collapse(true)
+          selection.removeAllRanges()
+          selection.addRange(range)
+        }
       } else {
         // Fallback: append to editor
-        editorRef.current?.appendChild(linkElement)
+        execCommand('insertHTML', sanitizedLinkHtml)
       }
 
-      console.log('Link inserted successfully')
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Link inserted successfully')
+      }
       
       // Force update
       setTimeout(() => {
         updateContent()
-        console.log('Content after link insert:', editorRef.current?.innerHTML.substring(0, 500))
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('Content after link insert:', editorRef.current?.innerHTML.substring(0, 500))
+        }
       }, 200)
       
     } catch (error) {
       console.error('Error inserting link:', error)
       // Fallback method
-      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="editor-link" style="color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;">${finalText}</a>`
-      execCommand('insertHTML', linkHtml)
+      execCommand('insertHTML', sanitizedLinkHtml)
     }
     
     setLinkUrl('')
@@ -264,9 +334,16 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertImage = () => {
     if (!imageUrl.trim()) return
+    
+    // Validate image URL
+    if (!isSafeUrl(imageUrl)) {
+      alert('כתובת תמונה לא תקינה או לא בטוחה')
+      return
+    }
 
-    const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-image" />`
-    execCommand('insertHTML', imageHtml)
+    const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" class="editor-image" />`
+    const sanitizedImageHtml = sanitizeContent(imageHtml)
+    execCommand('insertHTML', sanitizedImageHtml)
     
     setTimeout(() => {
       updateContent()
@@ -277,67 +354,14 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     setShowImageModal(false)
   }
 
-  const insertVideo = () => {
-    if (!videoUrl.trim()) return
-
-    let videoHtml = ''
-    
-    // Check if it's a Cloudinary video
-    if (videoUrl.includes('cloudinary.com') || videoUrl.includes('res.cloudinary.com')) {
-      videoHtml = `<video controls style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-video" title="${videoTitle}">
-        <source src="${videoUrl}" type="video/mp4">
-        <source src="${videoUrl.replace('.mp4', '.webm')}" type="video/webm">
-        הדפדפן שלכם לא תומך בהצגת וידאו.
-      </video>`
-    } else if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-      // YouTube embed
-      const videoId = videoUrl.includes('youtu.be') 
-        ? videoUrl.split('/').pop()?.split('?')[0]
-        : new URL(videoUrl).searchParams.get('v')
-      
-      videoHtml = `<div style="position: relative; padding-bottom: 56.25%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden;" class="editor-youtube">
-        <iframe src="https://www.youtube.com/embed/${videoId}" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-                allowfullscreen 
-                title="${videoTitle}">
-        </iframe>
-      </div>`
-    } else if (videoUrl.includes('vimeo.com')) {
-      // Vimeo embed
-      const videoId = videoUrl.split('/').pop()?.split('?')[0]
-      videoHtml = `<div style="position: relative; padding-bottom: 56.25%; height: 0; margin: 10px 0; border-radius: 8px; overflow: hidden;" class="editor-vimeo">
-        <iframe src="https://player.vimeo.com/video/${videoId}" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-                allowfullscreen 
-                title="${videoTitle}">
-        </iframe>
-      </div>`
-    } else {
-      // Generic video file
-      videoHtml = `<video controls style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-video" title="${videoTitle}">
-        <source src="${videoUrl}" type="video/mp4">
-        הדפדפן שלכם לא תומך בהצגת וידאו.
-      </video>`
-    }
-    
-    execCommand('insertHTML', videoHtml)
-    
-    setTimeout(() => {
-      updateContent()
-    }, 200)
-    
-    setVideoUrl('')
-    setVideoTitle('')
-    setShowVideoModal(false)
-  }
-
   const formatHeading = (level: number) => {
     execCommand('formatBlock', `h${level}`)
   }
 
   const insertHr = () => {
-    const hrHtml = '<hr style="margin: 20px 0; border: none; border-top: 2px solid #e5e7eb;" class="editor-hr" />'
-    execCommand('insertHTML', hrHtml)
+    const hrHtml = '<hr class="editor-hr" />'
+    const sanitizedHrHtml = sanitizeContent(hrHtml)
+    execCommand('insertHTML', sanitizedHrHtml)
   }
 
   const clearFormatting = () => {
@@ -346,13 +370,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   // Enhanced blur handler to ensure content is saved
   const handleBlur = () => {
-    console.log('RichTextEditor: Blur event - saving content')
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('RichTextEditor: Blur event - saving content')
+    }
     updateContent()
   }
 
   // Enhanced focus handler
   const handleFocus = () => {
-    console.log('RichTextEditor: Focus event')
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('RichTextEditor: Focus event')
+    }
   }
 
   const toolbarSections = [
@@ -385,7 +413,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       buttons: [
         { icon: Link, command: openLinkModal, title: 'הוסף קישור (Ctrl+K)', shortcut: 'Ctrl+K' },
         { icon: Image, command: () => setShowImageModal(true), title: 'הוסף תמונה' },
-        { icon: Video, command: () => setShowVideoModal(true), title: 'הוסף סרטון' },
       ]
     },
     {
@@ -489,6 +516,11 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       <div
         ref={editorRef}
         contentEditable
+        role="textbox"
+        aria-multiline="true"
+        spellCheck={true}
+        lang="he"
+        aria-label="עורך תוכן עשיר"
         onInput={handleInput}
         onPaste={handlePaste}
         onFocus={handleFocus}
@@ -561,6 +593,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
                   setLinkText('שלח הודעה בווטסאפ')
                 }}
                 className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
+                aria-label="הוסף קישור וואטסאפ"
               >
                 📱 וואטסאפ - https://wa.me/972522126366
               </button>
@@ -570,6 +603,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
                   setLinkUrl('mailto:eranfixer@gmail.com')
                   setLinkText('שלח מייל')
                 }}
+                aria-label="הוסף קישור מייל"
                 className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
               >
                 📧 מייל - mailto:eranfixer@gmail.com
@@ -654,7 +688,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
           </div>
 
           <div className="bg-gray-50 p-3 rounded-lg">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">תמונות Unsplash מומלצות:</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-2">דוגמאות Cloudinary:</h4>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <button
                 type="button"
@@ -731,65 +765,217 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </div>
       </Modal>
 
-      {/* Enhanced Video Modal */}
-      <Modal
-        isOpen={showVideoModal}
-        onClose={() => setShowVideoModal(false)}
-        title="הוסף סרטון"
-        size="md"
-      >
-        <div className="space-y-4">
-          <div className="mb-2 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg">
-            💡 <strong>טיפ:</strong> לחץ על כפתור הסרטון 🎬 בעורך כדי להוסיף סרטונים מCloudinary, YouTube או Vimeo
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              כתובת הסרטון
-            </label>
-            <input
-              type="url"
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              placeholder="https://res.cloudinary.com/your-cloud/video/upload/..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              autoFocus
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              כותרת הסרטון
-            </label>
-            <input
-              type="text"
-              value={videoTitle}
-              onChange={(e) => setVideoTitle(e.target.value)}
-              placeholder="תיאור קצר של הסרטון לנגישות"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <style jsx>{`
+        [contenteditable]:empty:before {
+          content: attr(data-placeholder);
+          color: #9ca3af;
+          pointer-events: none;
+          font-style: italic;
+        }
+        
+        .prose { 
+          max-width: none !important; 
+          color: #374151;
+          line-height: 1.6;
+        }
+        .dark .prose {
+          color: #e5e7eb !important;
+        }
+        .prose h1 { 
+          font-size: 2.25em; 
+          font-weight: bold; 
+          margin: 0.8em 0 0.4em; 
+          color: #1f2937;
+          border-bottom: 2px solid #3b82f6;
+          padding-bottom: 0.2em;
+        }
+        .dark .prose h1 {
+          color: #ffffff !important;
+        }
+        .prose h2 { 
+          font-size: 1.875em; 
+          font-weight: bold; 
+          margin: 0.7em 0 0.3em; 
+          color: #1f2937;
+        }
+        .dark .prose h2 {
+          color: #f3f4f6 !important;
+        }
+        .prose h3 { 
+          font-size: 1.5em; 
+          font-weight: bold; 
+          margin: 0.6em 0 0.3em; 
+          color: #374151;
+        }
+        .dark .prose h3 {
+          color: #e5e7eb !important;
+        }
+        .prose h4 { 
+          font-size: 1.25em; 
+          font-weight: bold; 
+          margin: 0.5em 0 0.25em; 
+          color: #374151;
+        }
+        .dark .prose h4 {
+          color: #e5e7eb !important;
+        }
+        .prose p { 
+          margin: 0.75em 0; 
+          line-height: 1.7;
+          color: #4b5563;
+        }
+        .dark .prose p {
+          color: #d1d5db !important;
+        }
+        .prose b,
+        .prose strong {
+          color: #1f2937 !important;
+          font-weight: 700 !important;
+        }
+        .dark .prose b,
+        .dark .prose strong {
+          color: #60a5fa !important;
+          font-weight: 700 !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .prose ul, .prose ol { 
+          margin: 0.75em 0; 
+          padding-right: 1.5em;
+          color: #4b5563;
+        }
+        .dark .prose ul,
+        .dark .prose ol {
+          color: #d1d5db !important;
+        }
+        .prose li { 
+          margin: 0.25em 0; 
+          line-height: 1.6;
+        }
+        .dark .prose li {
+          color: #d1d5db !important;
+        }
+        .prose blockquote { 
+          border-right: 4px solid #3b82f6; 
+          padding: 1em 1.5em; 
+          margin: 1em 0; 
+          font-style: italic; 
+          color: #6b7280;
+          background: #f8fafc;
+          border-radius: 0 8px 8px 0;
+        }
+        .dark .prose blockquote {
+          color: #d1d5db !important;
+          background: #374151 !important;
+        }
+        .prose pre { 
+          background: #f3f4f6; 
+          padding: 1em; 
+          border-radius: 8px; 
+          overflow-x: auto;
+          font-family: 'Courier New', monospace;
+          border: 1px solid #e5e7eb;
+          margin: 1em 0;
+        }
+        .dark .prose pre {
+          background: #1f2937 !important;
+          color: #e5e7eb !important;
+          border-color: #4b5563 !important;
+        }
+        .prose code {
+          background: #f3f4f6;
+          padding: 0.2em 0.4em;
+          border-radius: 4px;
+          font-family: 'Courier New', monospace;
+          font-size: 0.9em;
+          color: #dc2626;
+        }
+        .dark .prose code {
+          background: #374151 !important;
+          color: #fbbf24 !important;
+        }
+        
+        /* Enhanced link styles - VERY IMPORTANT! */
+        .prose a,
+        .prose .editor-link,
+        [contenteditable] a,
+        [contenteditable] .editor-link { 
+          color: #3b82f6 !important; 
+          text-decoration: underline !important;
+          font-weight: 500 !important;
+          cursor: pointer !important;
+          pointer-events: all !important;
+          position: relative !important;
+          z-index: 1 !important;
+          transition: all 0.2s ease !important;
+          display: inline !important;
+          background: transparent !important;
+          border: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        
+        .prose a:hover,
+        .prose .editor-link:hover,
+        [contenteditable] a:hover,
+        [contenteditable] .editor-link:hover { 
+          color: #1d4ed8 !important;
+          text-decoration: underline !important;
+          background-color: rgba(59, 130, 246, 0.1) !important;
+          padding: 1px 2px !important;
+          border-radius: 3px !important;
+        }
+        
+        .dark .prose a,
+        .dark .prose .editor-link,
+        .dark [contenteditable] a,
+        .dark [contenteditable] .editor-link {
+          color: #60a5fa !important;
+          text-decoration: underline !important;
+          font-weight: 500 !important;
+        }
 
-          <div className="bg-purple-50 p-3 rounded-lg">
-            <h4 className="text-sm font-medium text-purple-900 mb-2">🎬 סוגי סרטונים נתמכים:</h4>
-            <div className="grid grid-cols-1 gap-2 text-sm">
-              <div className="bg-white p-2 rounded border">
-                <strong className="text-purple-800">Cloudinary:</strong> 
-                <span className="text-gray-600"> res.cloudinary.com/your-cloud/video/upload/...</span>
-              </div>
-              <div className="bg-white p-2 rounded border">
-                <strong className="text-red-600">YouTube:</strong> 
-                <span className="text-gray-600"> youtube.com/watch?v=VIDEO_ID</span>
-              </div>
-              <div className="bg-white p-2 rounded border">
-                <strong className="text-blue-600">Vimeo:</strong> 
-                <span className="text-gray-600"> vimeo.com/VIDEO_ID</span>
-              </div>
-              <div className="bg-white p-2 rounded border">
-                <strong className="text-green-600">קובץ ישיר:</strong> 
-                <span className="text-gray-600"> example.com/video.mp4</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <h4 className="text-sm font-
+        .dark .prose a:hover,
+        .dark .prose .editor-link:hover,
+        .dark [contenteditable] a:hover,
+        .dark [contenteditable] .editor-link:hover {
+          color: #93c5fd !important;
+          background-color: rgba(96, 165, 250, 0.2) !important;
+          padding: 1px 2px !important;
+          border-radius: 3px !important;
+        }
+        
+        .prose img,
+        .prose .editor-image {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          margin: 1em 0;
+          display: block;
+        }
+        .prose hr,
+        .prose .editor-hr {
+          border: none;
+          border-top: 2px solid #e5e7eb;
+          margin: 2em 0;
+        }
+        .dark .prose hr,
+        .dark .prose .editor-hr {
+          border-top-color: #4b5563 !important;
+        }
+        
+        /* Focus styles */
+        [contenteditable]:focus {
+          outline: none;
+          box-shadow: inset 0 0 0 2px #3b82f6;
+        }
+        
+        /* Selection styles */
+        [contenteditable] ::selection {
+          background: #bfdbfe;
+          color: #1e40af;
+        }
+      `}</style>
+    </div>
+  )
+}
