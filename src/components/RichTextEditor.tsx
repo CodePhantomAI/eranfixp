@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Bold, Italic, Underline, Link, Image, List, ListOrdered, Quote, Code, Undo, Redo, Type, Palette, AlignLeft, AlignCenter, AlignRight } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
-import DOMPurify from 'dompurify'
 
 interface RichTextEditorProps {
   value: string
@@ -26,49 +25,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const [imageUrl, setImageUrl] = useState('')
   const [imageAlt, setImageAlt] = useState('')
   const [savedSelection, setSavedSelection] = useState<Range | null>(null)
-
-  // Safe URL validation
-  const isSafeUrl = (url: string, allowedDomains?: string[]): boolean => {
-    try {
-      const urlObj = new URL(url)
-      const protocol = urlObj.protocol
-      
-      // Block dangerous protocols
-      if (!['http:', 'https:', 'mailto:', 'tel:'].includes(protocol)) {
-        return false
-      }
-      
-      // For external URLs, check allowed domains if specified
-      if (allowedDomains && protocol.startsWith('http')) {
-        return allowedDomains.some(domain => urlObj.hostname.includes(domain))
-      }
-      
-      return true
-    } catch {
-      return false
-    }
-  }
-
-  // Sanitize HTML content
-  const sanitizeContent = (html: string): string => {
-    return DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: [
-        'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-        'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
-        'a', 'img', 'video', 'source', 'iframe',
-        'strong', 'em', 'b', 'i', 'u', 'br', 'hr', 'span'
-      ],
-      ALLOWED_ATTR: [
-        'href', 'src', 'alt', 'title', 'target', 'rel',
-        'controls', 'class', 'allowfullscreen', 'type'
-      ],
-      ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-      ADD_ATTR: ['target'],
-      FORBID_ATTR: ['style', 'onerror', 'onload', 'onclick', 'onmouseover'],
-      FORBID_TAGS: ['script', 'object', 'embed', 'link', 'meta'],
-      ALLOW_DATA_ATTR: false
-    })
-  }
 
   // Initialize editor content
   useEffect(() => {
@@ -102,6 +58,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const updateContent = () => {
     if (editorRef.current) {
       const newContent = editorRef.current.innerHTML
+      console.log('RichTextEditor: Updating content length:', newContent.length)
+      console.log('RichTextEditor: Has links:', /<a[^>]*href/i.test(newContent))
+      console.log('RichTextEditor: Content preview:', newContent.substring(0, 300))
       
       // Clean up the HTML a bit
       const cleanContent = newContent
@@ -109,15 +68,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(/<div>/g, '<p>')
         .replace(/<\/div>/g, '</p>')
       
-      // Sanitize before sending to parent
-      const sanitizedContent = sanitizeContent(cleanContent)
-      onChange(sanitizedContent)
-      
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('RichTextEditor: Updating content length:', sanitizedContent.length)
-        console.log('RichTextEditor: Has links:', /<a[^>]*href/i.test(sanitizedContent))
-        console.log('RichTextEditor: Content preview:', sanitizedContent.substring(0, 300))
-      }
+      onChange(cleanContent)
     }
   }
 
@@ -151,18 +102,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     const htmlData = e.clipboardData.getData('text/html')
     const textData = e.clipboardData.getData('text/plain')
     
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('Paste data:', { hasHTML: !!htmlData, hasText: !!textData })
-    }
+    console.log('Paste data:', { hasHTML: !!htmlData, hasText: !!textData })
     
     if (htmlData) {
-      // First clean, then sanitize
-      let cleanHtml = htmlData
+      // Clean and preserve HTML formatting
+      const cleanHtml = htmlData
         .replace(/<meta[^>]*>/gi, '')
         .replace(/<style[^>]*>.*?<\/style>/gi, '')
         .replace(/<script[^>]*>.*?<\/script>/gi, '')
         .replace(/<!--.*?-->/gi, '')
         .replace(/<link[^>]*>/gi, '')
+        .replace(/style="[^"]*"/gi, '') // Remove inline styles that might conflict
         .replace(/<font[^>]*>/gi, '<span>') // Convert font tags to span
         .replace(/<\/font>/gi, '</span>')
         .replace(/<b(\s[^>]*)?>([^<]*)<\/b>/gi, '<strong>$2</strong>') // Convert b to strong
@@ -170,12 +120,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         .replace(/\s+/g, ' ') // Normalize whitespace
         .trim()
 
-      // Sanitize the HTML
-      cleanHtml = sanitizeContent(cleanHtml)
-      
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Cleaned and sanitized HTML:', cleanHtml)
-      }
+      console.log('Cleaned HTML:', cleanHtml)
 
       // Insert HTML content
       execCommand('insertHTML', cleanHtml)
@@ -200,9 +145,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }
       })
       
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Structured content:', structuredContent)
-      }
+      console.log('Structured content:', structuredContent)
       execCommand('insertHTML', structuredContent)
     }
     
@@ -211,17 +154,15 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Log key events for debugging
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('Key pressed:', e.key, 'Ctrl:', e.ctrlKey, 'Meta:', e.metaKey)
-    }
+    console.log('Key pressed:', e.key, 'Ctrl:', e.ctrlKey)
     
     // Update content on certain key events
     if (e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
       setTimeout(updateContent, 50)
     }
 
-    // Keyboard shortcuts - support both Ctrl (Windows) and Cmd (Mac)
-    if (e.ctrlKey || e.metaKey) {
+    // Keyboard shortcuts
+    if (e.ctrlKey) {
       switch (e.key) {
         case 'b':
           e.preventDefault()
@@ -264,23 +205,20 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   // Enhanced link insertion with better HTML
   const insertLink = () => {
     if (!linkUrl.trim()) return
-    
-    // Validate URL before insertion
-    if (!isSafeUrl(linkUrl)) {
-      alert('כתובת URL לא תקינה או לא בטוחה')
-      return
-    }
 
     restoreSelection()
     
     const finalText = linkText.trim() || linkUrl
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('Inserting link:', { url: linkUrl, text: finalText })
-    }
+    console.log('Inserting link:', { url: linkUrl, text: finalText })
 
-    // Create sanitized link HTML
-    const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="editor-link">${finalText}</a>`
-    const sanitizedLinkHtml = sanitizeContent(linkHtml)
+    // Create a more robust link HTML
+    const linkElement = document.createElement('a')
+    linkElement.href = linkUrl
+    linkElement.target = '_blank'
+    linkElement.rel = 'noopener noreferrer'
+    linkElement.className = 'editor-link'
+    linkElement.style.cssText = 'color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;'
+    linkElement.textContent = finalText
 
     try {
       // Try to use the selection to replace content
@@ -288,42 +226,31 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       if (selection && selection.rangeCount > 0) {
         const range = selection.getRangeAt(0)
         range.deleteContents()
+        range.insertNode(linkElement)
         
-        // Create temporary container for sanitized HTML
-        const tempDiv = document.createElement('div')
-        tempDiv.innerHTML = sanitizedLinkHtml
-        const linkElement = tempDiv.firstChild
-        
-        if (linkElement) {
-          range.insertNode(linkElement)
-          
-          // Move cursor after the link
-          range.setStartAfter(linkElement)
-          range.collapse(true)
-          selection.removeAllRanges()
-          selection.addRange(range)
-        }
+        // Move cursor after the link
+        range.setStartAfter(linkElement)
+        range.collapse(true)
+        selection.removeAllRanges()
+        selection.addRange(range)
       } else {
         // Fallback: append to editor
-        execCommand('insertHTML', sanitizedLinkHtml)
+        editorRef.current?.appendChild(linkElement)
       }
 
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Link inserted successfully')
-      }
+      console.log('Link inserted successfully')
       
       // Force update
       setTimeout(() => {
         updateContent()
-        if (process.env.NODE_ENV !== 'production') {
-          console.log('Content after link insert:', editorRef.current?.innerHTML.substring(0, 500))
-        }
+        console.log('Content after link insert:', editorRef.current?.innerHTML.substring(0, 500))
       }, 200)
       
     } catch (error) {
       console.error('Error inserting link:', error)
       // Fallback method
-      execCommand('insertHTML', sanitizedLinkHtml)
+      const linkHtml = `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="editor-link" style="color: #3b82f6 !important; text-decoration: underline !important; font-weight: 500 !important; cursor: pointer !important;">${finalText}</a>`
+      execCommand('insertHTML', linkHtml)
     }
     
     setLinkUrl('')
@@ -334,16 +261,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   const insertImage = () => {
     if (!imageUrl.trim()) return
-    
-    // Validate image URL
-    if (!isSafeUrl(imageUrl)) {
-      alert('כתובת תמונה לא תקינה או לא בטוחה')
-      return
-    }
 
-    const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" class="editor-image" />`
-    const sanitizedImageHtml = sanitizeContent(imageHtml)
-    execCommand('insertHTML', sanitizedImageHtml)
+    const imageHtml = `<img src="${imageUrl}" alt="${imageAlt}" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; display: block;" class="editor-image" />`
+    execCommand('insertHTML', imageHtml)
     
     setTimeout(() => {
       updateContent()
@@ -359,9 +279,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   }
 
   const insertHr = () => {
-    const hrHtml = '<hr class="editor-hr" />'
-    const sanitizedHrHtml = sanitizeContent(hrHtml)
-    execCommand('insertHTML', sanitizedHrHtml)
+    const hrHtml = '<hr style="margin: 20px 0; border: none; border-top: 2px solid #e5e7eb;" class="editor-hr" />'
+    execCommand('insertHTML', hrHtml)
   }
 
   const clearFormatting = () => {
@@ -370,17 +289,13 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   // Enhanced blur handler to ensure content is saved
   const handleBlur = () => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('RichTextEditor: Blur event - saving content')
-    }
+    console.log('RichTextEditor: Blur event - saving content')
     updateContent()
   }
 
   // Enhanced focus handler
   const handleFocus = () => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('RichTextEditor: Focus event')
-    }
+    console.log('RichTextEditor: Focus event')
   }
 
   const toolbarSections = [
@@ -516,11 +431,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       <div
         ref={editorRef}
         contentEditable
-        role="textbox"
-        aria-multiline="true"
-        spellCheck={true}
-        lang="he"
-        aria-label="עורך תוכן עשיר"
         onInput={handleInput}
         onPaste={handlePaste}
         onFocus={handleFocus}
@@ -593,7 +503,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
                   setLinkText('שלח הודעה בווטסאפ')
                 }}
                 className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
-                aria-label="הוסף קישור וואטסאפ"
               >
                 📱 וואטסאפ - https://wa.me/972522126366
               </button>
@@ -603,7 +512,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
                   setLinkUrl('mailto:eranfixer@gmail.com')
                   setLinkText('שלח מייל')
                 }}
-                aria-label="הוסף קישור מייל"
                 className="text-right p-2 bg-white rounded hover:bg-blue-50 transition-colors"
               >
                 📧 מייל - mailto:eranfixer@gmail.com
@@ -946,12 +854,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         
         .prose img,
         .prose .editor-image {
-          max-width: 100%;
-          height: auto;
           border-radius: 8px;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           margin: 1em 0;
-          display: block;
         }
         .prose hr,
         .prose .editor-hr {
