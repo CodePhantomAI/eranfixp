@@ -4,28 +4,11 @@
 User-agent: *
 Allow: /
 
-# חסימת דפי ניהול בלבד (נחוץ לאבטחה)
+# חסימת דפי מערכת וניהול (אבטחה + מניעת אינדוקס מיותר)
 Disallow: /admin/
-
-# מנועי חיפוש עיקריים
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 2
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 3
-
-# בוט של OpenAI לחיפוש (ChatGPT)
-User-agent: OAI-SearchBot
-Allow: /
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /cgi-bin/
 
 # מפת האתר
 Sitemap: https://eran-fixer.com/sitemap.xml
-
-# מידע נוסף
-Host: eran-fixer.com
