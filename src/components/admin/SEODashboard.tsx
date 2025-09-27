@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Search, CheckCircle, AlertTriangle, XCircle, RefreshCw, TrendingUp, Globe, Zap, Link, Clock } from 'lucide-react'
+import { Search, CheckCircle, AlertTriangle, XCircle, RefreshCw, TrendingUp, Globe, Zap, Link, Clock, Send } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
@@ -8,12 +8,13 @@ import { SEOAudit, SEOChecklistItem, PerformanceMonitor, SitemapGenerator } from
 import { RealTimeAnalytics } from './RealTimeAnalytics'
 import { ContentAnalyzer } from './ContentAnalyzer'
 import { LinkTester } from './LinkTester'
+import { GoogleIndexingOptimizer } from './GoogleIndexingOptimizer'
 import { AutoSitemapManager } from '../../lib/auto-sitemap'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
 export const SEODashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'audit' | 'analytics' | 'content' | 'links'>('audit')
+  const [activeTab, setActiveTab] = useState<'audit' | 'analytics' | 'content' | 'links' | 'indexing'>('audit')
   const [auditResults, setAuditResults] = useState<{
     score: number
     checklist: SEOChecklistItem[]
@@ -162,6 +163,17 @@ export const SEODashboard: React.FC = () => {
         >
           <Link className="w-4 h-4 inline ml-2" />
           בדיקת קישורים
+        </button>
+        <button
+          onClick={() => setActiveTab('indexing')}
+          className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'indexing'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Send className="w-4 h-4 inline ml-2" />
+          אינדוקס מהיר
         </button>
       </div>
 
@@ -417,11 +429,15 @@ export const SEODashboard: React.FC = () => {
           {activeTab === 'content' && (
             <ContentAnalyzer />
           )}
-        </div>
 
-        {activeTab === 'links' && (
-          <LinkTester />
-        )}
+          {activeTab === 'links' && (
+            <LinkTester />
+          )}
+
+          {activeTab === 'indexing' && (
+            <GoogleIndexingOptimizer />
+          )}
+        </div>
       </div>
     </div>
   )

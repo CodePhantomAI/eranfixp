@@ -11,6 +11,7 @@ import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
 import { AutoSEO } from '../lib/seo-automation'
 import { useAutoSitemap } from '../lib/auto-sitemap'
+import { useGoogleIndexing } from '../lib/google-indexing'
 
 interface Page {
   id: string
@@ -28,6 +29,7 @@ interface Page {
 export const PagesManager: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { updateSitemapForContent } = useAutoSitemap()
+  const { accelerateIndexing } = useGoogleIndexing()
   const [pages, setPages] = useState<Page[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -103,6 +105,7 @@ export const PagesManager: React.FC = () => {
         if (data && data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/${data[0].slug}`)
           updateSitemapForContent('page', data[0].slug, data[0].status)
+          accelerateIndexing('page', data[0].slug)
         }
         
         toast.success('העמוד עודכן בהצלחה')
@@ -123,6 +126,7 @@ export const PagesManager: React.FC = () => {
         if (data && data[0]) {
           AutoSEO.notifyGoogleOfNewPage(`/${data[0].slug}`)
           updateSitemapForContent('page', data[0].slug, data[0].status)
+          accelerateIndexing('page', data[0].slug)
           console.log('Notified Google about new page:', data[0].slug)
         }
         

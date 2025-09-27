@@ -10,6 +10,7 @@ import { formatDate } from '../lib/utils'
 import toast from 'react-hot-toast'
 import { AutoSEO } from '../lib/seo-automation'
 import { useAutoSitemap } from '../lib/auto-sitemap'
+import { useGoogleIndexing } from '../lib/google-indexing'
 
 interface BlogPost {
   id: string
@@ -45,6 +46,7 @@ interface BlogCategory {
 export const BlogManager: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { updateSitemapForContent } = useAutoSitemap()
+  const { accelerateIndexing } = useGoogleIndexing()
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [categories, setCategories] = useState<BlogCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -162,6 +164,9 @@ export const BlogManager: React.FC = () => {
           // הודעה לגוגל על עדכון פוסט
           AutoSEO.notifyGoogleOfNewPage(`/blog/${result.data[0].slug}`)
           updateSitemapForContent('blog', result.data[0].slug, result.data[0].status)
+          
+          // האצת אינדוקס לפוסט מעודכן
+          accelerateIndexing('blog', result.data[0].slug)
         }
       } else {
         // Create new post
@@ -177,6 +182,9 @@ export const BlogManager: React.FC = () => {
           // הודעה לגוגל על פוסט חדש
           AutoSEO.notifyGoogleOfNewPage(`/blog/${result.data[0].slug}`)
           updateSitemapForContent('blog', result.data[0].slug, result.data[0].status)
+          
+          // האצת אינדוקס לפוסט חדש - זה המפתח!
+          accelerateIndexing('blog', result.data[0].slug)
           console.log('Notified Google about new blog post:', result.data[0].slug)
         }
       }
