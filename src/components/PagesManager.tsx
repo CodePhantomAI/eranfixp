@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Plus, Search, Filter, Edit, Trash2, Eye, Globe, FileText, Calendar, User } from 'lucide-react'
+import { Plus, Search, Filter, CreditCard as Edit, Trash2, Eye, Globe, FileText, Calendar, User } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Modal } from './ui/Modal'
