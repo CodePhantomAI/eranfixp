@@ -153,6 +153,8 @@ export const DynamicPage: React.FC = () => {
       setNotFound(false)
       setError(null)
       
+      console.log('Loading blog post with slug:', postSlug)
+      
       const { data, error } = await supabase
         .from('blog_posts')
         .select(`
@@ -166,12 +168,14 @@ export const DynamicPage: React.FC = () => {
         .eq('status', 'published')
         .maybeSingle()
 
+      console.log('Blog post query result:', { data, error })
 
       if (error && error.code !== 'PGRST116') {
         throw error
       }
       
       if (!data) {
+        console.log('No blog post found for slug:', postSlug)
         setNotFound(true)
         return
       }
@@ -280,6 +284,9 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
+      
+      console.log('Loading research paper with slug:', paperSlug)
+      
       const { data, error } = await supabase
         .from('research_papers')
         .select('*')
@@ -287,11 +294,13 @@ export const DynamicPage: React.FC = () => {
         .eq('status', 'published')
         .maybeSingle()
 
+      console.log('Research paper query result:', { data, error })
       if (error && error.code !== 'PGRST116') {
         throw error
       }
       
       if (!data) {
+        console.log('No research paper found for slug:', paperSlug)
         setNotFound(true)
         return
       }

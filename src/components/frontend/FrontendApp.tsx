@@ -38,9 +38,12 @@ export const FrontendApp: React.FC = () => {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<DynamicPage />} />
             <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/portfolio/:slug" element={<DynamicPage />} />
             <Route path="/clients" element={<ClientsPage />} />
             <Route path="/research" element={<ResearchPage />} />
+            <Route path="/research/:slug" element={<DynamicPage />} />
             <Route path="/seo-israel" element={<SEOIsraelPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -48,11 +51,6 @@ export const FrontendApp: React.FC = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-use" element={<TermsOfUsePage />} />
             <Route path="/system" element={<SystemAboutPage />} />
-            
-            {/* Dynamic content pages - order matters! */}
-            <Route path="/blog/:slug" element={<DynamicPage />} />
-            <Route path="/portfolio/:slug" element={<DynamicPage />} />
-            <Route path="/research/:slug" element={<DynamicPage />} />
             
             {/* Dynamic pages (must be before 404 fallback) */}
             <Route path="/:slug" element={<DynamicPage />} />
