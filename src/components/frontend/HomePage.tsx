@@ -176,14 +176,14 @@ export const HomePage: React.FC = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white overflow-hidden hero-section">
         <div className="absolute inset-0 bg-black/20">
           {/* Animated background elements */}
-          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-400/10 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-24 h-24 bg-purple-400/10 rounded-full animate-bounce"></div>
-          <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-white/5 rounded-full animate-ping"></div>
+          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-400/10 rounded-full" style={{ animation: 'pulse 3s infinite' }}></div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 bg-purple-400/10 rounded-full" style={{ animation: 'bounce 2s infinite' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-white/5 rounded-full" style={{ animation: 'ping 2s infinite' }}></div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 hero-text">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection animation="slideRight" className="overflow-hidden">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -229,9 +229,10 @@ export const HomePage: React.FC = () => {
             <AnimatedSection animation="slideLeft" delay={300} className="hidden lg:block">
               <div className="relative">
                 <LazyImage
-                  src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                   alt="Digital Solutions"
                   className="rounded-2xl shadow-2xl"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent rounded-2xl"></div>
                 
@@ -449,7 +450,7 @@ export const HomePage: React.FC = () => {
             
             <AnimatedSection animation="slideLeft" delay={200}>
               <LazyImage
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 alt="Team collaboration"
                 className="rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
               />

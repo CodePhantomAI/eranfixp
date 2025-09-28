@@ -21,11 +21,14 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay)
+          // Use requestAnimationFrame for better performance
+          requestAnimationFrame(() => {
+            setTimeout(() => setIsVisible(true), delay)
+          })
           observer.disconnect()
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '50px' }
     )
 
     if (ref.current) {

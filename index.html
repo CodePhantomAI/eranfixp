@@ -18,6 +18,9 @@
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://analytics.google.com">
     
     <!-- Critical CSS for above-the-fold content -->
     <style>
@@ -29,6 +32,21 @@
         color: #374151 !important;
         visibility: visible !important;
         opacity: 1 !important;
+        font-display: swap;
+      }
+      /* Critical above-the-fold styles */
+      .hero-section {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-text {
+        color: #ffffff !important;
+        text-align: center;
+        max-width: 1200px;
+        padding: 2rem;
       }
     </style>
     
@@ -96,13 +114,29 @@
     </script>
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LPXNLBRXYF"></script>
+    <script>
+      // Defer Google Analytics to improve LCP
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-LPXNLBRXYF';
+          document.head.appendChild(script);
+          
+          script.onload = function() {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-LPXNLBRXYF');
+          };
+        }, 1000);
+      });
+    </script>
+    <!-- Fallback for immediate analytics if needed -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-LPXNLBRXYF');
+      // Minimal tracking for critical events only
     </script>
   </head>
   <body>
