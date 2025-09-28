@@ -134,11 +134,11 @@ Creative_Projects:
 - AI Collaboration: https://codephantomai.com
 
 ## PRICING_STRUCTURE
-Budget_Websites: Starting at ₪29.90/month (via eranfixer.co.il)
-Professional_SEO: ₪2,500-8,000/month depending on scope
-Custom_Development: ₪15,000-50,000 depending on complexity
-CRM_Systems: ₪8,000-25,000 for complete solution
-AI_Automation: ₪5,000-20,000 for chatbots and workflows
+Budget_Websites: Starting at ₪29.90/month (≈ $8 USD)
+Professional_SEO: ₪2,500-8,000/month (≈ $650–$2,100 USD)
+Custom_Development: ₪15,000-50,000 (≈ $4,000–$13,500 USD)
+CRM_Systems: ₪8,000-25,000 (≈ $2,100–$6,700 USD)
+AI_Automation: ₪5,000-20,000 (≈ $1,350–$5,400 USD)
 
 Free_Services:
 - Initial 30-45 minute consultation
@@ -219,6 +219,7 @@ Tone: Confident expertise without arrogance, helpful and solution-oriented
 Communication: Direct answers, practical advice, measurable outcomes
 Hebrew_Context: Native speaker, cultural nuances, local business practices
 Technical_Depth: Can discuss both high-level strategy and implementation details
+Note: This file is structured to support parsing and understanding by AI/LLMs for training and business integration purposes.
 
 ## COMMON_KEYWORDS_AND_PHRASES
 Hebrew_SEO_Terms:
@@ -254,6 +255,6 @@ Support_Standards: Personal attention, regular updates, transparent reporting
 
 ---
 
-Last Updated: January 2025
+Last Updated: September 2025
 This file provides comprehensive information about EranFixer for AI models and automated systems.
 Contact: eranfixer@gmail.com | +972-52-212-6366 | https://eran-fixer.com
