@@ -1,4 +1,4 @@
-# Netlify redirects for Single Page Application (SPA) - Fixed for Facebook Crawler
+# Netlify redirects for Single Page Application (SPA) - Enhanced for SEO
 
 # Static files - serve directly with proper headers
 /robots.txt        /robots.txt   200
@@ -6,25 +6,38 @@
 /favicon.ico       /favicon.ico  200
 /llms.txt          /llms.txt     200
 /facebook-debug.html /facebook-debug.html 200
+/facebook-test.html /facebook-test.html 200
+/test-blog-post.html /test-blog-post.html 200
 
 # API routes (if any) - serve directly
 /api/*             /api/:splat   200
 
-# Special handling for Facebook and other crawlers
-# This ensures crawlers get the right content
+# CRITICAL: Pre-render for crawlers - Facebook, Google, Twitter
+# This ensures crawlers get the right content with proper meta tags
 /blog/*            /index.html   200!  User-Agent:facebookexternalhit*
 /portfolio/*       /index.html   200!  User-Agent:facebookexternalhit*
 /research/*        /index.html   200!  User-Agent:facebookexternalhit*
 
-# Special handling for other social media crawlers
 /blog/*            /index.html   200!  User-Agent:Twitterbot*
 /portfolio/*       /index.html   200!  User-Agent:Twitterbot*
 /research/*        /index.html   200!  User-Agent:Twitterbot*
 
-# Special handling for WhatsApp crawler
+/blog/*            /index.html   200!  User-Agent:LinkedInBot*
+/portfolio/*       /index.html   200!  User-Agent:LinkedInBot*
+/research/*        /index.html   200!  User-Agent:LinkedInBot*
+
 /blog/*            /index.html   200!  User-Agent:WhatsApp*
 /portfolio/*       /index.html   200!  User-Agent:WhatsApp*
 /research/*        /index.html   200!  User-Agent:WhatsApp*
+
+# Google crawlers - CRITICAL for indexing
+/blog/*            /index.html   200!  User-Agent:Googlebot*
+/portfolio/*       /index.html   200!  User-Agent:Googlebot*
+/research/*        /index.html   200!  User-Agent:Googlebot*
+
+/blog/*            /index.html   200!  User-Agent:Bingbot*
+/portfolio/*       /index.html   200!  User-Agent:Bingbot*
+/research/*        /index.html   200!  User-Agent:Bingbot*
 
 # Admin routes - protected area
 /admin/*           /index.html  200
