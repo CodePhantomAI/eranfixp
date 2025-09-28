@@ -153,28 +153,6 @@ export const SEODashboard: React.FC = () => {
             </Button>
           )}
         </div>
-        <button
-          onClick={() => setActiveTab('links')}
-          className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'links'
-              ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          <Link className="w-4 h-4 inline ml-2" />
-          בדיקת קישורים
-        </button>
-        <button
-          onClick={() => setActiveTab('indexing')}
-          className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
-            activeTab === 'indexing'
-              ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          <Send className="w-4 h-4 inline ml-2" />
-          אינדוקס מהיר
-        </button>
       </div>
 
       {/* Navigation Tabs */}
@@ -212,6 +190,28 @@ export const SEODashboard: React.FC = () => {
           >
             <Search className="w-4 h-4 inline ml-2" />
             ניתוח תוכן
+          </button>
+          <button
+            onClick={() => setActiveTab('links')}
+            className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'links'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Link className="w-4 h-4 inline ml-2" />
+            בדיקת קישורים
+          </button>
+          <button
+            onClick={() => setActiveTab('indexing')}
+            className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'indexing'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Send className="w-4 h-4 inline ml-2" />
+            אינדוקס מהיר
           </button>
         </div>
 
@@ -350,6 +350,18 @@ export const SEODashboard: React.FC = () => {
       {/* Quick Actions */}
       <Card>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">פעולות מהירות</h3>
+        <div className="mb-6 p-4 bg-green-50 rounded-lg">
+          <h4 className="font-medium text-green-900 mb-2">✅ מה תוקן לאינדקס:</h4>
+          <ul className="text-sm text-green-700 space-y-1">
+            <li>• כל עמוד חדש נשלח אוטומטית לגוגל</li>
+            <li>• Meta tags דינמיים לכל עמוד</li>
+            <li>• Structured Data מתקדם</li>
+            <li>• Canonical URLs תקינים</li>
+            <li>• Sitemap מתעדכן אוטומטית</li>
+            <li>• IndexNow API לאינדקס מיידי</li>
+          </ul>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button 
             onClick={() => window.open('https://search.google.com/search-console', '_blank')}
@@ -372,18 +384,6 @@ export const SEODashboard: React.FC = () => {
             className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors group text-center"
           >
             <Globe className="w-8 h-8 text-gray-400 group-hover:text-blue-500 mx-auto mb-2" />
-        <div className="mb-6 p-4 bg-green-50 rounded-lg">
-          <h4 className="font-medium text-green-900 mb-2">✅ מה תוקן לאינדקס:</h4>
-          <ul className="text-sm text-green-700 space-y-1">
-            <li>• כל עמוד חדש נשלח אוטומטית לגוגל</li>
-            <li>• Meta tags דינמיים לכל עמוד</li>
-            <li>• Structured Data מתקדם</li>
-            <li>• Canonical URLs תקינים</li>
-            <li>• Sitemap מתעדכן אוטומטית</li>
-            <li>• IndexNow API לאינדקס מיידי</li>
-          </ul>
-        </div>
-        
             <p className="text-sm font-medium text-gray-600 group-hover:text-blue-600">Mobile-Friendly Test</p>
           </button>
         </div>
@@ -423,7 +423,7 @@ export const SEODashboard: React.FC = () => {
           )}
 
           {activeTab === 'analytics' && (
-            <RealTimeAnalytics timeRange="30d" />
+            <GoogleIndexingOptimizer />
           )}
 
           {activeTab === 'content' && (

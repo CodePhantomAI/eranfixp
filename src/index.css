@@ -315,13 +315,14 @@ footer h3 {
 
 /* Ensure all footer links are visible */
 footer a {
-  color: #d1d5db !important;
-  font-weight: 500 !important;
+  color: #e5e7eb !important;
+  font-weight: 700 !important;
 }
 
 footer a:hover {
   color: #ffffff !important;
   text-decoration: none !important;
+  font-weight: 700 !important;
 }
 
 /* Featured clients section fix */
@@ -346,6 +347,29 @@ footer a:hover {
 .bg-gradient-to-br.from-blue-50 .text-blue-800 {
   color: #1d4ed8 !important;
   font-weight: 600 !important;
+}
+
+/* Footer text contrast improvements */
+footer .text-gray-100,
+footer .text-gray-200 {
+  color: #e5e7eb !important;
+  font-weight: 700 !important;
+}
+
+footer .font-medium {
+  font-weight: 700 !important;
+}
+
+/* Improve contrast for all footer elements */
+footer * {
+  font-weight: 600 !important;
+}
+
+footer h3,
+footer .font-bold {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 .dark b,
 .dark strong {

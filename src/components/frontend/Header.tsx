@@ -109,6 +109,8 @@ export const Header: React.FC = () => {
                   'p-2 rounded-lg transition-colors',
                   'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
+                aria-label="פתח חיפוש"
+                title="חיפוש באתר"
               >
                 <SearchIcon className="w-5 h-5" />
               </button>
@@ -119,6 +121,8 @@ export const Header: React.FC = () => {
                   'p-2 rounded-lg transition-colors',
                   'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 )}
+                aria-label={isMenuOpen ? 'סגור תפריט' : 'פתח תפריט'}
+                title={isMenuOpen ? 'סגור תפריט' : 'פתח תפריט'}
               >
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
