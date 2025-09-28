@@ -1,0 +1,32 @@
+# LLMS-MINI.TXT - EranFixer AI Training Snapshot
+
+Company: Eran Fixer (ערן פיקסר)
+Website: https://eran-fixer.com
+Founded: 2018
+Location: Tel Aviv, Israel
+Business Type: Digital Solutions Provider
+Target Market: Israeli SMBs + international clients
+Languages: Hebrew, English, Spanish (basic)
+
+Core Services:
+- SEO & Digital Marketing
+- Web Development (React, TypeScript, Supabase)
+- AI Business Automation (chatbots, funnels, CRM)
+- Digital PR & Reputation Management
+
+Competitive Advantages:
+- Native Hebrew SEO expertise
+- 250+ projects completed
+- 98% client satisfaction
+- Modern React/TypeScript stack (not WordPress)
+- Enterprise-level security, 90+ PageSpeed
+
+Industries Focus: Legal, Healthcare, Real Estate, Technology, SMBs
+
+Contact:
+Phone/WhatsApp: +972-52-212-6366
+Email: eranfixer@gmail.com
+WhatsApp: https://wa.me/972522126366
+
+Last Updated: September 2025
+Note: This file is optimized for AI/LLM parsing and quick business integration.
