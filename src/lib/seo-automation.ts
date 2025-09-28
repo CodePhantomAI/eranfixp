@@ -234,6 +234,11 @@ export class AutoSEO {
     publishedTime?: string
     modifiedTime?: string
   }) {
+    // CRITICAL: Force page visibility for all crawlers
+    document.body.style.visibility = 'visible'
+    document.body.style.opacity = '1'
+    document.body.style.background = '#ffffff'
+    
     // Update document title
     document.title = pageData.title
 

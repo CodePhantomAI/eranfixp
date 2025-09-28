@@ -187,6 +187,31 @@ export const DynamicPage: React.FC = () => {
         const blogUrl = `https://eran-fixer.com/blog/${data.slug}`
         const blogImage = data.featured_image || 'https://res.cloudinary.com/dzm47vpw8/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
         
+        // CRITICAL: Force immediate meta tag updates for crawlers
+        const updateMetaImmediate = (property: string, content: string, isProperty = false) => {
+          const selector = isProperty ? `meta[property="${property}"]` : `meta[name="${property}"]`
+          let meta = document.querySelector(selector) as HTMLMetaElement
+          if (!meta) {
+            meta = document.createElement('meta')
+            if (isProperty) {
+              meta.setAttribute('property', property)
+            } else {
+              meta.setAttribute('name', property)
+            }
+            document.head.appendChild(meta)
+          }
+          meta.setAttribute('content', content)
+        }
+        
+        // Force immediate meta tags for Facebook
+        updateMetaImmediate('og:title', data.meta_title || `${data.title} - בלוג EranFixer`, true)
+        updateMetaImmediate('og:description', data.meta_description || data.excerpt, true)
+        updateMetaImmediate('og:image', blogImage, true)
+        updateMetaImmediate('og:url', blogUrl, true)
+        updateMetaImmediate('og:type', 'article', true)
+        updateMetaImmediate('og:site_name', 'EranFixer - ערן פיקסר', true)
+        updateMetaImmediate('og:locale', 'he_IL', true)
+        
         // Update SEO immediately for Facebook crawler - SYNCHRONOUS
         updateSEOTags({
           title: data.meta_title || `${data.title} - בלוג EranFixer`,

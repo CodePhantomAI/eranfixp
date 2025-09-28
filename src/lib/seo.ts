@@ -111,6 +111,23 @@ export const updateSEOTags = (data: SEOData) => {
   document.body.style.visibility = 'visible'
   document.body.style.opacity = '1'
   document.body.style.background = '#ffffff'
+  
+  // CRITICAL: Add immediate meta tags for Facebook crawler
+  updateMetaTag('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')
+  updateMetaTag('googlebot', 'index, follow')
+  updateMetaTag('bingbot', 'index, follow')
+  updateMetaTag('facebookbot', 'index, follow')
+  
+  // Force Facebook to see the content
+  updateMetaTag('og:updated_time', new Date().toISOString(), true)
+  
+  // Additional Facebook debugging
+  if (data.image) {
+    updateMetaTag('og:image:secure_url', data.image, true)
+    updateMetaTag('og:image:type', 'image/png', true)
+    updateMetaTag('og:image:width', '1200', true)
+    updateMetaTag('og:image:height', '630', true)
+  }
 
   // Additional SEO tags for better crawling
   updateMetaTag('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')
