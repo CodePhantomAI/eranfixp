@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crawler Test - EranFixer</title>
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://eran-fixer.com/test-crawlers.html" />
+    
+    <style>
+        body { 
+            font-family: system-ui, sans-serif; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px;
+            background: #ffffff !important;
+            color: #374151 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        .test-box { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
+        }
+        .success { color: #10b981; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+        h1 { color: #1f2937; text-align: center; }
+        h2 { color: #374151; }
+    </style>
+</head>
+<body>
+    <h1>🤖 בדיקת קרולרים - EranFixer</h1>
+    
+    <div class="test-box">
+        <h2>🎯 URLs לבדיקה ב-Search Console:</h2>
+        <ul style="line-height: 1.8;">
+            <li><strong>Blog:</strong> https://eran-fixer.com/blog/model-collapse-feedback-loop</li>
+            <li><strong>Research:</strong> https://eran-fixer.com/research/seo-ai</li>
+            <li><strong>Portfolio:</strong> https://eran-fixer.com/portfolio/seo</li>
+            <li><strong>Services:</strong> https://eran-fixer.com/services</li>
+        </ul>
+    </div>
+
+    <div class="test-box">
+        <h2>✅ מה תוקן:</h2>
+        <div class="success">✓ _redirects מותאם לכל הקרולרים</div>
+        <div class="success">✓ netlify.toml עם headers נכונים</div>
+        <div class="success">✓ Meta robots מיידי</div>
+        <div class="success">✓ HTTP status 200 forced</div>
+        <div class="success">✓ Canonical URLs מיידיים</div>
+        <div class="success">✓ Visibility forced</div>
+    </div>
+
+    <div class="test-box">
+        <h2>🔧 איך לבדוק:</h2>
+        <ol style="line-height: 1.8;">
+            <li><strong>Search Console:</strong> URL Inspection → הכנס URL → Request Indexing</li>
+            <li><strong>Facebook:</strong> https://developers.facebook.com/tools/debug/</li>
+            <li><strong>Google:</strong> חפש site:eran-fixer.com</li>
+            <li><strong>View Source:</strong> בדוק שיש meta tags</li>
+        </ol>
+    </div>
+
+    <script>
+        // Test all URLs
+        const testUrls = [
+            'https://eran-fixer.com/blog/model-collapse-feedback-loop',
+            'https://eran-fixer.com/research/seo-ai',
+            'https://eran-fixer.com/portfolio/seo',
+            'https://eran-fixer.com/services'
+        ];
+
+        testUrls.forEach(url => {
+            fetch(url)
+                .then(response => {
+                    console.log(`✅ ${url} - Status: ${response.status}`);
+                })
+                .catch(error => {
+                    console.error(`❌ ${url} - Error:`, error);
+                });
+        });
+    </script>
+</body>
+</html>

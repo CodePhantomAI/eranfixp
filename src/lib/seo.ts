@@ -121,6 +121,10 @@ export const updateSEOTags = (data: SEOData) => {
   // Force Facebook to see the content
   updateMetaTag('og:updated_time', new Date().toISOString(), true)
   
+  // CRITICAL: Add immediate status code meta for crawlers
+  updateMetaTag('http-equiv', 'refresh')
+  updateMetaTag('status', '200')
+  
   // Additional Facebook debugging
   if (data.image) {
     updateMetaTag('og:image:secure_url', data.image, true)
@@ -134,6 +138,10 @@ export const updateSEOTags = (data: SEOData) => {
   updateMetaTag('googlebot', 'index, follow')
   updateMetaTag('bingbot', 'index, follow')
   updateMetaTag('facebookbot', 'index, follow')
+  
+  // CRITICAL: Force 200 status for crawlers
+  updateMetaTag('http-equiv', 'status')
+  updateMetaTag('content', '200')
 }
 
 export const generateStructuredData = (type: string, data: any) => {

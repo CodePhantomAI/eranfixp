@@ -1,4 +1,4 @@
-# Netlify redirects for Single Page Application (SPA) - Enhanced for SEO
+# Netlify redirects for Single Page Application (SPA) - Enhanced for SEO and Crawlers
 
 # Static files - serve directly with proper headers
 /robots.txt        /robots.txt   200
@@ -8,44 +8,77 @@
 /facebook-debug.html /facebook-debug.html 200
 /facebook-test.html /facebook-test.html 200
 /test-blog-post.html /test-blog-post.html 200
+/facebook-debug-live.html /facebook-debug-live.html 200
+/eranfixer2025.txt /eranfixer2025.txt 200
+/llms-mini.txt     /llms-mini.txt 200
 
 # API routes (if any) - serve directly
 /api/*             /api/:splat   200
 
-# CRITICAL: Pre-render for crawlers - Facebook, Google, Twitter
+# CRITICAL: Pre-render for ALL crawlers - Facebook, Google, Twitter, Bing
 # This ensures crawlers get the right content with proper meta tags
-/blog/*            /index.html   200!  User-Agent:facebookexternalhit*
-/portfolio/*       /index.html   200!  User-Agent:facebookexternalhit*
-/research/*        /index.html   200!  User-Agent:facebookexternalhit*
 
-/blog/*            /index.html   200!  User-Agent:Twitterbot*
-/portfolio/*       /index.html   200!  User-Agent:Twitterbot*
-/research/*        /index.html   200!  User-Agent:Twitterbot*
-
-/blog/*            /index.html   200!  User-Agent:LinkedInBot*
-/portfolio/*       /index.html   200!  User-Agent:LinkedInBot*
-/research/*        /index.html   200!  User-Agent:LinkedInBot*
-
-/blog/*            /index.html   200!  User-Agent:WhatsApp*
-/portfolio/*       /index.html   200!  User-Agent:WhatsApp*
-/research/*        /index.html   200!  User-Agent:WhatsApp*
-
-# Google crawlers - CRITICAL for indexing
+# Google crawlers - HIGHEST PRIORITY
 /blog/*            /index.html   200!  User-Agent:Googlebot*
 /portfolio/*       /index.html   200!  User-Agent:Googlebot*
 /research/*        /index.html   200!  User-Agent:Googlebot*
+/services          /index.html   200!  User-Agent:Googlebot*
 
+# Bing crawlers
 /blog/*            /index.html   200!  User-Agent:Bingbot*
 /portfolio/*       /index.html   200!  User-Agent:Bingbot*
 /research/*        /index.html   200!  User-Agent:Bingbot*
+/services          /index.html   200!  User-Agent:Bingbot*
 
-# Admin routes - protected area
+# Facebook crawlers - CRITICAL for sharing
+/blog/*            /index.html   200!  User-Agent:facebookexternalhit*
+/portfolio/*       /index.html   200!  User-Agent:facebookexternalhit*
+/research/*        /index.html   200!  User-Agent:facebookexternalhit*
+/services          /index.html   200!  User-Agent:facebookexternalhit*
+
+# Twitter crawlers
+/blog/*            /index.html   200!  User-Agent:Twitterbot*
+/portfolio/*       /index.html   200!  User-Agent:Twitterbot*
+/research/*        /index.html   200!  User-Agent:Twitterbot*
+/services          /index.html   200!  User-Agent:Twitterbot*
+
+# LinkedIn crawlers
+/blog/*            /index.html   200!  User-Agent:LinkedInBot*
+/portfolio/*       /index.html   200!  User-Agent:LinkedInBot*
+/research/*        /index.html   200!  User-Agent:LinkedInBot*
+/services          /index.html   200!  User-Agent:LinkedInBot*
+
+# WhatsApp crawlers
+/blog/*            /index.html   200!  User-Agent:WhatsApp*
+/portfolio/*       /index.html   200!  User-Agent:WhatsApp*
+/research/*        /index.html   200!  User-Agent:WhatsApp*
+/services          /index.html   200!  User-Agent:WhatsApp*
+
+# Admin routes - protected area (always serve SPA)
 /admin/*           /index.html  200
+
+# Static pages - serve SPA for all browsers
+/services          /index.html  200
+/seo-israel        /index.html  200
+/portfolio         /index.html  200
+/blog              /index.html  200
+/clients           /index.html  200
+/research          /index.html  200
+/contact           /index.html  200
+/about             /index.html  200
+/faq               /index.html  200
+/system            /index.html  200
+/accessibility     /index.html  200
+/privacy-policy    /index.html  200
+/terms-of-use      /index.html  200
 
 # Dynamic content routes - for regular browsers
 /blog/*            /index.html  200
 /portfolio/*       /index.html  200
 /research/*        /index.html  200
+
+# Dynamic pages (custom pages from CMS)
+/:slug             /index.html  200
 
 # All other routes - SPA catch-all (MUST be last)
 /*                 /index.html  200

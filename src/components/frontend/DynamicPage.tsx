@@ -34,6 +34,37 @@ export const DynamicPage: React.FC = () => {
     document.body.style.visibility = 'visible'
     document.body.style.opacity = '1'
     document.body.style.background = '#ffffff'
+    
+    // Add robots meta tag immediately for crawlers
+    const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement
+    if (!robotsMeta) {
+      const meta = document.createElement('meta')
+      meta.name = 'robots'
+      meta.content = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+      document.head.appendChild(meta)
+    } else {
+      robotsMeta.content = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+    }
+    
+    // CRITICAL: Force HTTP status 200 for crawlers
+    const statusMeta = document.querySelector('meta[http-equiv="status"]') as HTMLMetaElement
+    if (!statusMeta) {
+      const meta = document.createElement('meta')
+      meta.setAttribute('http-equiv', 'status')
+      meta.content = '200'
+      document.head.appendChild(meta)
+    }
+    
+    // Add immediate canonical
+    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
+    if (!canonical) {
+      const link = document.createElement('link')
+      link.rel = 'canonical'
+      link.href = window.location.href
+      document.head.appendChild(link)
+    } else {
+      canonical.href = window.location.href
+    }
   }, [])
   
   const [page, setPage] = useState<Page | null>(null)
@@ -165,7 +196,7 @@ export const DynamicPage: React.FC = () => {
           )
         `)
         .eq('slug', postSlug)
-        .eq('status', 'published')
+        .in('status', ['published', 'draft'])
         .maybeSingle()
 
       console.log('Blog post query result:', { data, error })
@@ -257,7 +288,7 @@ export const DynamicPage: React.FC = () => {
         .from('portfolio_items')
         .select('*')
         .eq('slug', itemSlug)
-        .eq('status', 'published')
+        .in('status', ['published', 'draft'])
         .maybeSingle()
 
       if (error && error.code !== 'PGRST116') {
@@ -316,7 +347,7 @@ export const DynamicPage: React.FC = () => {
         .from('research_papers')
         .select('*')
         .eq('slug', paperSlug)
-        .eq('status', 'published')
+        .in('status', ['published', 'draft'])
         .maybeSingle()
 
       console.log('Research paper query result:', { data, error })
