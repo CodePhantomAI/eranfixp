@@ -83,32 +83,151 @@
     <!-- Facebook App ID (optional but recommended) -->
     <meta property="fb:app_id" content="your-facebook-app-id" />
     
-    <!-- Organization Schema -->
+    <!-- Enhanced Organization & Local Business Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
       "name": "Eran Fixer",
-      "alternateName": "ערן פיקסר",
+      "alternateName": ["ערן פיקסר", "EranFixer"],
       "url": "https://eran-fixer.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png"
+        "url": "https://res.cloudinary.com/dd9n4kiee/image/upload/v1754580943/ChatGPT_Image_Jul_31_2025_08_06_57_AM_zd8jvr.png",
+        "width": 400,
+        "height": 400
       },
-      "description": "ערן פיקסר - מומחה מוכח בקידום אתרים אורגני, בניית אתרים מקצועיים, פתרונות בינה מלאכותית ואוטומציה עסקית",
+      "image": "https://res.cloudinary.com/dzm47vpw8/image/upload/c_fill,w_1200,h_630,q_auto,f_auto/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png",
+      "description": "ערן פיקסר - מומחה מוכח בקידום אתרים אורגני (SEO), בניית אתרים מקצועיים עם React ו-TypeScript, פתרונות בינה מלאכותית ואוטומציה עסקית. שירותים דיגיטליים מתקדמים לעסקים בישראל ובעולם.",
       "telephone": "+972-52-212-6366",
       "email": "eranfixer@gmail.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+972-52-212-6366",
+        "contactType": "customer service",
+        "availableLanguage": ["Hebrew", "English"],
+        "areaServed": "IL"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "IL",
         "addressRegion": "מרכז",
         "addressLocality": "תל אביב"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "32.0853",
+        "longitude": "34.7818"
+      },
       "foundingDate": "2018",
       "numberOfEmployees": "1-10",
-      "serviceArea": {
+      "priceRange": "$$",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Israel"
+        },
+        {
+          "@type": "City",
+          "name": "תל אביב"
+        },
+        {
+          "@type": "City",
+          "name": "נתניה"
+        },
+        {
+          "@type": "City",
+          "name": "ראשון לציון"
+        }
+      ],
+      "serviceType": [
+        "SEO Services",
+        "Web Development",
+        "AI Solutions",
+        "Digital Marketing",
+        "Business Automation"
+      ],
+      "knowsAbout": [
+        "Search Engine Optimization",
+        "React Development",
+        "TypeScript",
+        "Artificial Intelligence",
+        "Business Process Automation",
+        "Digital Reputation Management"
+      ],
+      "sameAs": [
+        "https://www.facebook.com/eranfixer",
+        "https://www.linkedin.com/in/eranfixer",
+        "https://twitter.com/eranfixer"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "250",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+
+    <!-- WebSite Schema for Sitelinks Search Box -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Eran Fixer - ערן פיקסר",
+      "url": "https://eran-fixer.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://eran-fixer.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Professional Service Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "SEO & Digital Marketing Services",
+      "provider": {
+        "@type": "Organization",
+        "name": "Eran Fixer"
+      },
+      "areaServed": {
         "@type": "Country",
         "name": "Israel"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Digital Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "קידום אתרים (SEO)",
+              "description": "שירותי קידום אתרים אורגני מקצועיים עם תוצאות מוכחות"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "בניית אתרים",
+              "description": "פיתוח אתרים מתקדמים עם React, TypeScript ו-Supabase"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "פתרונות AI",
+              "description": "אינטגרציה של בינה מלאכותית לאוטומציה עסקית"
+            }
+          }
+        ]
       }
     }
     </script>

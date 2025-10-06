@@ -2,7 +2,7 @@
 
 # Static files - serve directly with proper headers
 /robots.txt        /robots.txt   200
-/sitemap.xml       https://0ec90b57d6e95fcbda19832f.supabase.co/functions/v1/sitemap  200!
+/sitemap.xml       /sitemap.xml  200
 /favicon.ico       /favicon.ico  200
 /llms.txt          /llms.txt     200
 /facebook-debug.html /facebook-debug.html 200
