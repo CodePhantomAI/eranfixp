@@ -100,48 +100,12 @@ export const updateSEOTags = (data: SEOData) => {
 
   // Additional Facebook tags for better sharing
   updateMetaTag('og:updated_time', new Date().toISOString(), true)
-  
-  // Ensure image has all required attributes for Facebook
-  if (data.image) {
-    updateMetaTag('og:image:secure_url', data.image, true)
-    updateMetaTag('og:image:type', 'image/png', true)
-  }
-  
-  // Force visibility for crawlers
-  document.body.style.visibility = 'visible'
-  document.body.style.opacity = '1'
-  document.body.style.background = '#ffffff'
-  
-  // CRITICAL: Add immediate meta tags for Facebook crawler
-  updateMetaTag('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')
-  updateMetaTag('googlebot', 'index, follow')
-  updateMetaTag('bingbot', 'index, follow')
-  updateMetaTag('facebookbot', 'index, follow')
-  
-  // Force Facebook to see the content
-  updateMetaTag('og:updated_time', new Date().toISOString(), true)
-  
-  // CRITICAL: Add immediate status code meta for crawlers
-  updateMetaTag('http-equiv', 'refresh')
-  updateMetaTag('status', '200')
-  
-  // Additional Facebook debugging
-  if (data.image) {
-    updateMetaTag('og:image:secure_url', data.image, true)
-    updateMetaTag('og:image:type', 'image/png', true)
-    updateMetaTag('og:image:width', '1200', true)
-    updateMetaTag('og:image:height', '630', true)
-  }
 
   // Additional SEO tags for better crawling
   updateMetaTag('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')
   updateMetaTag('googlebot', 'index, follow')
   updateMetaTag('bingbot', 'index, follow')
   updateMetaTag('facebookbot', 'index, follow')
-  
-  // CRITICAL: Force 200 status for crawlers
-  updateMetaTag('http-equiv', 'status')
-  updateMetaTag('content', '200')
 }
 
 export const generateStructuredData = (type: string, data: any) => {

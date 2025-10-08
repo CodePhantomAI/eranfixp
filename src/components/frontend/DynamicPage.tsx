@@ -29,42 +29,11 @@ export const DynamicPage: React.FC = () => {
   // Debug logging
   console.log('DynamicPage loading with:', { slug, pathname: location.pathname })
   
-  // Force visibility immediately - CRITICAL for crawlers
+  // Force visibility immediately for crawlers
   useEffect(() => {
     document.body.style.visibility = 'visible'
     document.body.style.opacity = '1'
     document.body.style.background = '#ffffff'
-    
-    // Add robots meta tag immediately for crawlers
-    const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement
-    if (!robotsMeta) {
-      const meta = document.createElement('meta')
-      meta.name = 'robots'
-      meta.content = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
-      document.head.appendChild(meta)
-    } else {
-      robotsMeta.content = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
-    }
-    
-    // CRITICAL: Force HTTP status 200 for crawlers
-    const statusMeta = document.querySelector('meta[http-equiv="status"]') as HTMLMetaElement
-    if (!statusMeta) {
-      const meta = document.createElement('meta')
-      meta.setAttribute('http-equiv', 'status')
-      meta.content = '200'
-      document.head.appendChild(meta)
-    }
-    
-    // Add immediate canonical
-    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
-    if (!canonical) {
-      const link = document.createElement('link')
-      link.rel = 'canonical'
-      link.href = window.location.href
-      document.head.appendChild(link)
-    } else {
-      canonical.href = window.location.href
-    }
   }, [])
   
   const [page, setPage] = useState<Page | null>(null)
@@ -74,22 +43,9 @@ export const DynamicPage: React.FC = () => {
   const [contentType, setContentType] = useState<'page' | 'blog' | 'portfolio' | 'research'>('page')
   const [error, setError] = useState<string | null>(null)
 
-  // Immediate SEO setup for crawlers - CRITICAL for Facebook
+  // Initial SEO setup will be updated once content loads
   useEffect(() => {
-    // Set basic meta tags immediately to help crawlers
-    const currentUrl = window.location.href
-    const baseTitle = 'EranFixer - ערן פיקסר | פתרונות דיגיטליים מתקדמים'
-    const baseDescription = 'מומחה מוכח בקידום אתרים אורגני, בניית אתרים מקצועיים, ניהול מוניטין דיגיטלי ופתרונות AI לעסקים'
-    const baseImage = 'https://res.cloudinary.com/dzm47vpw8/image/upload/v1758009884/Gemini_Generated_Image_h6crelh6crelh6cr_eoviix.png'
-    
-    updateSEOTags({
-      title: baseTitle,
-      description: baseDescription,
-      url: currentUrl,
-      canonical: currentUrl,
-      image: baseImage,
-      type: 'article'
-    })
+    // Canonical will be set by updateSEOTags after content loads
   }, [])
 
   useEffect(() => {
@@ -125,27 +81,42 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
-      
+
       console.log('Loading page with slug:', pageSlug)
-      
+
       const { data, error } = await supabase
         .from('pages')
         .select('*')
         .eq('slug', pageSlug)
+        .eq('status', 'published')
         .maybeSingle()
 
       console.log('Supabase response:', { data, error })
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Supabase error:', error)
-        throw error
+      if (error) {
+        if (error.code === 'PGRST116' || error.message?.includes('no rows')) {
+          console.log('No page found for slug:', pageSlug)
+          setNotFound(true)
+
+          updateSEOTags({
+            title: `עמוד לא נמצא - ${pageSlug} | EranFixer`,
+            description: 'העמוד שחיפשתם לא נמצא באתר EranFixer',
+            url: window.location.href,
+            canonical: window.location.href,
+            type: 'website'
+          })
+          return
+        }
+
+        console.error('Supabase database error:', error)
+        setError('שגיאה בטעינת העמוד. אנא נסו שוב מאוחר יותר.')
+        return
       }
-      
+
       if (!data) {
         console.log('No page found for slug:', pageSlug)
         setNotFound(true)
-        
-        // Set 404 meta tags for crawlers
+
         updateSEOTags({
           title: `עמוד לא נמצא - ${pageSlug} | EranFixer`,
           description: 'העמוד שחיפשתם לא נמצא באתר EranFixer',
@@ -155,24 +126,22 @@ export const DynamicPage: React.FC = () => {
         })
         return
       }
-      
-      if (data) {
-        console.log('Page loaded successfully:', data)
-        setContent(data)
-        document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
-        
-        // עדכון SEO אוטומטי
-        updatePageSEO({
-          title: data.meta_title || `${data.title} - ארן פיקסר | EranFixer`,
-          description: data.meta_description || data.content.replace(/<[^>]*>/g, '').substring(0, 160),
-          slug: data.slug,
-          type: 'page',
-          modifiedTime: data.updated_at
-        })
-      }
+
+      console.log('Page loaded successfully:', data)
+      setContent(data)
+      document.title = data.meta_title || `${data.title} - ארן פיקסר | EranFixer`
+
+      updatePageSEO({
+        title: data.meta_title || `${data.title} - ארן פיקסר | EranFixer`,
+        description: data.meta_description || data.content.replace(/<[^>]*>/g, '').substring(0, 160),
+        slug: data.slug,
+        type: 'page',
+        modifiedTime: data.updated_at
+      })
     } catch (error) {
-      console.error('Error loading page:', error)
-      setError('שגיאה בטעינת העמוד')
+      console.error('Unexpected error loading page:', error)
+      setError('שגיאה בלתי צפויה בטעינת העמוד')
+      setNotFound(true)
     } finally {
       setLoading(false)
     }
@@ -183,9 +152,9 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
-      
+
       console.log('Loading blog post with slug:', postSlug)
-      
+
       const { data, error } = await supabase
         .from('blog_posts')
         .select(`
@@ -196,15 +165,23 @@ export const DynamicPage: React.FC = () => {
           )
         `)
         .eq('slug', postSlug)
-        .in('status', ['published', 'draft'])
+        .eq('status', 'published')
         .maybeSingle()
 
       console.log('Blog post query result:', { data, error })
 
-      if (error && error.code !== 'PGRST116') {
-        throw error
+      if (error) {
+        if (error.code === 'PGRST116' || error.message?.includes('no rows')) {
+          console.log('No blog post found for slug:', postSlug)
+          setNotFound(true)
+          return
+        }
+
+        console.error('Supabase database error:', error)
+        setError('שגיאה בטעינת הפוסט. אנא נסו שוב מאוחר יותר.')
+        return
       }
-      
+
       if (!data) {
         console.log('No blog post found for slug:', postSlug)
         setNotFound(true)
@@ -272,8 +249,9 @@ export const DynamicPage: React.FC = () => {
         })
       }
     } catch (error) {
-      console.error('Error loading blog post:', error)
-      setError('שגיאה בטעינת הפוסט')
+      console.error('Unexpected error loading blog post:', error)
+      setError('שגיאה בלתי צפויה בטעינת הפוסט')
+      setNotFound(true)
     } finally {
       setLoading(false)
     }
@@ -284,17 +262,24 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
+
       const { data, error } = await supabase
         .from('portfolio_items')
         .select('*')
         .eq('slug', itemSlug)
-        .in('status', ['published', 'draft'])
+        .eq('status', 'published')
         .maybeSingle()
 
-      if (error && error.code !== 'PGRST116') {
-        throw error
+      if (error) {
+        if (error.code === 'PGRST116' || error.message?.includes('no rows')) {
+          setNotFound(true)
+          return
+        }
+        console.error('Supabase database error:', error)
+        setError('שגיאה בטעינת הפרויקט. אנא נסו שוב מאוחר יותר.')
+        return
       }
-      
+
       if (!data) {
         setNotFound(true)
         return
@@ -328,8 +313,9 @@ export const DynamicPage: React.FC = () => {
         })
       }
     } catch (error) {
-      console.error('Error loading portfolio item:', error)
-      setError('שגיאה בטעינת הפרויקט')
+      console.error('Unexpected error loading portfolio item:', error)
+      setError('שגיאה בלתי צפויה בטעינת הפרויקט')
+      setNotFound(true)
     } finally {
       setLoading(false)
     }
@@ -340,21 +326,29 @@ export const DynamicPage: React.FC = () => {
       setLoading(true)
       setNotFound(false)
       setError(null)
-      
+
       console.log('Loading research paper with slug:', paperSlug)
-      
+
       const { data, error } = await supabase
         .from('research_papers')
         .select('*')
         .eq('slug', paperSlug)
-        .in('status', ['published', 'draft'])
+        .eq('status', 'published')
         .maybeSingle()
 
       console.log('Research paper query result:', { data, error })
-      if (error && error.code !== 'PGRST116') {
-        throw error
+
+      if (error) {
+        if (error.code === 'PGRST116' || error.message?.includes('no rows')) {
+          console.log('No research paper found for slug:', paperSlug)
+          setNotFound(true)
+          return
+        }
+        console.error('Supabase database error:', error)
+        setError('שגיאה בטעינת המחקר. אנא נסו שוב מאוחר יותר.')
+        return
       }
-      
+
       if (!data) {
         console.log('No research paper found for slug:', paperSlug)
         setNotFound(true)
@@ -391,8 +385,9 @@ export const DynamicPage: React.FC = () => {
         })
       }
     } catch (error) {
-      console.error('Error loading research paper:', error)
-      setError('שגיאה בטעינת המחקר')
+      console.error('Unexpected error loading research paper:', error)
+      setError('שגיאה בלתי צפויה בטעינת המחקר')
+      setNotFound(true)
     } finally {
       setLoading(false)
     }

@@ -2,6 +2,19 @@
   publish = "dist"
   command = "npm run build"
 
+[build.environment]
+  NODE_VERSION = "18"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+# Prerendering configuration for crawlers
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "index, follow"
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -10,6 +23,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-Robots-Tag = "index, follow"
 
 [[headers]]
   for = "/blog/*"
