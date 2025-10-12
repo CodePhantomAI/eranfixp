@@ -52,6 +52,51 @@ const values = [
 ]
 
 export const AboutPage: React.FC = () => {
+  React.useEffect(() => {
+    document.title = 'אודות EranFixer - מומחה פתרונות דיגיטליים ו-SEO בישראל'
+
+    const updateMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.name = name
+        document.head.appendChild(meta)
+      }
+      meta.content = content
+    }
+
+    updateMeta('description', 'למדו על EranFixer - מיזם דיגיטלי חדשני המתמחה בקידום אתרים, פיתוח מתקדם ופתרונות AI. 7+ שנות ניסיון עם 250+ פרויקטים מצליחים בישראל.')
+    updateMeta('keywords', 'אודות EranFixer, על EranFixer, ערן פיקסר, חברת קידום אתרים, מומחה SEO, פיתוח אתרים בישראל')
+
+    // Add Person structured data
+    const personData = {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "ערן פיקסר",
+      "alternateName": "Eran Fixer",
+      "description": "מומחה בקידום אתרים, פיתוח אתרים ופתרונות בינה מלאכותית לעסקים",
+      "jobTitle": "מומחה פתרונות דיגיטליים",
+      "telephone": "+972-52-212-6366",
+      "email": "eranfixer@gmail.com",
+      "url": "https://eran-fixer.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/eranfixer",
+        "https://www.facebook.com/eranfixer"
+      ]
+    }
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-page', 'about')
+    script.textContent = JSON.stringify(personData)
+    document.head.appendChild(script)
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-page="about"]')
+      if (scriptToRemove) scriptToRemove.remove()
+    }
+  }, [])
+
   return (
     <div>
       {/* Hero Section */}
@@ -59,10 +104,10 @@ export const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              אודות ערן פיקסר
+              אודות ערן פיקסר - מומחה פתרונות דיגיטליים
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              ערן פיקסר - מיזם דיגיטלי חדשני המתמחה בבניית תשתיות חכמות לעסקים בישראל ובעולם
+              מיזם דיגיטלי חדשני המתמחה בקידום SEO, פיתוח אתרים ופתרונות AI לעסקים בישראל
             </p>
           </div>
         </div>

@@ -76,6 +76,51 @@ const faqItems = [
 ]
 
 export const SEOIsraelPage: React.FC = () => {
+  React.useEffect(() => {
+    // Set proper SEO for SEO Israel page
+    document.title = 'קידום אתרים בישראל - SEO מקצועי לעסקים | EranFixer'
+
+    const updateMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.name = name
+        document.head.appendChild(meta)
+      }
+      meta.content = content
+    }
+
+    updateMeta('description', 'שירותי קידום אתרים SEO מקצועיים לעסקים בישראל. אופטימיזציה מקומית, מחקר מילות מפתח בעברית, ותוצאות מוכחות. הגיעו למקום הראשון בגוגל.')
+    updateMeta('keywords', 'קידום אתרים, SEO ישראל, קידום אתרים בישראל, קידום בגוגל, SEO מקומי, מחקר מילות מפתח, אופטימיזציה למנועי חיפוש')
+
+    // Add FAQ structured data
+    const faqStructuredData = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "כמה זמן לוקח לראות תוצאות בקידום SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "בדרך כלל תוצאות ראשוניות נראות תוך 2-3 חודשים, אבל תוצאות משמעותיות מגיעות תוך 6-12 חודשים. זה תלוי ברמת התחרות בתחום ובמצב הנוכחי של האתר."
+          }
+        }
+      ]
+    }
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-page', 'seo-israel')
+    script.textContent = JSON.stringify(faqStructuredData)
+    document.head.appendChild(script)
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-page="seo-israel"]')
+      if (scriptToRemove) scriptToRemove.remove()
+    }
+  }, [])
+
   return (
     <div>
       {/* Hero Section */}
@@ -84,12 +129,11 @@ export const SEOIsraelPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                קידום אתרים
+                קידום אתרים מקצועי
                 <span className="block text-blue-300">בישראל</span>
               </h1>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                שירותי SEO מקצועיים המותאמים לשוק הישראלי. נביא את האתר שלכם 
-                למקומות הראשונים בגוגל ונגדיל את מספר הלקוחות שלכם.
+                SEO מותאם לשוק הישראלי - הגיעו למקום הראשון בגוגל והגדילו את מספר הלקוחות
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a

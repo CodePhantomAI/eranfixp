@@ -7,6 +7,43 @@ import { Card } from '../ui/Card'
 import toast from 'react-hot-toast'
 
 export const ContactPage: React.FC = () => {
+  React.useEffect(() => {
+    document.title = 'צור קשר עם EranFixer - ייעוץ וקידום אתרים | 052-212-6366'
+
+    const updateMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.name = name
+        document.head.appendChild(meta)
+      }
+      meta.content = content
+    }
+
+    updateMeta('description', 'צרו קשר עם EranFixer לייעוץ חינם בקידום אתרים, פיתוח ופתרונות AI. זמינים בווטסאפ, טלפון ומייל. התקשרו: 052-212-6366')
+    updateMeta('keywords', 'צור קשר, יצירת קשר, ייעוץ קידום אתרים, הצעת מחיר, EranFixer')
+
+    // Add ContactPage structured data
+    const contactData = {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "צור קשר עם EranFixer",
+      "description": "צרו קשר לייעוץ חינם בקידום אתרים ופתרונות דיגיטליים",
+      "url": "https://eran-fixer.com/contact"
+    }
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-page', 'contact')
+    script.textContent = JSON.stringify(contactData)
+    document.head.appendChild(script)
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-page="contact"]')
+      if (scriptToRemove) scriptToRemove.remove()
+    }
+  }, [])
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -68,11 +105,11 @@ ${formData.service ? `מעוניין ב: ${formData.service}` : ''}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection animation="scale">
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              בואו נדבר על הפרויקט שלכם
+              צור קשר עם EranFixer - נשמח לעזור
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              ערן פיקסר כאן כדי לעזור לכם להגשים את החזון הדיגיטלי שלכם. 
-              צרו קשר ונתחיל לתכנן את הפתרון המושלם עבורכם.
+              מוזמנים ליצור קשר לייעוץ חינם בקידום אתרים, פיתוח ופתרונות דיגיטליים.
+              זמינים בווטסאפ, טלפון ומייל. נענה תוך 24 שעות!
             </p>
           </AnimatedSection>
         </div>

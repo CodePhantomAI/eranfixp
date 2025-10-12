@@ -82,6 +82,60 @@ const workProcess = [
 ]
 
 export const ServicesPage: React.FC = () => {
+  React.useEffect(() => {
+    // Set proper SEO for services page
+    const seoData = {
+      title: 'שירותי EranFixer - פיתוח, קידום ואוטומציה דיגיטלית',
+      description: 'שירותים דיגיטליים מקיפים: פיתוח אתרים, מערכות CRM, אוטומציה עסקית, קידום SEO וניהול מוניטין. פתרונות מתקדמים לעסקים בישראל.',
+      url: 'https://eran-fixer.com/services',
+      canonical: 'https://eran-fixer.com/services',
+      type: 'website',
+      keywords: ['שירותים דיגיטליים', 'פיתוח אתרים', 'מערכות CRM', 'אוטומציה עסקית', 'קידום SEO']
+    }
+
+    document.title = seoData.title
+    const updateMeta = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.name = name
+        document.head.appendChild(meta)
+      }
+      meta.content = content
+    }
+
+    updateMeta('description', seoData.description)
+    updateMeta('keywords', seoData.keywords.join(', '))
+
+    // Add structured data for Services
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "שירותים דיגיטליים",
+      "provider": {
+        "@type": "Organization",
+        "name": "Eran Fixer",
+        "url": "https://eran-fixer.com"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Israel"
+      },
+      "description": seoData.description
+    }
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-page', 'services')
+    script.textContent = JSON.stringify(structuredData)
+    document.head.appendChild(script)
+
+    return () => {
+      const scriptToRemove = document.querySelector('script[data-page="services"]')
+      if (scriptToRemove) scriptToRemove.remove()
+    }
+  }, [])
+
   return (
     <div>
       {/* Hero Section */}
@@ -89,10 +143,10 @@ export const ServicesPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              השירותים שלנו
+              שירותי EranFixer - פתרונות דיגיטליים מתקדמים
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              פתרונות דיגיטליים מתקדמים שמתאימים בדיוק לצרכים שלכם
+              פיתוח אתרים, מערכות CRM, אוטומציה וקידום SEO מקצועי
             </p>
           </div>
         </div>
