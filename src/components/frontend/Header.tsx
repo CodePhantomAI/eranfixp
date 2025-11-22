@@ -106,25 +106,30 @@ export const Header: React.FC = () => {
               <button
                 onClick={() => setIsSearchOpen(true)}
                 className={cn(
-                  'p-2 rounded-lg transition-colors',
-                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  'p-3 rounded-lg transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center',
+                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
+                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
                 )}
                 aria-label="פתח חיפוש"
                 title="חיפוש באתר"
+                type="button"
               >
-                <SearchIcon className="w-5 h-5" />
+                <SearchIcon className="w-6 h-6" aria-hidden="true" />
               </button>
-              
+
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className={cn(
-                  'p-2 rounded-lg transition-colors',
-                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  'p-3 rounded-lg transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center',
+                  'text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800',
+                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
                 )}
                 aria-label={isMenuOpen ? 'סגור תפריט' : 'פתח תפריט'}
+                aria-expanded={isMenuOpen}
                 title={isMenuOpen ? 'סגור תפריט' : 'פתח תפריט'}
+                type="button"
               >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMenuOpen ? <X className="w-7 h-7" aria-hidden="true" /> : <Menu className="w-7 h-7" aria-hidden="true" />}
               </button>
             </div>
           </div>
@@ -132,30 +137,36 @@ export const Header: React.FC = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
-            <div className="px-4 py-6 space-y-4">
+          <nav
+            className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg"
+            role="navigation"
+            aria-label="תפריט ראשי"
+          >
+            <div className="px-4 py-6 space-y-2">
               {navigation.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors font-medium"
+                  className="block px-5 py-4 text-base text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors font-medium min-h-[52px] flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                  role="menuitem"
                 >
                   {item.name}
                 </a>
               ))}
-              
+
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                 <a
                   href="tel:052-212-6366"
-                  className="flex items-center justify-center w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  className="flex items-center justify-center w-full bg-blue-600 text-white px-5 py-4 rounded-lg font-medium hover:bg-blue-700 transition-colors text-lg min-h-[56px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  aria-label="התקשר טלפוני 052-212-6366"
                 >
-                  <Phone className="w-4 h-4 ml-2" />
-                  052-212-6366
+                  <Phone className="w-5 h-5 ml-2" aria-hidden="true" />
+                  <span className="font-semibold tracking-wide">052-212-6366</span>
                 </a>
               </div>
             </div>
-          </div>
+          </nav>
         )}
       </header>
 
