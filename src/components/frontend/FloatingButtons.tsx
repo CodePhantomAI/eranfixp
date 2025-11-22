@@ -140,7 +140,7 @@ export const FloatingButtons: React.FC = () => {
           {/* Accessibility Menu */}
           {showAccessibilityMenu && (
             <div
-              className="fixed sm:absolute bottom-20 sm:bottom-full left-4 right-4 sm:left-auto sm:right-0 mb-0 sm:mb-4 bg-white rounded-2xl shadow-2xl border p-4 sm:p-6 w-auto sm:w-80 animate-in slide-in-from-bottom-5 backdrop-blur-sm bg-white/95 max-h-[calc(100vh-8rem)] overflow-y-auto"
+              className="fixed inset-x-4 bottom-20 sm:fixed sm:inset-x-auto sm:absolute sm:bottom-full sm:right-0 sm:left-auto mb-0 sm:mb-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 w-auto sm:w-80 animate-in slide-in-from-bottom-5 backdrop-blur-sm bg-white/95 dark:bg-gray-800/95 max-h-[calc(100vh-8rem)] overflow-y-auto"
               role="dialog"
               aria-label="תפריט נגישות"
             >
