@@ -247,6 +247,86 @@ export const DynamicPage: React.FC = () => {
           modifiedTime: data.updated_at,
           image: blogImage
         })
+
+        // Add Article structured data for Google
+        const articleSchema = {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": data.title,
+          "description": data.meta_description || data.excerpt,
+          "image": [blogImage],
+          "datePublished": data.published_at,
+          "dateModified": data.updated_at || data.published_at,
+          "author": {
+            "@type": "Person",
+            "name": "ערן פיקסר",
+            "url": "https://eran-fixer.com/about"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "EranFixer",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://eran-fixer.com/logo.png"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": blogUrl
+          },
+          "articleBody": data.content.replace(/<[^>]*>/g, ''),
+          "keywords": data.tags?.join(', ') || '',
+          "inLanguage": "he-IL"
+        }
+
+        // Add or update schema script
+        const existingSchema = document.querySelector('script[data-blog-schema]')
+        if (existingSchema) {
+          existingSchema.remove()
+        }
+
+        const schemaScript = document.createElement('script')
+        schemaScript.type = 'application/ld+json'
+        schemaScript.setAttribute('data-blog-schema', 'true')
+        schemaScript.textContent = JSON.stringify(articleSchema)
+        document.head.appendChild(schemaScript)
+
+        // Add BreadcrumbList schema
+        const breadcrumbSchema = {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "בית",
+              "item": "https://eran-fixer.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "בלוג",
+              "item": "https://eran-fixer.com/blog"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": data.title,
+              "item": blogUrl
+            }
+          ]
+        }
+
+        const existingBreadcrumb = document.querySelector('script[data-breadcrumb-schema]')
+        if (existingBreadcrumb) {
+          existingBreadcrumb.remove()
+        }
+
+        const breadcrumbScript = document.createElement('script')
+        breadcrumbScript.type = 'application/ld+json'
+        breadcrumbScript.setAttribute('data-breadcrumb-schema', 'true')
+        breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema)
+        document.head.appendChild(breadcrumbScript)
       }
     } catch (error) {
       console.error('Unexpected error loading blog post:', error)
