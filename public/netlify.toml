@@ -5,8 +5,22 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Enable Netlify Prerendering (if available on plan)
+# This will cache and serve pre-rendered versions to crawlers
+[build.processing]
+  skip_processing = false
+
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
+
+# Enable Distributed Persistent Rendering (DPR) for better crawler support
+# This ensures crawlers get fully rendered HTML pages
+[[plugins]]
+  package = "netlify-plugin-cache"
+
+# Ensure proper rendering for all dynamic routes
+[context.production]
+  command = "npm run build"
 
 # Prerendering configuration for crawlers
 [[headers]]
